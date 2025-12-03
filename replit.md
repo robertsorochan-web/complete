@@ -7,49 +7,40 @@ Akorfa Fixit is a purpose-aware assessment and coaching application that helps u
 - **Business**: Organizational optimization (Infrastructure, Company Culture, Market Position, Stakeholder Network, Strategic Vision)
 - **Policy**: System-level analysis (Population Health, Institutional Norms, Policy Frameworks, Governance Systems, Research Insights)
 
-## Project Architecture
-
-### Frontend (React + Vite)
-Located in: `purpose_aware_frontend-main/purpose_aware_frontend-main/public/`
+## Project Structure
 
 ```
-public/
-├── src/
-│   ├── components/
-│   │   ├── Auth/           # Login and Signup forms
-│   │   ├── layout/         # Header and Sidebar
-│   │   ├── Pages/          # Main application pages (Dashboard, Assessment, Analysis, Chat, Diagnosis)
-│   │   └── ui/             # Reusable UI components
-│   ├── services/           # API and authentication services
-│   │   ├── auth.js         # Auth + API calls for assessments, chat, diagnosis
-│   │   └── groq.js         # AI insights service
-│   ├── config/
-│   │   └── purposeConfig.js # Purpose-specific layer configurations
-│   ├── styles/             # Global and component CSS
-│   └── App.jsx             # Main application component
-├── package.json
-├── vite.config.js
-└── tailwind.config.js
+├── frontend/          # React + Vite frontend (deploy to Netlify)
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Auth/           # Login and Signup forms
+│   │   │   ├── layout/         # Header and Sidebar
+│   │   │   ├── Pages/          # Dashboard, Assessment, Analysis, Chat, Diagnosis
+│   │   │   └── ui/             # Reusable UI components
+│   │   ├── services/           # API and authentication services
+│   │   ├── config/             # Purpose-specific configurations
+│   │   └── styles/             # Global and component CSS
+│   ├── netlify.toml            # Netlify deployment config
+│   ├── vite.config.js          # Vite configuration
+│   └── package.json
+│
+├── backend/           # Express.js backend (deploy to Render)
+│   ├── config/                 # Purpose-aware layer configurations
+│   ├── db/                     # Database initialization
+│   ├── middleware/             # JWT authentication
+│   ├── routes/                 # API routes (auth, assessments, ai)
+│   ├── render.yaml             # Render deployment config
+│   ├── server.js               # Express server entry point
+│   └── package.json
+│
+└── README.md          # Deployment guide
 ```
 
-### Backend (Express.js + PostgreSQL)
-Located in: `purpose_aware_frontend-main/backend/`
+## Deployment Architecture
 
-```
-backend/
-├── config/
-│   └── purposeConfig.js    # Purpose-aware layer configurations
-├── db/
-│   └── init.js             # Database initialization and connection
-├── middleware/
-│   └── auth.js             # JWT authentication middleware
-├── routes/
-│   ├── auth.js             # /api/auth (signup, login)
-│   ├── assessments.js      # /api/assessments (GET, POST)
-│   └── ai.js               # /api/ai (chat, diagnosis, insights)
-├── server.js               # Express server entry point
-└── package.json
-```
+- **Frontend**: Netlify (via GitHub)
+- **Backend**: Render (via GitHub)
+- **Database**: Supabase or Neon (PostgreSQL)
 
 ## API Endpoints
 
@@ -71,19 +62,27 @@ backend/
 - `diagnosis_history` - Past diagnoses
 
 ## Environment Variables
-- `DATABASE_URL` - PostgreSQL connection string
+
+### Backend (Render)
+- `DATABASE_URL` - Supabase/Neon PostgreSQL connection string
 - `GROQ_API_KEY` - Groq API key for AI features
 - `JWT_SECRET` - Secret for JWT token signing
-- `PORT` - Backend server port (default: 3000)
+- `FRONTEND_URL` - Netlify frontend URL (for CORS)
+- `NODE_ENV` - Set to `production`
+- `PORT` - Server port (Render sets this automatically)
 
-## Running the Application
+### Frontend (Netlify)
+- `VITE_API_URL` - Backend API URL (e.g., https://your-backend.onrender.com/api)
+
+## Local Development
 - Backend runs on port 3000
 - Frontend runs on port 5000 (with Vite proxy to backend)
 
 ## Recent Changes (Dec 2024)
-- Added purpose-aware layer configurations to backend matching frontend
-- Updated AI endpoints to support all 4 purpose types (personal, team, business, policy)
-- Added conversation history support to chat endpoint
-- Added `/api/ai/insights` endpoint for Analysis page
-- Updated frontend services to use backend API instead of Netlify functions
-- Added defensive checks for missing assessment data in AI routes
+- Restructured codebase into separate frontend/ and backend/ directories
+- Configured for deployment: Netlify (frontend), Render (backend), Supabase/Neon (database)
+- Added production-ready CORS configuration
+- Added render.yaml for Render deployment
+- Updated netlify.toml for Netlify deployment
+- Added .env.example files for both frontend and backend
+- Added comprehensive deployment documentation in README.md

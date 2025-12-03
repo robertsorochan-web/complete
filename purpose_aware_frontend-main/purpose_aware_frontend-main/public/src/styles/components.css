@@ -1,6 +1,0 @@
-.metric-card { transition: transform .15s ease, box-shadow .15s ease; }
-.metric-card:hover { transform: translateY(-4px); }
-
-.slider-group input[type=range] { accent-color: #7C3AED; }
-
-.sidebar { transition: all .2s ease; }

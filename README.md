@@ -27,6 +27,14 @@ A purpose-aware assessment and coaching application that helps users understand 
 
 ### 2. Deploy Backend to Render
 
+**Option A: Using Render Blueprint (Recommended)**
+1. Push this repo to GitHub
+2. Go to [render.com](https://render.com) > Blueprints > New Blueprint Instance
+3. Connect your GitHub repository
+4. Render will auto-detect the `backend/render.yaml` configuration
+5. Add the required environment variables when prompted
+
+**Option B: Manual Setup**
 1. Push this repo to GitHub
 2. Go to [render.com](https://render.com) and create a new Web Service
 3. Connect your GitHub repository
@@ -52,7 +60,7 @@ A purpose-aware assessment and coaching application that helps users understand 
 3. Configure the build:
    - **Base directory**: `frontend`
    - **Build command**: `npm run build`
-   - **Publish directory**: `frontend/dist`
+   - **Publish directory**: `dist`
 
 4. Add Environment Variables in Netlify:
    - `VITE_API_URL`: Your Render backend URL + `/api` (e.g., `https://your-app.onrender.com/api`)
