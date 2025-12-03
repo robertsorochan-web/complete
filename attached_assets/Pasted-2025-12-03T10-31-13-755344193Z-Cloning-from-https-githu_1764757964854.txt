@@ -1,0 +1,68 @@
+2025-12-03T10:31:13.755344193Z ==> Cloning from https://github.com/robertsorochan-web/complete
+2025-12-03T10:31:14.267213776Z ==> Checking out commit 1fb64860af421636832c0f0006be983230f8703e in branch main
+2025-12-03T10:31:18.010466298Z ==> Using Node.js version 22.16.0 (default)
+2025-12-03T10:31:18.035185234Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2025-12-03T10:31:20.008326563Z ==> Running build command 'npm install'...
+2025-12-03T10:31:21.354853246Z 
+2025-12-03T10:31:21.354871057Z added 101 packages, and audited 102 packages in 1s
+2025-12-03T10:31:21.354921948Z 
+2025-12-03T10:31:21.354947388Z 16 packages are looking for funding
+2025-12-03T10:31:21.354982339Z   run `npm fund` for details
+2025-12-03T10:31:21.355851316Z 
+2025-12-03T10:31:21.355859256Z found 0 vulnerabilities
+2025-12-03T10:31:27.864555351Z ==> Uploading build...
+2025-12-03T10:31:32.711426994Z ==> Uploaded in 3.8s. Compression took 1.0s
+2025-12-03T10:31:32.738570339Z ==> Build successful 🎉
+2025-12-03T10:31:35.624512799Z ==> Deploying...
+2025-12-03T10:31:52.386465666Z ==> Running 'npm start'
+2025-12-03T10:31:53.573685285Z 
+2025-12-03T10:31:53.573736287Z > akorfa-backend@1.0.0 start
+2025-12-03T10:31:53.573744557Z > node server.js
+2025-12-03T10:31:53.573747297Z 
+2025-12-03T10:31:56.072322724Z Database initialization error: Error: getaddrinfo ENOTFOUND dpg-d4o0ug0gjchc73c9kg00-a
+2025-12-03T10:31:56.072346625Z     at /opt/render/project/src/backend/node_modules/pg-pool/index.js:45:11
+2025-12-03T10:31:56.072351435Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-12-03T10:31:56.072355795Z     at async initDb (file:///opt/render/project/src/backend/db/init.js:26:14)
+2025-12-03T10:31:56.072360295Z     at async startServer (file:///opt/render/project/src/backend/server.js:68:5) {
+2025-12-03T10:31:56.072364585Z   errno: -3008,
+2025-12-03T10:31:56.072369005Z   code: 'ENOTFOUND',
+2025-12-03T10:31:56.072373736Z   syscall: 'getaddrinfo',
+2025-12-03T10:31:56.072378636Z   hostname: 'dpg-d4o0ug0gjchc73c9kg00-a'
+2025-12-03T10:31:56.072383276Z }
+2025-12-03T10:31:56.072748316Z Failed to start server: Error: getaddrinfo ENOTFOUND dpg-d4o0ug0gjchc73c9kg00-a
+2025-12-03T10:31:56.072759816Z     at /opt/render/project/src/backend/node_modules/pg-pool/index.js:45:11
+2025-12-03T10:31:56.072764716Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-12-03T10:31:56.072769026Z     at async initDb (file:///opt/render/project/src/backend/db/init.js:26:14)
+2025-12-03T10:31:56.072773246Z     at async startServer (file:///opt/render/project/src/backend/server.js:68:5) {
+2025-12-03T10:31:56.072777896Z   errno: -3008,
+2025-12-03T10:31:56.072783176Z   code: 'ENOTFOUND',
+2025-12-03T10:31:56.072787937Z   syscall: 'getaddrinfo',
+2025-12-03T10:31:56.072792627Z   hostname: 'dpg-d4o0ug0gjchc73c9kg00-a'
+2025-12-03T10:31:56.072796807Z }
+2025-12-03T10:31:57.438940008Z ==> Exited with status 1
+2025-12-03T10:31:57.458369316Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2025-12-03T10:32:01.983911071Z ==> Running 'npm start'
+2025-12-03T10:32:03.496059328Z 
+2025-12-03T10:32:03.496092568Z > akorfa-backend@1.0.0 start
+2025-12-03T10:32:03.496096749Z > node server.js
+2025-12-03T10:32:03.496098869Z 
+2025-12-03T10:32:05.885497437Z Database initialization error: Error: getaddrinfo ENOTFOUND dpg-d4o0ug0gjchc73c9kg00-a
+2025-12-03T10:32:05.885515427Z     at /opt/render/project/src/backend/node_modules/pg-pool/index.js:45:11
+2025-12-03T10:32:05.885517658Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-12-03T10:32:05.885519628Z     at async initDb (file:///opt/render/project/src/backend/db/init.js:26:14)
+2025-12-03T10:32:05.885521408Z     at async startServer (file:///opt/render/project/src/backend/server.js:68:5) {
+2025-12-03T10:32:05.885523228Z   errno: -3008,
+2025-12-03T10:32:05.885525568Z   code: 'ENOTFOUND',
+2025-12-03T10:32:05.885527768Z   syscall: 'getaddrinfo',
+2025-12-03T10:32:05.885530188Z   hostname: 'dpg-d4o0ug0gjchc73c9kg00-a'
+2025-12-03T10:32:05.885531878Z }
+2025-12-03T10:32:05.885823976Z Failed to start server: Error: getaddrinfo ENOTFOUND dpg-d4o0ug0gjchc73c9kg00-a
+2025-12-03T10:32:05.885836886Z     at /opt/render/project/src/backend/node_modules/pg-pool/index.js:45:11
+2025-12-03T10:32:05.885839926Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-12-03T10:32:05.885842506Z     at async initDb (file:///opt/render/project/src/backend/db/init.js:26:14)
+2025-12-03T10:32:05.885844886Z     at async startServer (file:///opt/render/project/src/backend/server.js:68:5) {
+2025-12-03T10:32:05.885847386Z   errno: -3008,
+2025-12-03T10:32:05.885850596Z   code: 'ENOTFOUND',
+2025-12-03T10:32:05.885854887Z   syscall: 'getaddrinfo',
+2025-12-03T10:32:05.885859037Z   hostname: 'dpg-d4o0ug0gjchc73c9kg00-a'
+2025-12-03T10:32:05.885861337Z }
