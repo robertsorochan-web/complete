@@ -4,19 +4,31 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000
+});
+
+pool.on('error', (err) => {
+  console.error('Unexpected database error:', err);
 });
 
 export const query = (text, params) => pool.query(text, params);
 
 export const initDb = async () => {
+  let client;
   try {
-    await pool.query('SELECT NOW()');
+    client = await pool.connect();
+    console.log('Connected to database');
     
-    // Create users table
-    await pool.query(`
+    await client.query('SELECT NOW()');
+    
+    await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
@@ -28,8 +40,7 @@ export const initDb = async () => {
       )
     `);
 
-    // Create assessments table
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS assessments (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -43,8 +54,7 @@ export const initDb = async () => {
       )
     `);
 
-    // Create chat history table
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS chat_history (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -54,8 +64,7 @@ export const initDb = async () => {
       )
     `);
 
-    // Create diagnosis history table
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS diagnosis_history (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -69,6 +78,8 @@ export const initDb = async () => {
   } catch (err) {
     console.error('Database initialization error:', err);
     throw err;
+  } finally {
+    if (client) client.release();
   }
 };
 
