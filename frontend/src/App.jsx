@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getCurrentUser, logout, updateUserAssessment, getUserAssessment } from './services/auth';
+import { initGA, trackPageView } from './utils/analytics';
 import HomePage from './components/Pages/HomePage';
 import SignupForm from './components/Auth/SignupForm';
 import LoginForm from './components/Auth/LoginForm';
@@ -24,6 +25,19 @@ export default function App() {
     consciousUser: 5
   });
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    initGA();
+    trackPageView('home');
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      trackPageView(currentPage);
+    } else {
+      trackPageView(authPage);
+    }
+  }, [currentPage, user, authPage]);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -82,7 +96,6 @@ export default function App() {
 
   if (loading) return <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">Loading...</div>;
 
-  // Not logged in - show auth pages
   if (!user) {
     if (authPage === 'home') {
       return <HomePage 
@@ -104,7 +117,6 @@ export default function App() {
     }
   }
 
-  // Logged in - show main app
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard': return <Dashboard assessmentData={assessmentData} purpose={user?.purpose} />;
@@ -125,7 +137,7 @@ export default function App() {
         onLogout={handleLogout}
       />
       <div className="main-content flex-1 flex flex-col">
-        <Header currentPage={currentPage} user={user} onLogout={handleLogout} />
+        <Header currentPage={currentPage} user={user} onLogout={handleLogout} assessmentData={assessmentData} />
         <main className="content-area p-6 flex-1 overflow-auto">
           {renderPage()}
         </main>

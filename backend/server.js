@@ -58,6 +58,23 @@ app.use('/api/auth', authRoutes);
 app.use('/api/assessments', authMiddleware, assessmentRoutes);
 app.use('/api/ai', authMiddleware, aiRoutes);
 
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Name, email, and message are required' });
+    }
+
+    console.log('Contact form submission:', { name, email, message, timestamp: new Date().toISOString() });
+    
+    res.json({ success: true, message: 'Message received successfully' });
+  } catch (err) {
+    console.error('Contact form error:', err);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
   res.status(500).json({ error: 'Internal server error' });

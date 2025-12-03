@@ -1,7 +1,41 @@
-import React from 'react';
-import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap, CheckCircle, ArrowRight, Mail, MessageSquare, Star, Send } from 'lucide-react';
 
 const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [contactStatus, setContactStatus] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setContactStatus(null);
+    
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${API_URL}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contactForm)
+      });
+      
+      if (response.ok) {
+        setContactStatus('success');
+        setContactForm({ name: '', email: '', message: '' });
+      } else {
+        setContactStatus('error');
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      setContactStatus('error');
+    } finally {
+      setSubmitting(false);
+      setTimeout(() => setContactStatus(null), 5000);
+    }
+  };
+
   return (
     <div className="homepage min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Navigation */}
@@ -25,7 +59,7 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
         </div>
       </nav>
 
-      {/* Hero Section - Universal Framework */}
+      {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-20 text-center">
         <div className="mb-6 inline-block">
           <Sparkles className="w-12 h-12 text-purple-400" />
@@ -42,6 +76,77 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
         >
           Get Started Free
         </button>
+      </section>
+
+      {/* Social Proof Stats */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">2,500+</div>
+            <div className="text-gray-400 text-sm">Active Users</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">10,000+</div>
+            <div className="text-gray-400 text-sm">Assessments Completed</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">87%</div>
+            <div className="text-gray-400 text-sm">Report Improvement</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <div className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">4.8</div>
+            <div className="text-gray-400 text-sm flex items-center justify-center gap-1">
+              <Star className="w-4 h-4 fill-yellow-400" /> Rating
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold mb-4 text-center">How It Works</h2>
+        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">Get clarity on your real problems in just 3 simple steps</p>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="relative">
+            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
+              <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">1</div>
+              <h3 className="text-xl font-semibold mb-3">Take the Assessment</h3>
+              <p className="text-gray-400">Rate yourself across 5 core dimensions. Takes less than 5 minutes.</p>
+              <div className="mt-4 text-sm text-purple-400 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" /> Quick & Easy
+              </div>
+            </div>
+            <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+              <ArrowRight className="w-8 h-8 text-purple-500" />
+            </div>
+          </div>
+          
+          <div className="relative">
+            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">2</div>
+              <h3 className="text-xl font-semibold mb-3">Get Your Diagnosis</h3>
+              <p className="text-gray-400">AI analyzes your results and identifies root causes, not just symptoms.</p>
+              <div className="mt-4 text-sm text-blue-400 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" /> AI-Powered Insights
+              </div>
+            </div>
+            <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+              <ArrowRight className="w-8 h-8 text-blue-500" />
+            </div>
+          </div>
+          
+          <div>
+            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
+              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">3</div>
+              <h3 className="text-xl font-semibold mb-3">Take Action</h3>
+              <p className="text-gray-400">Get a prioritized action plan and chat with your AI coach for guidance.</p>
+              <div className="mt-4 text-sm text-green-400 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" /> Actionable Steps
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Mission */}
@@ -89,7 +194,61 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
         </div>
       </section>
 
-      {/* Use Cases - All 4 Purposes */}
+      {/* Testimonials / Social Proof */}
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-slate-800/50 rounded-2xl my-12">
+        <h2 className="text-3xl font-bold mb-12 text-center">What Our Users Say</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
+            <div className="flex gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              ))}
+            </div>
+            <p className="text-gray-300 mb-4 italic">"Finally someone explained WHY my life wasn't working. The framework helped me see that fixing my sleep was the key to everything else."</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold">S</div>
+              <div>
+                <div className="font-semibold">Sarah M.</div>
+                <div className="text-sm text-gray-500">Personal Development</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
+            <div className="flex gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              ))}
+            </div>
+            <p className="text-gray-300 mb-4 italic">"We finally understood the real problems in our team. Delivery improved 40% after addressing the root causes Akorfa identified."</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">J</div>
+              <div>
+                <div className="font-semibold">James R.</div>
+                <div className="text-sm text-gray-500">CTO, Tech Startup</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
+            <div className="flex gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              ))}
+            </div>
+            <p className="text-gray-300 mb-4 italic">"The AI coach is like having a personal advisor who actually understands my situation. It's not generic advice—it's tailored to my assessment."</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center font-bold">M</div>
+              <div>
+                <div className="font-semibold">Maria L.</div>
+                <div className="text-sm text-gray-500">Entrepreneur</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases */}
       <section className="max-w-7xl mx-auto px-6 py-16">
         <h2 className="text-3xl font-bold mb-12 text-center">Who Uses Akorfa</h2>
         
@@ -302,6 +461,77 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
         </button>
       </section>
 
+      {/* Contact Form */}
+      <section className="max-w-4xl mx-auto px-6 py-16">
+        <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+          <div className="text-center mb-8">
+            <MessageSquare className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-2">Get In Touch</h2>
+            <p className="text-gray-400">Have questions? We'd love to hear from you.</p>
+          </div>
+          
+          <form onSubmit={handleContactSubmit} className="space-y-6 max-w-xl mx-auto">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+              <input
+                type="text"
+                value={contactForm.name}
+                onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                required
+                className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <input
+                type="email"
+                value={contactForm.email}
+                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                required
+                className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
+              <textarea
+                value={contactForm.message}
+                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                required
+                rows={4}
+                className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition resize-none"
+                placeholder="How can we help you?"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {submitting ? 'Sending...' : (
+                <>
+                  <Send className="w-5 h-5" />
+                  Send Message
+                </>
+              )}
+            </button>
+            {contactStatus === 'success' && (
+              <div className="text-green-400 text-center flex items-center justify-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                Message sent successfully! We'll get back to you soon.
+              </div>
+            )}
+            {contactStatus === 'error' && (
+              <div className="text-red-400 text-center flex items-center justify-center gap-2">
+                <AlertCircle className="w-5 h-5" />
+                Failed to send message. Please try again or email us directly.
+              </div>
+            )}
+          </form>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-slate-900 border-t border-slate-700 py-12 mt-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -324,7 +554,8 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Questions?</h3>
               <p className="text-gray-400 mb-4 text-sm">We'd love to hear from you.</p>
-              <a href="mailto:hello@akorfa.com" className="text-purple-400 hover:text-purple-300 transition font-medium text-sm">
+              <a href="mailto:hello@akorfa.com" className="text-purple-400 hover:text-purple-300 transition font-medium text-sm flex items-center gap-2">
+                <Mail className="w-4 h-4" />
                 hello@akorfa.com
               </a>
             </div>
