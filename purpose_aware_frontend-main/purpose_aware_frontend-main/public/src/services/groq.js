@@ -1,10 +1,22 @@
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const TOKEN_KEY = 'akorfa_token';
+
 export const generateInsights = async (assessmentData, purpose = 'personal') => {
   if (!assessmentData) return null;
 
   try {
-    const res = await fetch('/.netlify/functions/groqInsights', {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const res = await fetch(`${API_URL}/ai/insights`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ ...assessmentData, purpose })
     });
 

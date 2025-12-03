@@ -37,13 +37,20 @@ router.post('/chat', async (req, res) => {
   try {
     const { message, assessmentData, conversationHistory = [], purpose = 'personal' } = req.body;
 
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    const defaultAssessment = { bioHardware: 5, internalOS: 5, culturalSoftware: 5, socialInstance: 5, consciousUser: 5 };
+    const safeAssessmentData = assessmentData || defaultAssessment;
+
     const config = getPurposeConfig(purpose);
     const scores = [
-      assessmentData.bioHardware,
-      assessmentData.internalOS,
-      assessmentData.culturalSoftware,
-      assessmentData.socialInstance,
-      assessmentData.consciousUser
+      safeAssessmentData.bioHardware || 5,
+      safeAssessmentData.internalOS || 5,
+      safeAssessmentData.culturalSoftware || 5,
+      safeAssessmentData.socialInstance || 5,
+      safeAssessmentData.consciousUser || 5
     ];
     
     const layerDescriptions = config.layers.map((name, i) => `- ${name}: ${scores[i]}`).join('\n');
@@ -91,13 +98,20 @@ router.post('/diagnosis', async (req, res) => {
   try {
     const { scenario, assessmentData, purpose = 'personal' } = req.body;
 
+    if (!scenario) {
+      return res.status(400).json({ error: 'Scenario is required' });
+    }
+
+    const defaultAssessment = { bioHardware: 5, internalOS: 5, culturalSoftware: 5, socialInstance: 5, consciousUser: 5 };
+    const safeAssessmentData = assessmentData || defaultAssessment;
+
     const config = getPurposeConfig(purpose);
     const scores = [
-      assessmentData.bioHardware,
-      assessmentData.internalOS,
-      assessmentData.culturalSoftware,
-      assessmentData.socialInstance,
-      assessmentData.consciousUser
+      safeAssessmentData.bioHardware || 5,
+      safeAssessmentData.internalOS || 5,
+      safeAssessmentData.culturalSoftware || 5,
+      safeAssessmentData.socialInstance || 5,
+      safeAssessmentData.consciousUser || 5
     ];
 
     const layerScores = config.layers.map((name, i) => `- ${name}: ${scores[i]}`).join('\n');
@@ -173,7 +187,14 @@ Please diagnose which ${config.context} are involved and give concrete steps to 
 
 router.post('/insights', async (req, res) => {
   try {
-    const { bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, purpose = 'personal' } = req.body;
+    const { 
+      bioHardware = 5, 
+      internalOS = 5, 
+      culturalSoftware = 5, 
+      socialInstance = 5, 
+      consciousUser = 5, 
+      purpose = 'personal' 
+    } = req.body || {};
 
     const config = getPurposeConfig(purpose);
     const allLayers = [bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser];

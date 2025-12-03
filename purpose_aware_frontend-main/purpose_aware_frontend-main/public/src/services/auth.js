@@ -97,17 +97,10 @@ export const getUserAssessment = async (userId) => {
 
 export const chatWithAkofa = async (message, assessmentData, purpose = 'personal', conversationHistory = []) => {
   try {
-    const response = await fetch('/.netlify/functions/chatInsights', {
+    const data = await apiCall('/ai/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message, assessmentData, conversationHistory, purpose })
     });
-
-    if (!response.ok) {
-      throw new Error('Chat API error');
-    }
-
-    const data = await response.json();
     return data.response;
   } catch (err) {
     console.error('Chat error:', err);
@@ -117,17 +110,10 @@ export const chatWithAkofa = async (message, assessmentData, purpose = 'personal
 
 export const getDiagnosis = async (scenario, assessmentData, purpose = 'personal') => {
   try {
-    const response = await fetch('/.netlify/functions/diagnosisInsights', {
+    const data = await apiCall('/ai/diagnosis', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ scenario, assessmentData, purpose })
     });
-
-    if (!response.ok) {
-      throw new Error('Diagnosis API error');
-    }
-
-    const data = await response.json();
     return data.diagnosis;
   } catch (err) {
     console.error('Diagnosis error:', err);
