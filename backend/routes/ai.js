@@ -18,7 +18,7 @@ const callGroqAPI = async (messages, maxTokens = 1200) => {
       'Authorization': `Bearer ${GROQ_API_KEY}`
     },
     body: JSON.stringify({
-      model: 'mixtral-8x7b-32768',
+      model: 'llama-3.3-70b-versatile',
       messages: messages,
       max_tokens: maxTokens,
       temperature: 0.7
