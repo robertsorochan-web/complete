@@ -1,0 +1,44 @@
+2025-12-03T11:32:35.11504473Z ==> Downloading cache...
+2025-12-03T11:32:35.170572298Z ==> Cloning from https://github.com/robertsorochan-web/complete
+2025-12-03T11:32:35.750651287Z ==> Checking out commit 812595fb81c6932a09dffe4c21b830beaec877af in branch main
+2025-12-03T11:32:37.853345066Z ==> Downloaded 56MB in 1s. Extraction took 1s.
+2025-12-03T11:32:48.94523917Z ==> Using Node.js version 22.16.0 (default)
+2025-12-03T11:32:48.970710838Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2025-12-03T11:32:49.127284247Z ==> Running build command 'npm install'...
+2025-12-03T11:32:49.84793328Z 
+2025-12-03T11:32:49.847973251Z up to date, audited 102 packages in 638ms
+2025-12-03T11:32:49.847995842Z 
+2025-12-03T11:32:49.848006612Z 16 packages are looking for funding
+2025-12-03T11:32:49.848012502Z   run `npm fund` for details
+2025-12-03T11:32:49.84936481Z 
+2025-12-03T11:32:49.84937931Z found 0 vulnerabilities
+2025-12-03T11:33:45.93257041Z ==> Uploading build...
+2025-12-03T11:33:51.503116545Z ==> Uploaded in 3.3s. Compression took 2.3s
+2025-12-03T11:33:51.527854817Z ==> Build successful 🎉
+2025-12-03T11:33:57.276581336Z ==> Deploying...
+2025-12-03T11:34:10.874828009Z ==> Running 'npm start'
+2025-12-03T11:34:11.882797615Z 
+2025-12-03T11:34:11.882824757Z > akorfa-backend@1.0.0 start
+2025-12-03T11:34:11.882829007Z > node server.js
+2025-12-03T11:34:11.882831117Z 
+2025-12-03T11:34:14.534037462Z Connected to database
+2025-12-03T11:34:14.851886294Z Database tables created successfully
+2025-12-03T11:34:14.851911536Z Database initialized
+2025-12-03T11:34:14.853656776Z Akorfa Backend running on port 10000
+2025-12-03T11:34:14.853674057Z Environment: production
+2025-12-03T11:34:21.447304969Z ==> Your service is live 🎉
+2025-12-03T11:34:21.480651637Z ==> 
+2025-12-03T11:34:21.512892184Z ==> ///////////////////////////////////////////////////////////
+2025-12-03T11:34:21.547782491Z ==> 
+2025-12-03T11:34:21.690957828Z ==> Available at your primary URL https://complete-qqx7.onrender.com
+2025-12-03T11:34:21.852631855Z ==> 
+2025-12-03T11:34:21.891181731Z ==> ///////////////////////////////////////////////////////////
+2025-12-03T11:35:41.343925306Z Error: Not allowed by CORS
+2025-12-03T11:35:41.848383299Z Error: Not allowed by CORS
+2025-12-03T11:35:47.480074053Z Error: Not allowed by CORS
+2025-12-03T11:36:13.1870571Z Error: Not allowed by CORS
+2025-12-03T11:36:13.734659045Z Error: Not allowed by CORS
+2025-12-03T11:36:20.469333603Z Error: Not allowed by CORS
+2025-12-03T11:36:34.884473387Z Error: Not allowed by CORS
+2025-12-03T11:36:34.891061206Z Error: Not allowed by CORS
+2025-12-03T11:36:57.643115585Z Error: Not allowed by CORS
