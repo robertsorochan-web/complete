@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap, CheckCircle, ArrowRight, Mail, MessageSquare, Star, Send, Calendar, Trophy, Clock } from 'lucide-react';
+import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap, CheckCircle, ArrowRight, Mail, MessageSquare, Star, Send, Calendar, Trophy, Clock, ChevronRight } from 'lucide-react';
+import { SuccessStoriesGrid } from '../ui/SuccessStories';
+import { getAllUseCases } from '../../config/useCaseTemplates';
+import LanguageToggle from '../ui/LanguageToggle';
 
 const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
@@ -43,7 +46,8 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
         <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
           Akↄfa Fixit
         </div>
-        <div className="space-x-4">
+        <div className="flex items-center space-x-4">
+          <LanguageToggle />
           <button 
             onClick={onNavigateToLogin}
             className="px-6 py-2 text-sm font-medium hover:text-purple-400 transition"
@@ -201,6 +205,33 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Use Case Templates */}
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-gradient-to-r from-slate-800/50 to-slate-900/50 rounded-2xl my-8">
+        <h2 className="text-3xl font-bold mb-4 text-center">What Kind of Problem You Get?</h2>
+        <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto">Select your situation below and we go customize the analysis for you</p>
+        
+        <div className="grid md:grid-cols-4 gap-4">
+          {getAllUseCases().slice(0, 8).map(useCase => (
+            <button
+              key={useCase.id}
+              onClick={onNavigateToSignup}
+              className="p-6 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 hover:border-purple-500 transition text-left group"
+            >
+              <div className="text-4xl mb-3">{useCase.icon}</div>
+              <h3 className="font-semibold text-white mb-1 group-hover:text-purple-400 transition">{useCase.name}</h3>
+              <p className="text-sm text-gray-400">{useCase.description}</p>
+              <div className="flex flex-wrap gap-1 mt-3">
+                {useCase.examples.slice(0, 2).map((ex, i) => (
+                  <span key={i} className="text-xs px-2 py-0.5 bg-slate-700 rounded-full text-gray-300">
+                    {ex}
+                  </span>
+                ))}
+              </div>
+            </button>
+          ))}
         </div>
       </section>
 
@@ -429,6 +460,15 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Success Stories Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold mb-4 text-center">Real Ghanaians. Real Results.</h2>
+        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+          See how people like you don use Akↄfa to fix their problems and improve their lives
+        </p>
+        <SuccessStoriesGrid category="all" limit={8} />
       </section>
 
       {/* CTA Section */}

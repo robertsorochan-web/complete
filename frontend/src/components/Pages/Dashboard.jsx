@@ -1,11 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import MetricCard from '../ui/MetricCard';
 import { getLayerConfig } from '../../config/purposeConfig';
-import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle, Lightbulb } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle, Lightbulb, Share2, Users, Printer, Volume2 } from 'lucide-react';
 import { calculateStabilityWithRange } from '../../utils/frameworkMetrics';
 import { CriticalWarningBanner, ConfidenceIndicator, EthicalGuardrails, LimitationsDisclosure } from '../ui/FrameworkWarnings';
 import { TemporalDimensions } from '../ui/AdvancedFramework';
 import { getProverbForLayer, getActionableTip, ghanaExamples } from '../../utils/ghanaWisdom';
+import { getScoreEmoji, getScoreLabel } from '../../config/useCaseTemplates';
+import ShareableResults from '../ui/ShareableResults';
+import LocalResourcesPanel from '../ui/LocalResourcesPanel';
+import GroupAnalysis from '../ui/GroupAnalysis';
+import PrintableReport from '../ui/PrintableReport';
+import { SpeakButton } from '../ui/VoiceNavigation';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const [showWarning, setShowWarning] = useState(true);
@@ -122,28 +128,30 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         <p className="text-gray-300 text-sm">{labels.description}</p>
       </div>
 
-      {/* Main Stats */}
+      {/* Main Stats with Emojis */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
+          <div className="text-4xl mb-2">{getScoreEmoji(parseFloat(avgScore))}</div>
           <div className={`text-3xl font-bold ${getScoreColor(parseFloat(avgScore))}`}>
-            {avgScore}
-            <span className="text-lg text-gray-500 font-normal ml-1">+/-{stabilityMetrics.uncertainty}</span>
+            {avgScore}/10
           </div>
           <div className="text-sm text-gray-400">{labels.overallTitle}</div>
-          <div className="text-xs text-gray-500 mt-1">range: {stabilityMetrics.min} - {stabilityMetrics.max}</div>
+          <div className="text-xs text-purple-400 mt-1">{getScoreLabel(parseFloat(avgScore))}</div>
         </div>
         <div className="bg-green-900/20 rounded-xl p-4 text-center border border-green-500/30">
+          <div className="text-4xl mb-2">{getScoreEmoji(highestLayer)}</div>
           <div className="flex items-center justify-center gap-1 mb-1">
             <TrendingUp className="w-4 h-4 text-green-400" />
-            <span className="text-3xl font-bold text-green-400">{highestLayer}</span>
+            <span className="text-3xl font-bold text-green-400">{highestLayer}/10</span>
           </div>
           <div className="text-sm text-gray-400">Your Strength</div>
           <div className="text-xs text-green-400/70 mt-1">{strength}</div>
         </div>
         <div className="bg-red-900/20 rounded-xl p-4 text-center border border-red-500/30">
+          <div className="text-4xl mb-2">{getScoreEmoji(lowestLayer)}</div>
           <div className="flex items-center justify-center gap-1 mb-1">
             <TrendingDown className="w-4 h-4 text-red-400" />
-            <span className="text-3xl font-bold text-red-400">{lowestLayer}</span>
+            <span className="text-3xl font-bold text-red-400">{lowestLayer}/10</span>
           </div>
           <div className="text-sm text-gray-400">Needs Work</div>
           <div className="text-xs text-red-400/70 mt-1">{bottleneck}</div>
@@ -274,6 +282,30 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
           </div>
         </div>
       </div>
+
+      {/* Share & Print Section */}
+      <div className="grid grid-cols-2 gap-4">
+        <ShareableResults 
+          assessmentData={assessmentData}
+          purpose={purpose}
+          bottleneck={bottleneck}
+          strength={strength}
+          avgScore={avgScore}
+        />
+        <PrintableReport
+          assessmentData={assessmentData}
+          purpose={purpose}
+          bottleneck={bottleneck}
+          strength={strength}
+          actionTips={[actionTip]}
+        />
+      </div>
+
+      {/* Local Resources */}
+      <LocalResourcesPanel sector={purpose} />
+
+      {/* Group Analysis */}
+      <GroupAnalysis assessmentData={assessmentData} purpose={purpose} />
 
       {/* Ethical Guidelines */}
       <EthicalGuardrails compact={true} />

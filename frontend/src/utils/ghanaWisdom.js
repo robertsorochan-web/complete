@@ -46,6 +46,42 @@ export const ghanaianProverbs = [
     english: "If you remember what you forgot and return, you haven't lost",
     meaning: "It's never too late to start again",
     applies: ["general", "restart"]
+  },
+  {
+    twi: "Abofra bɔ nwa na ɔmmpɔ akyekyedeɛ",
+    english: "A child breaks the snail shell, not the tortoise",
+    meaning: "Start with what you can handle, grow from there",
+    applies: ["bioHardware", "business"]
+  },
+  {
+    twi: "Wopɛ sɛ wodidi a, biribi na ɛwɔ wo nsam",
+    english: "If you want to eat, you must have something in your hand",
+    meaning: "Success requires preparation and resources",
+    applies: ["bioHardware", "business"]
+  },
+  {
+    twi: "Onipa nye abe na ne ho ahyia ne ho",
+    english: "A person is not a palm tree to be self-sufficient",
+    meaning: "We all need each other",
+    applies: ["socialInstance", "team"]
+  },
+  {
+    twi: "Sɛ anka wohu a, anka wo yɛɛ no",
+    english: "If you had known, you would have done differently",
+    meaning: "Learn from experience, don't blame yourself",
+    applies: ["consciousUser", "awareness"]
+  },
+  {
+    twi: "Nkrabea mu nni kwatibea",
+    english: "There is no shortcut in destiny",
+    meaning: "Be patient with your progress",
+    applies: ["general", "patience"]
+  },
+  {
+    twi: "Anoma anntu a, obua da",
+    english: "If the bird does not fly, it stays hungry",
+    meaning: "Take action to get results",
+    applies: ["internalOS", "action"]
   }
 ];
 
