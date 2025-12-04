@@ -3,10 +3,38 @@ import { signup } from '../../services/auth';
 import { ChevronRight, Mail, Lock, User, AlertCircle, Check } from 'lucide-react';
 
 const purposes = [
-  { id: 'personal', label: 'My Life', icon: '🌟', desc: 'I wan make my life better', color: 'from-purple-500 to-pink-500' },
-  { id: 'team', label: 'My Team', icon: '👥', desc: 'I wan help my team work better', color: 'from-blue-500 to-cyan-500' },
-  { id: 'business', label: 'My Business', icon: '📈', desc: 'I wan grow my business', color: 'from-orange-500 to-yellow-500' },
-  { id: 'policy', label: 'Community', icon: '🏛️', desc: 'I wan help my community', color: 'from-green-500 to-emerald-500' },
+  { 
+    id: 'personal', 
+    label: 'My Life', 
+    icon: '🌟', 
+    desc: 'I wan make my life better', 
+    color: 'from-purple-500 to-pink-500',
+    examples: ['Sleep wahala', 'Work stress', 'Relationship problems', 'Money worries']
+  },
+  { 
+    id: 'team', 
+    label: 'My Team', 
+    icon: '👥', 
+    desc: 'I wan help my team work better', 
+    color: 'from-blue-500 to-cyan-500',
+    examples: ['Office wahala', 'People dey leave', 'Low morale', 'Communication problems']
+  },
+  { 
+    id: 'business', 
+    label: 'My Business', 
+    icon: '📈', 
+    desc: 'I wan grow my business', 
+    color: 'from-orange-500 to-yellow-500',
+    examples: ['Chop bar/shop', 'Market stall', 'Online business', 'Any hustle']
+  },
+  { 
+    id: 'policy', 
+    label: 'Community', 
+    icon: '🏛️', 
+    desc: 'I wan help my community', 
+    color: 'from-green-500 to-emerald-500',
+    examples: ['Church/mosque group', 'Village project', 'Youth group', 'School program']
+  },
 ];
 
 const validateEmail = (email) => {
@@ -147,6 +175,13 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                         {p.label}
                       </div>
                       <div className="text-sm text-gray-400">{p.desc}</div>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {p.examples.slice(0, 3).map((ex, i) => (
+                          <span key={i} className="text-xs px-2 py-0.5 bg-slate-600 rounded-full text-gray-300">
+                            {ex}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-500 group-hover:text-purple-400 transition" />
                   </div>

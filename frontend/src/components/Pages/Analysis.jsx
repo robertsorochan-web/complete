@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { generateInsights } from '../../services/groq';
 import { getLayerConfig } from '../../config/purposeConfig';
 import { calculateStabilityWithRange, calculateRecommendationConfidence } from '../../utils/frameworkMetrics';
@@ -15,6 +15,7 @@ import {
   RedTeamMode,
   FrameworkHealthScore
 } from '../ui/AdvancedFramework';
+import { getProverbForLayer, getActionableTip, ghanaExamples } from '../../utils/ghanaWisdom';
 
 const Analysis = ({ assessmentData, purpose = 'personal' }) => {
   const [insights, setInsights] = useState(null);
@@ -70,6 +71,12 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
   
   const bottleneckIndex = allLayers.indexOf(Math.min(...allLayers));
   const bottleneck = layerNames[bottleneckIndex];
+  const bottleneckKey = layerKeys[bottleneckIndex];
+  const lowestScore = Math.min(...allLayers);
+  
+  const proverb = useMemo(() => getProverbForLayer(bottleneckKey), [bottleneckKey]);
+  const actionTip = useMemo(() => getActionableTip(bottleneckKey, lowestScore), [bottleneckKey, lowestScore]);
+  const example = ghanaExamples[purpose] || ghanaExamples.personal;
 
   const contextLabels = {
     personal: {
@@ -188,6 +195,46 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
           </div>
         </div>
       </div>
+
+      {/* Ghanaian Wisdom */}
+      {proverb && (
+        <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-xl p-4 border border-amber-500/30">
+          <div className="flex items-start gap-3">
+            <div className="text-2xl">🇬🇭</div>
+            <div>
+              <div className="font-medium text-amber-400 mb-1">Ghanaian Wisdom:</div>
+              <p className="text-white italic">"{proverb.english}"</p>
+              <p className="text-amber-200/70 text-sm mt-1">{proverb.twi}</p>
+              <p className="text-gray-400 text-sm mt-2">{proverb.meaning}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Actionable Tip */}
+      {actionTip && (
+        <div className="bg-green-900/20 rounded-xl p-4 border border-green-500/30">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-xl">💡</span>
+            </div>
+            <div>
+              <div className="font-semibold text-green-400 mb-1">Wetin You Fit Do Today:</div>
+              <p className="text-gray-200">{actionTip}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Real Example */}
+      {example && (
+        <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
+          <div className="font-semibold text-purple-400 mb-2">📖 Real Example:</div>
+          <p className="text-gray-300 text-sm mb-2">{example.scenario}</p>
+          <p className="text-gray-400 text-sm mb-2"><span className="text-red-400">Problem:</span> {example.problem}</p>
+          <p className="text-gray-400 text-sm"><span className="text-green-400">Solution:</span> {example.solution}</p>
+        </div>
+      )}
 
       <div className="bg-slate-800 rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-4">{labels.detailedTitle}</h3>
