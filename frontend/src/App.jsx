@@ -4,6 +4,7 @@ import { initGA, trackPageView } from './utils/analytics';
 import HomePage from './components/Pages/HomePage';
 import SignupForm from './components/Auth/SignupForm';
 import LoginForm from './components/Auth/LoginForm';
+import Onboarding from './components/Pages/Onboarding';
 import Sidebar from './components/layout/sidebar';
 import Header from './components/layout/Header';
 import Dashboard from './components/Pages/Dashboard';
@@ -17,6 +18,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [authPage, setAuthPage] = useState('home');
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [assessmentData, setAssessmentData] = useState({
     bioHardware: 5,
     internalOS: 5,
@@ -33,11 +35,11 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      trackPageView(currentPage);
+      trackPageView(showOnboarding ? 'onboarding' : currentPage);
     } else {
       trackPageView(authPage);
     }
-  }, [currentPage, user, authPage]);
+  }, [currentPage, user, authPage, showOnboarding]);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -60,7 +62,20 @@ export default function App() {
 
   const handleSignupSuccess = (user) => {
     setUser(user);
+    setShowOnboarding(true);
     setAuthPage('home');
+  };
+
+  const handleOnboardingComplete = async (onboardingAssessmentData) => {
+    setAssessmentData(onboardingAssessmentData);
+    setShowOnboarding(false);
+    if (user) {
+      try {
+        await updateUserAssessment(user.id, onboardingAssessmentData);
+      } catch (err) {
+        console.error('Failed to save onboarding assessment:', err);
+      }
+    }
   };
 
   const handleLoginSuccess = async (user) => {
@@ -81,6 +96,7 @@ export default function App() {
     setUser(null);
     setAuthPage('home');
     setCurrentPage('dashboard');
+    setShowOnboarding(false);
   };
 
   const handleAssessmentUpdate = async (data) => {
@@ -94,7 +110,16 @@ export default function App() {
     }
   };
 
-  if (loading) return <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
     if (authPage === 'home') {
@@ -115,6 +140,16 @@ export default function App() {
         onSwitchToSignup={() => setAuthPage('signup')}
       />;
     }
+  }
+
+  if (showOnboarding) {
+    return (
+      <Onboarding 
+        user={user}
+        purpose={user?.purpose}
+        onComplete={handleOnboardingComplete}
+      />
+    );
   }
 
   const renderPage = () => {
