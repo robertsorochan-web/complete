@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Info } from 'lucide-react';
+import { Info, AlertTriangle } from 'lucide-react';
 import { getLayerConfig, getPurposeConfig } from '../../config/purposeConfig';
+import { UserAgreementCheckbox, LimitationsDisclosure } from '../ui/FrameworkWarnings';
 
 const getLayerTips = (purpose, layerKey) => {
   const tipsByPurpose = {
@@ -74,9 +75,21 @@ const LayerPopup = ({ layer, purpose, layers, onClose }) => {
   );
 };
 
-const ModernAssessment = ({ assessmentData, setAssessmentData, purpose = 'personal' }) => {
+const ModernAssessment = ({ assessmentData, setAssessmentData, purpose = 'personal', onAgreementChange }) => {
   const [selectedLayer, setSelectedLayer] = useState(null);
+  const [hasAgreed, setHasAgreed] = useState(() => {
+    return localStorage.getItem('akofa_user_agreement') === 'true';
+  });
   const { bioHardware = 5, internalOS = 5, culturalSoftware = 5, socialInstance = 5, consciousUser = 5 } = assessmentData || {};
+  
+  const handleAgreementChange = (e) => {
+    const agreed = e.target.checked;
+    setHasAgreed(agreed);
+    localStorage.setItem('akofa_user_agreement', agreed.toString());
+    if (onAgreementChange) {
+      onAgreementChange(agreed);
+    }
+  };
   
   const layers = getLayerConfig(purpose);
   const purposeConfig = getPurposeConfig(purpose);
@@ -194,6 +207,35 @@ const ModernAssessment = ({ assessmentData, setAssessmentData, purpose = 'person
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      <div className="bg-amber-900/20 border border-amber-500/30 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-medium text-amber-100 text-sm">Before You Continue</h4>
+            <p className="text-xs text-amber-200/70 mt-1">
+              Self-assessment scores are subjective and may not capture your full situation. 
+              Consider having someone you trust review your ratings for blind spots.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <UserAgreementCheckbox 
+        checked={hasAgreed} 
+        onChange={handleAgreementChange} 
+        required={false}
+      />
+      
+      {!hasAgreed && (
+        <div className="bg-amber-900/30 border border-amber-500/50 rounded-xl p-4 text-center">
+          <p className="text-amber-200 text-sm">
+            Please check the agreement above to unlock full analysis features
+          </p>
+        </div>
+      )}
+
+      <LimitationsDisclosure expanded={false} />
     </div>
   );
 };

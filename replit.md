@@ -93,6 +93,25 @@ The 5 Life Areas:
 - Akↄfa branding (with ↄ character) throughout
 
 ## Recent Changes (Dec 2024)
+
+### Conceptual Stress Test Fixes (Latest)
+- **Uncertainty Metrics**: Stability scores now display as ranges with confidence intervals (e.g., "7.2 +/- 1.3")
+- **Ethical Guardrails**: Added warning banners about framework limitations and ethical usage restrictions
+- **Limitations Disclosure**: Clear list of what the framework cannot do (clinical diagnosis, predictions, etc.)
+- **User Agreement**: Checkbox requiring users acknowledge the tool's limitations
+- **Confidence Scores**: Each recommendation shows confidence level (40-95%)
+- **Cultural Context Selector**: Users can choose cultural interpretation context (Default, Collectivist, Individualist, High-Context)
+- **Temporal Dimensions**: Shows stability trends, rate of change, and system inertia
+- **Feedback Loops**: Visual matrix showing how changes in one area affect others
+- **Red Team Mode**: Alternative interpretations to challenge the analysis
+- **Framework Health Score**: Meta-assessment of how appropriately the tool is being applied
+
+### New Utility Files
+- `frontend/src/utils/frameworkMetrics.js` - Calculations for uncertainty, confidence, cultural adjustments
+- `frontend/src/components/ui/FrameworkWarnings.jsx` - Warning banners, ethical guardrails, user agreement
+- `frontend/src/components/ui/AdvancedFramework.jsx` - Cultural context, temporal, feedback loops, red team mode
+
+### Previous Changes
 - Replaced all "Akorfa/AI" branding with "Akↄfa"
 - Rewrote all UI text to use West African pidgin English
 - Converted technical framework terms to everyday language:

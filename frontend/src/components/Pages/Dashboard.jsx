@@ -1,15 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MetricCard from '../ui/MetricCard';
 import { getLayerConfig } from '../../config/purposeConfig';
-import { TrendingUp, TrendingDown, Target, Zap, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle } from 'lucide-react';
+import { calculateStabilityWithRange } from '../../utils/frameworkMetrics';
+import { CriticalWarningBanner, ConfidenceIndicator, EthicalGuardrails, LimitationsDisclosure } from '../ui/FrameworkWarnings';
+import { TemporalDimensions } from '../ui/AdvancedFramework';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
+  const [showWarning, setShowWarning] = useState(true);
+  const [hasAgreed, setHasAgreed] = useState(() => {
+    return localStorage.getItem('akofa_user_agreement') === 'true';
+  });
   const { bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0 } = assessmentData || {};
+  
+  if (!hasAgreed) {
+    return (
+      <div className="dashboard-page space-y-6">
+        <CriticalWarningBanner />
+        <div className="bg-slate-800 rounded-xl p-8 text-center">
+          <div className="text-5xl mb-4">🔒</div>
+          <h2 className="text-2xl font-bold mb-4">Agreement Required</h2>
+          <p className="text-gray-300 mb-6">
+            Before viewing your results, please acknowledge the framework limitations.
+          </p>
+          <EthicalGuardrails />
+          <div className="mt-6">
+            <LimitationsDisclosure expanded={true} />
+          </div>
+          <button 
+            onClick={() => {
+              localStorage.setItem('akofa_user_agreement', 'true');
+              setHasAgreed(true);
+            }}
+            className="mt-6 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition"
+          >
+            I Understand - Show My Results
+          </button>
+        </div>
+      </div>
+    );
+  }
   
   const allLayers = [bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser];
   const avgScore = (allLayers.reduce((a, b) => a + b, 0) / allLayers.length).toFixed(1);
   const lowestLayer = Math.min(...allLayers);
   const highestLayer = Math.max(...allLayers);
+  const stabilityMetrics = calculateStabilityWithRange(allLayers);
   
   const layers = getLayerConfig(purpose);
   const layerKeys = ['bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser'];
@@ -73,6 +109,8 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
   return (
     <div className="dashboard-page space-y-6">
+      {showWarning && <CriticalWarningBanner onDismiss={() => setShowWarning(false)} />}
+      
       <div>
         <h2 className="text-2xl font-bold mb-2">{labels.overview}</h2>
         <p className="text-gray-300 text-sm">{labels.description}</p>
@@ -81,9 +119,12 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       {/* Main Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
-          <div className={`text-3xl font-bold ${getScoreColor(parseFloat(avgScore))}`}>{avgScore}</div>
+          <div className={`text-3xl font-bold ${getScoreColor(parseFloat(avgScore))}`}>
+            {avgScore}
+            <span className="text-lg text-gray-500 font-normal ml-1">+/-{stabilityMetrics.uncertainty}</span>
+          </div>
           <div className="text-sm text-gray-400">{labels.overallTitle}</div>
-          <div className="text-xs text-gray-500 mt-1">out of 10</div>
+          <div className="text-xs text-gray-500 mt-1">range: {stabilityMetrics.min} - {stabilityMetrics.max}</div>
         </div>
         <div className="bg-green-900/20 rounded-xl p-4 text-center border border-green-500/30">
           <div className="flex items-center justify-center gap-1 mb-1">
@@ -163,6 +204,18 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         </div>
       </div>
 
+      {/* Temporal Dynamics */}
+      <TemporalDimensions currentScore={parseFloat(avgScore)} />
+
+      {/* Confidence Notice */}
+      <div className="flex items-center justify-between bg-slate-800/60 rounded-lg p-3 border border-slate-700">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-400" />
+          <span className="text-xs text-gray-400">Results are estimates, not facts</span>
+        </div>
+        <ConfidenceIndicator confidence={stabilityMetrics.confidence} label="Data" />
+      </div>
+
       {/* Daily Reminder */}
       <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
         <div className="flex items-center gap-3">
@@ -175,6 +228,12 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
           </div>
         </div>
       </div>
+
+      {/* Ethical Guidelines */}
+      <EthicalGuardrails compact={true} />
+      
+      {/* Limitations */}
+      <LimitationsDisclosure expanded={false} />
     </div>
   );
 };

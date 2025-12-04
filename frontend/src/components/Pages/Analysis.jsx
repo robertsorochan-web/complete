@@ -1,19 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { generateInsights } from '../../services/groq';
 import { getLayerConfig } from '../../config/purposeConfig';
+import { calculateStabilityWithRange, calculateRecommendationConfidence } from '../../utils/frameworkMetrics';
+import { 
+  CriticalWarningBanner, 
+  EthicalGuardrails, 
+  LimitationsDisclosure,
+  UncertaintyDisplay,
+  ConfidenceIndicator 
+} from '../ui/FrameworkWarnings';
+import {
+  CulturalContextSelector,
+  FeedbackLoopsMatrix,
+  RedTeamMode,
+  FrameworkHealthScore
+} from '../ui/AdvancedFramework';
 
 const Analysis = ({ assessmentData, purpose = 'personal' }) => {
   const [insights, setInsights] = useState(null);
   const [loadingInsights, setLoadingInsights] = useState(false);
+  const [showWarning, setShowWarning] = useState(true);
+  const [culturalContext, setCulturalContext] = useState('default');
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [hasAgreed, setHasAgreed] = useState(() => {
+    return localStorage.getItem('akofa_user_agreement') === 'true';
+  });
 
   if (!assessmentData) return <div>Loading analysis...</div>;
+  
+  if (!hasAgreed) {
+    return (
+      <div className="analysis-page space-y-6">
+        <CriticalWarningBanner />
+        <div className="bg-slate-800 rounded-xl p-8 text-center">
+          <div className="text-5xl mb-4">🔒</div>
+          <h2 className="text-2xl font-bold mb-4">Agreement Required</h2>
+          <p className="text-gray-300 mb-6">
+            Before viewing your analysis, please acknowledge the framework limitations 
+            in the Assessment section.
+          </p>
+          <EthicalGuardrails />
+          <div className="mt-6">
+            <LimitationsDisclosure expanded={true} />
+          </div>
+          <button 
+            onClick={() => {
+              localStorage.setItem('akofa_user_agreement', 'true');
+              setHasAgreed(true);
+            }}
+            className="mt-6 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition"
+          >
+            I Understand - Show My Analysis
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const { bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0 } = assessmentData;
   
   const allLayers = [bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser];
   const avgScore = (allLayers.reduce((a, b) => a + b, 0) / allLayers.length).toFixed(2);
-  const variance = (Math.sqrt(allLayers.reduce((sum, val) => sum + Math.pow(val - avgScore, 2), 0) / allLayers.length)).toFixed(2);
-  const harmonyScore = Math.max(0, (10 - variance)).toFixed(2);
+  const stabilityMetrics = calculateStabilityWithRange(allLayers);
+  const harmonyScore = stabilityMetrics.score;
 
   const layers = getLayerConfig(purpose);
   const layerKeys = ['bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser'];
@@ -91,6 +140,8 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
 
   return (
     <div className="analysis-page space-y-6">
+      {showWarning && <CriticalWarningBanner onDismiss={() => setShowWarning(false)} />}
+      
       <div>
         <h2 className="text-2xl font-bold mb-2">{labels.title}</h2>
         <p className="text-gray-300 text-sm">{labels.description}</p>
@@ -98,10 +149,43 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
 
       <div className="bg-slate-800 rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-4">{labels.stateTitle}</h3>
-        <div className="space-y-3">
-          <p><span className="text-purple-400 font-semibold">{labels.overallLabel}:</span> <span className="text-xl font-bold">{avgScore}/10</span> — {labels.overallDesc}</p>
-          <p><span className="text-purple-400 font-semibold">{labels.balanceLabel}:</span> <span className="text-xl font-bold">{harmonyScore}/10</span> — {labels.balanceDesc}</p>
-          <p><span className="text-purple-400 font-semibold">{labels.focusLabel}:</span> <span className="text-xl font-bold">{bottleneck}</span> — {labels.focusDesc}</p>
+        <div className="space-y-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="text-purple-400 font-semibold">{labels.overallLabel}:</span>
+              <span className="text-xl font-bold ml-2">{avgScore}/10</span>
+              <span className="text-gray-400 text-sm ml-2">— {labels.overallDesc}</span>
+            </div>
+            <ConfidenceIndicator confidence={stabilityMetrics.confidence} />
+          </div>
+          
+          <div className="bg-slate-700/50 rounded-lg p-4">
+            <span className="text-purple-400 font-semibold block mb-2">{labels.balanceLabel}:</span>
+            <UncertaintyDisplay 
+              score={harmonyScore}
+              uncertainty={stabilityMetrics.uncertainty}
+              min={stabilityMetrics.min}
+              max={stabilityMetrics.max}
+              confidence={stabilityMetrics.confidence}
+            />
+            <p className="text-gray-400 text-sm mt-2">{labels.balanceDesc}</p>
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-purple-400 font-semibold">{labels.focusLabel}:</span>
+              <span className="text-xl font-bold ml-2">{bottleneck}</span>
+              <span className="text-gray-400 text-sm ml-2">— {labels.focusDesc}</span>
+            </div>
+            <ConfidenceIndicator 
+              confidence={calculateRecommendationConfidence(
+                Math.min(...allLayers), 
+                2, 
+                allLayers
+              )} 
+              label="Recommendation" 
+            />
+          </div>
         </div>
       </div>
 
@@ -149,6 +233,40 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       <div className="bg-slate-800 rounded-lg p-4 text-xs text-gray-400">
         <p><span className="font-semibold">Tip:</span> {labels.tip}</p>
       </div>
+
+      <EthicalGuardrails compact={true} />
+
+      <button
+        onClick={() => setShowAdvanced(!showAdvanced)}
+        className="w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl text-center transition"
+      >
+        <span className="text-purple-400 font-medium">
+          {showAdvanced ? 'Hide Advanced Analysis' : 'Show Advanced Analysis'}
+        </span>
+      </button>
+
+      {showAdvanced && (
+        <div className="space-y-6">
+          <CulturalContextSelector 
+            selected={culturalContext} 
+            onChange={setCulturalContext} 
+          />
+          
+          <FeedbackLoopsMatrix 
+            allLayers={allLayers} 
+            layerNames={layerNames} 
+          />
+          
+          <RedTeamMode 
+            allLayers={allLayers} 
+            layerNames={layerNames} 
+          />
+          
+          <FrameworkHealthScore allLayers={allLayers} />
+          
+          <LimitationsDisclosure expanded={false} />
+        </div>
+      )}
     </div>
   );
 };
