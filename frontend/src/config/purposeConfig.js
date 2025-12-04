@@ -94,29 +94,34 @@ export const purposeConfig = {
     description: 'Grow my business proper',
     layers: {
       bioHardware: {
-        name: 'Business Foundation',
-        description: 'Money, equipment, technology, resources wey you get',
-        icon: '🏗️'
+        name: 'Money & Resources',
+        shortName: 'Money',
+        description: 'Money, equipment, stock, resources wey you get for business',
+        icon: '💰'
       },
       internalOS: {
-        name: 'Company Way',
-        description: 'How people behave, the values wey guide your company',
-        icon: '🎯'
+        name: 'Team & Community',
+        shortName: 'Team',
+        description: 'Your workers, family support, community backing',
+        icon: '👥'
       },
       culturalSoftware: {
-        name: 'Market Position',
-        description: 'How customers see you, your brand, your advantage',
-        icon: '📈'
+        name: 'Systems & Organization',
+        shortName: 'Systems',
+        description: 'How you organize things, your processes, record keeping',
+        icon: '⚙️'
       },
       socialInstance: {
-        name: 'Your Network',
-        description: 'Customers, partners, investors - people wey matter',
-        icon: '🌐'
+        name: 'Communication & Coordination',
+        shortName: 'Communication',
+        description: 'How you talk to customers, partners, suppliers',
+        icon: '📢'
       },
       consciousUser: {
-        name: 'Vision & Strategy',
-        description: 'Where you wan reach, your big picture plan',
-        icon: '🔭'
+        name: 'Vision & Planning',
+        shortName: 'Vision',
+        description: 'Where you wan reach, your goals and plans',
+        icon: '🎯'
       }
     },
     navItems: [

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import MetricCard from '../ui/MetricCard';
 import { getLayerConfig } from '../../config/purposeConfig';
-import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle, Lightbulb, Share2, Users, Printer, Volume2 } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle, Lightbulb, Share2, Users, Printer, Volume2, Calculator, ClipboardList } from 'lucide-react';
 import { calculateStabilityWithRange } from '../../utils/frameworkMetrics';
 import { CriticalWarningBanner, ConfidenceIndicator, EthicalGuardrails, LimitationsDisclosure } from '../ui/FrameworkWarnings';
 import { TemporalDimensions } from '../ui/AdvancedFramework';
@@ -16,6 +16,11 @@ import ProgressTracker from '../ui/ProgressTracker';
 import EmergencyAlerts from '../ui/EmergencyAlerts';
 import LocalPartnerships from '../ui/LocalPartnerships';
 import SMSTipsSubscription from '../ui/SMSTipsSubscription';
+import BusinessHealthScore from '../ui/BusinessHealthScore';
+import ActionSteps from '../ui/ActionSteps';
+import GoalTracker from '../ui/GoalTracker';
+import ProfitLossCalculator from '../ui/ProfitLossCalculator';
+import BusinessChecklists from '../ui/BusinessChecklists';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const [showWarning, setShowWarning] = useState(true);
@@ -212,6 +217,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         </div>
       )}
 
+      {/* 3 Action Steps */}
+      <ActionSteps weakestArea={bottleneckKey} purpose={purpose} />
+
       {/* Real Example */}
       {example && (
         <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
@@ -322,6 +330,33 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
       {/* Group Analysis */}
       <GroupAnalysis assessmentData={assessmentData} purpose={purpose} />
+
+      {/* Business Tools Section - Only for business purpose */}
+      {(purpose === 'business' || purpose === 'team') && (
+        <div className="space-y-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+              <Calculator className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">Business Tools</h3>
+              <p className="text-sm text-gray-400">Free tools to help your business grow</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <GoalTracker purpose={purpose} />
+            <ProfitLossCalculator />
+          </div>
+          
+          <BusinessChecklists />
+        </div>
+      )}
+
+      {/* Goal Tracker for Personal */}
+      {purpose === 'personal' && (
+        <GoalTracker purpose={purpose} />
+      )}
 
       {/* Ethical Guidelines */}
       <EthicalGuardrails compact={true} />

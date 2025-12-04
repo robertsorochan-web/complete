@@ -1,0 +1,183 @@
+URGENT USER EXPERIENCE FIXES
+Add welcome screen with use cases: "My Small Business", "My Farm/Fishing", "My Education", "My Community Project"
+
+Replace "R" with "Money & Resources Available"
+
+Replace "L" with "Team & Community Strength"
+
+Replace "G" with "Systems & Organization"
+
+Replace "C" with "Communication & Coordination"
+
+Change "Stability Score: 14.8" to "Business Health: 6/10 ⚠️"
+
+Add 3 specific action steps after assessment
+
+Add WhatsApp share button with pre-filled message
+
+Create Ghanaian examples page with success stories
+
+Add Ghanaian proverbs with explanations
+
+Rename "System Assessment" to "Check My Business"
+
+Rename "AI Insights" to "Smart Tips"
+
+Rename "Framework" to "How It Works"
+
+GHANAIAN CONTEXT ADDITIONS
+Add floating WhatsApp support button
+
+Create SMS tips for feature phone users
+
+Feature logos of local fishing associations, market unions
+
+Add "Download as PDF" for illiterate partners
+
+Add voice instructions for low-literacy users
+
+Add checkboxes to track action step completion
+
+Add emergency alerts for fuel prices, weather
+
+Create group analysis for family/business teams
+
+Add offline mode for poor internet areas
+
+Add Mobile Money transaction tracking
+
+Track and display real income increase stories
+
+Create ultra-light version under 100KB
+
+Add basic Twi translations for key terms
+
+MOBILE OPTIMIZATION
+Remove sidebar on mobile screens
+
+Make all buttons at least 50px tall
+
+Compress all images for low data usage
+
+Add progress bar showing assessment completion
+
+BUSINESS TOOLS
+Add market price tracker for common goods
+
+Create seasonal business tips
+
+Add business registration guidance
+
+Include tax calculation helpers
+
+Add loan application checklist
+
+Create partnership agreement templates
+
+Add customer feedback collection tools
+
+Include inventory tracking basics
+
+Add profit/loss simple calculator
+
+Create receipt and invoice templates
+
+Add employee payment tracker
+
+Include supplier contact manager
+
+FRAMEWORK IMPROVEMENTS
+Add uncertainty metrics to stability formula
+
+Add ethical warnings and user agreement
+
+Add scope limitations disclosure
+
+Add temporal dynamics (rate of change)
+
+Add feedback loop visualization
+
+Add cultural context selector
+
+Add "Red Team" critique mode
+
+Add confidence scoring to recommendations
+
+Add emergent properties tracker
+
+Create Framework Health Index
+
+EDUCATION & SUPPORT
+Add business goal setting with milestones
+
+Create competitor analysis framework
+
+Add customer database (simple CRM)
+
+Include marketing idea generator
+
+Add social media post templates
+
+Create business card designer
+
+Add digital skills training links
+
+Include e-commerce setup guide
+
+COMMUNITY FEATURES
+Add mentorship matching system
+
+Create networking event calendar
+
+Add industry association directory
+
+Include local resource links (cooperatives, grants)
+
+Add photo upload for business documentation
+
+Create printable checklists
+
+Add referral system
+
+Integrate with Ghana.Gov services
+
+ADVANCED FEATURES
+Add location mapping for multiple sites
+
+Include vehicle maintenance tracker
+
+Add equipment depreciation calculator
+
+Create insurance requirement checklist
+
+Add legal compliance basic guide
+
+Include safety procedure templates
+
+Add emergency contact manager
+
+Create business continuity plan
+
+SUSTAINABILITY
+Add carbon footprint calculator
+
+Include green business certification info
+
+Add renewable energy options
+
+Create waste reduction plan
+
+Add water conservation strategies
+
+SOCIAL IMPACT
+Add community impact assessment
+
+Create social responsibility report template
+
+Add ethical sourcing guidelines
+
+Include fair trade certification info
+
+Add living wage calculator
+
+Create diversity and inclusion plan
