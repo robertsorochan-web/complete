@@ -54,7 +54,7 @@ body {
   }
   
   button {
-    min-height: 44px;
+    min-height: 50px;
     touch-action: manipulation;
   }
   
@@ -69,18 +69,61 @@ body {
   .text-3xl {
     font-size: 1.25rem !important;
   }
+  
+  /* Hide sidebar menu button on mobile - use bottom nav instead */
+  .sidebar-toggle-mobile {
+    display: none !important;
+  }
 }
 
-/* Touch-friendly targets */
+/* Touch-friendly targets - 50px for Ghanaian mobile users */
 @media (hover: none) and (pointer: coarse) {
   button, a, input, select, textarea {
-    min-height: 44px;
+    min-height: 50px;
     touch-action: manipulation;
   }
   
   input[type="range"] {
-    height: 44px;
+    height: 50px;
   }
+}
+
+/* High Contrast Mode for older eyes */
+.high-contrast {
+  --bg: #000000;
+  --text: #FFFFFF;
+  --accent: #FFD700;
+}
+
+.high-contrast body {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+.high-contrast .bg-slate-800,
+.high-contrast .bg-slate-900 {
+  background: #000000 !important;
+  border-color: #FFFFFF !important;
+}
+
+.high-contrast .text-gray-300,
+.high-contrast .text-gray-400,
+.high-contrast .text-gray-500 {
+  color: #FFFFFF !important;
+}
+
+.high-contrast .text-purple-400,
+.high-contrast .text-purple-500 {
+  color: #FFD700 !important;
+}
+
+.high-contrast button {
+  border: 2px solid #FFFFFF !important;
+  font-weight: bold !important;
+}
+
+.high-contrast .border-slate-700 {
+  border-color: #FFFFFF !important;
 }
 
 /* Reduce motion for slow connections */
@@ -90,6 +133,28 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Reduce Motion Mode (toggle-based) */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.reduce-motion .animate-pulse,
+html.reduce-motion .animate-spin,
+html.reduce-motion .animate-bounce,
+html.reduce-motion .whatsapp-pulse {
+  animation: none !important;
+}
+
+html.reduce-motion .loading-skeleton {
+  animation: none !important;
+  background: #334155 !important;
 }
 
 /* Print styles */

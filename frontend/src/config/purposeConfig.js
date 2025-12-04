@@ -127,6 +127,7 @@ export const purposeConfig = {
     navItems: [
       { id: 'dashboard', label: 'Business Summary', icon: '🏠' },
       { id: 'assessment', label: 'Check Business', icon: '📊' },
+      { id: 'tools', label: 'Business Tools', icon: '🧰' },
       { id: 'analysis', label: 'Business Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
       { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
@@ -134,6 +135,7 @@ export const purposeConfig = {
     headerTitles: {
       dashboard: 'Business Summary',
       assessment: 'Check Business',
+      tools: 'Business Tools',
       analysis: 'Business Insight',
       chat: 'Talk to Akↄfa',
       diagnosis: 'Fix Problem'

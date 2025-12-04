@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut } from 'lucide-react';
+import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { getNavItems, getPurposeConfig } from '../../config/purposeConfig';
 
@@ -8,7 +8,8 @@ const navIcons = {
   assessment: ClipboardList,
   analysis: Search,
   diagnosis: Wrench,
-  chat: MessageCircle
+  chat: MessageCircle,
+  tools: Briefcase
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {

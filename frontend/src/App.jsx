@@ -12,8 +12,10 @@ import Assessment from './components/Pages/Assessment';
 import Analysis from './components/Pages/Analysis';
 import Chat from './components/Pages/Chat';
 import Diagnosis from './components/Pages/Diagnosis';
+import BusinessTools from './components/Pages/BusinessTools';
 import WelcomeOverlay from './components/ui/WelcomeOverlay';
 import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
+import AccessibilitySettings from './components/ui/AccessibilitySettings';
 import './styles/globals.css';
 
 export default function App() {
@@ -201,6 +203,7 @@ export default function App() {
       case 'analysis': return <Analysis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'chat': return <Chat assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
+      case 'tools': return <BusinessTools purpose={user?.purpose} />;
       default: return <Dashboard assessmentData={assessmentData} />;
     }
   };
@@ -223,6 +226,7 @@ export default function App() {
         phoneNumber="+233000000000" 
         message="Hello! I need help with Akↄfa Fixit"
       />
+      <AccessibilitySettings />
     </div>
   );
 }
