@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../../services/auth';
-import { Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
 
 const validateEmail = (email) => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -26,7 +26,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
   const handleBlur = (field) => {
     setTouched({ ...touched, [field]: true });
     if (field === 'email' && formData.email && !validateEmail(formData.email)) {
-      setFieldErrors({ ...fieldErrors, email: 'Please enter a valid email' });
+      setFieldErrors({ ...fieldErrors, email: 'Put correct email' });
     }
   };
 
@@ -36,13 +36,13 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
     setFieldErrors({});
 
     if (!formData.email || !formData.password) {
-      if (!formData.email) setFieldErrors(prev => ({ ...prev, email: 'Email is required' }));
-      if (!formData.password) setFieldErrors(prev => ({ ...prev, password: 'Password is required' }));
+      if (!formData.email) setFieldErrors(prev => ({ ...prev, email: 'Put your email' }));
+      if (!formData.password) setFieldErrors(prev => ({ ...prev, password: 'Put your password' }));
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setFieldErrors({ email: 'Please enter a valid email address' });
+      setFieldErrors({ email: 'Put correct email address' });
       return;
     }
 
@@ -53,7 +53,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
       onLoginSuccess(user);
     } catch (err) {
       if (err.message.includes('Invalid credentials') || err.message.includes('not found')) {
-        setError('Invalid email or password. Please try again.');
+        setError('Email or password no correct. Try again.');
       } else {
         setError(err.message);
       }
@@ -66,14 +66,16 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-slate-800 rounded-2xl p-8">
         <div className="text-center mb-8">
-          <div className="text-4xl mb-4">👋</div>
-          <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-gray-400">Continue improving your stack</p>
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center">
+            <Sparkles className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold mb-2">Welcome Back!</h1>
+          <p className="text-gray-400">Good to see you again</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-2 text-gray-300">Email Address</label>
+            <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input
@@ -106,7 +108,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
                 className={`w-full pl-10 pr-12 py-3 bg-slate-700 rounded-lg border ${
                   fieldErrors.password ? 'border-red-500' : 'border-slate-600'
                 } focus:border-purple-500 outline-none transition`}
-                placeholder="Enter your password"
+                placeholder="Your password"
               />
               <button
                 type="button"
@@ -139,7 +141,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Logging in...
+                Entering...
               </span>
             ) : (
               'Login'
@@ -148,12 +150,12 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-400">
-          Don't have an account?{' '}
+          You no get account?{' '}
           <button
             onClick={onSwitchToSignup}
             className="text-purple-400 hover:text-purple-300 font-semibold transition"
           >
-            Sign Up Free
+            Create Free Account
           </button>
         </div>
       </div>

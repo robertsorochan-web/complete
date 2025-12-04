@@ -2,54 +2,54 @@ export const purposeLayerConfig = {
   personal: {
     layers: ['Body & Health', 'Inner Beliefs', 'Values & Worldview', 'Daily Life', 'Self-Awareness'],
     descriptions: [
-      'Sleep, exercise, nutrition, energy',
-      'Self-talk, confidence, trauma recovery, feeling worthy',
-      'What matters to you, your principles',
-      'Job, relationships, environment, money',
-      'Noticing what\'s happening, making conscious choices'
+      'Sleep, exercise, chop, your energy levels',
+      'What you tell yourself, confidence, inner peace',
+      'The things wey matter to you, your beliefs',
+      'Family, friends, community around you',
+      'Knowing yourself well, making wise choices'
     ],
     context: 'life areas',
-    frameworkName: 'Akorfa Stack Framework',
-    roleDescription: 'a supportive coach helping someone understand and improve their life'
+    frameworkName: 'Akↄfa Way',
+    roleDescription: 'a wise friend who understands life and helps you see things clearly. You speak simply like someone from West Africa would - warm, direct, and practical. Use everyday words, not big grammar.'
   },
   team: {
-    layers: ['Team Capacity', 'Team Culture', 'Shared Practices', 'Team Dynamics', 'Leadership Clarity'],
+    layers: ['Team Strength', 'Team Spirit', 'How We Work', 'Team Vibes', 'Clear Direction'],
     descriptions: [
-      'Skills, bandwidth, resources, capabilities',
-      'Trust, psychological safety, team values',
-      'Processes, tools, ways of working together',
-      'Communication, collaboration, conflict resolution',
-      'Vision, direction, decision-making authority'
+      'Energy, capacity, are people tired or fresh?',
+      'Trust, respect, people feel safe to talk true',
+      'Processes, tools, how una dey do things',
+      'How people relate and settle wahala',
+      'Everyone know where we dey go and why'
     ],
-    context: 'team dimensions',
-    frameworkName: 'Akorfa Team Framework',
-    roleDescription: 'a team performance consultant helping improve collaboration and effectiveness'
+    context: 'team areas',
+    frameworkName: 'Akↄfa Team Way',
+    roleDescription: 'a wise team advisor who helps teams work better together. You speak simply like someone from West Africa would - warm, direct, and practical. Use everyday words, not big grammar.'
   },
   business: {
-    layers: ['Infrastructure', 'Company Culture', 'Market Position', 'Stakeholder Network', 'Strategic Vision'],
+    layers: ['Business Foundation', 'Company Way', 'Market Position', 'Your Network', 'Vision & Strategy'],
     descriptions: [
-      'Technology, operations, resources, systems',
-      'Values, norms, how people behave',
-      'Competitive advantage, market fit, brand',
-      'Customers, partners, investors, community',
-      'Long-term goals, strategy, leadership direction'
+      'Money, equipment, technology, resources',
+      'How people behave, company values',
+      'How customers see you, your advantage',
+      'Customers, partners, investors',
+      'Where you wan reach, your big plan'
     ],
-    context: 'organizational dimensions',
-    frameworkName: 'Akorfa Business Framework',
-    roleDescription: 'a business strategist helping optimize organizational growth'
+    context: 'business areas',
+    frameworkName: 'Akↄfa Business Way',
+    roleDescription: 'a wise business advisor who helps businesses grow. You speak simply like someone from West Africa would - warm, direct, and practical. Use everyday words, not big grammar.'
   },
   policy: {
-    layers: ['Population Health', 'Institutional Norms', 'Policy Frameworks', 'Governance Systems', 'Research Insights'],
+    layers: ['People Wellbeing', 'Community Beliefs', 'Rules & Laws', 'Who Runs Things', 'What Data Shows'],
     descriptions: [
-      'Public health indicators, demographics, wellbeing metrics',
-      'Social norms, institutional practices, cultural patterns',
-      'Regulations, laws, policy instruments',
-      'Decision-making structures, accountability, coordination',
-      'Evidence base, research findings, data-driven insights'
+      'Health, welfare, how people dey generally',
+      'Community beliefs, customs and ways',
+      'Policies, regulations, how things should work',
+      'Government, chiefs, who make decisions',
+      'Research, evidence, what facts tell us'
     ],
-    context: 'system dimensions',
-    frameworkName: 'Akorfa Policy Framework',
-    roleDescription: 'a policy analyst providing evidence-based systemic recommendations'
+    context: 'system areas',
+    frameworkName: 'Akↄfa Policy Way',
+    roleDescription: 'a wise systems advisor who helps understand communities and policies. You speak simply like someone from West Africa would - warm, direct, and practical. Use everyday words, not big grammar.'
   }
 };
 

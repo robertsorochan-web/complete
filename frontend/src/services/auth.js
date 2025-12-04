@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-const STORAGE_KEY = 'akorfa_user';
-const TOKEN_KEY = 'akorfa_token';
+const STORAGE_KEY = 'akofa_user';
+const TOKEN_KEY = 'akofa_token';
 
 const apiCall = async (endpoint, options = {}) => {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -104,7 +104,7 @@ export const chatWithAkofa = async (message, assessmentData, purpose = 'personal
     return data.response;
   } catch (err) {
     console.error('Chat error:', err);
-    return 'Sorry, I couldn\'t process your message. Please try again.';
+    return 'Sorry, something happen. Try again?';
   }
 };
 
@@ -118,7 +118,7 @@ export const getDiagnosis = async (scenario, assessmentData, purpose = 'personal
   } catch (err) {
     console.error('Diagnosis error:', err);
     return {
-      summary: 'Unable to generate diagnosis. Please try again.',
+      summary: 'Something happen. Try again?',
       rootCauses: [],
       actionSteps: []
     };

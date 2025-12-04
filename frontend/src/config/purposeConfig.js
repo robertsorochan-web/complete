@@ -1,182 +1,182 @@
 export const purposeConfig = {
   personal: {
-    name: 'Personal Development',
-    description: 'Improve your own life and well-being',
+    name: 'My Life',
+    description: 'Make my life better small small',
     layers: {
       bioHardware: {
-        name: 'Bio Hardware',
-        description: 'Your physical body, health, sleep, nutrition, and energy levels',
-        icon: '🧬'
+        name: 'Body & Health',
+        description: 'Your body, sleep, chop, energy - how your body dey',
+        icon: '💪'
       },
       internalOS: {
-        name: 'Internal OS',
-        description: 'Your mindset, beliefs, emotions, and mental patterns',
+        name: 'Inner Beliefs',
+        description: 'What you dey tell yourself, your confidence, your inner peace',
         icon: '🧠'
       },
       culturalSoftware: {
-        name: 'Cultural Software',
-        description: 'Your values, habits, and cultural influences',
-        icon: '🌐'
+        name: 'Values & Worldview',
+        description: 'The things wey matter to you, your beliefs, your way of life',
+        icon: '❤️'
       },
       socialInstance: {
-        name: 'Social Instance',
-        description: 'Your relationships, social environment, and support network',
-        icon: '👥'
+        name: 'Daily Life',
+        description: 'Your family, friends, community - the people around you',
+        icon: '👨‍👩‍👧‍👦'
       },
       consciousUser: {
-        name: 'Conscious User',
-        description: 'Your self-awareness, intentional choices, and personal growth',
-        icon: '💡'
+        name: 'Self-Awareness',
+        description: 'How well you know yourself, making wise choices',
+        icon: '👁️'
       }
     },
     navItems: [
-      { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-      { id: 'assessment', label: 'Self Assessment', icon: '📊' },
-      { id: 'analysis', label: 'My Analysis', icon: '🔍' },
-      { id: 'diagnosis', label: 'Problem Solver', icon: '🔧' },
-      { id: 'chat', label: 'Akↄfa Coach', icon: '💬' }
+      { id: 'dashboard', label: 'My Summary', icon: '🏠' },
+      { id: 'assessment', label: 'Check Myself', icon: '📊' },
+      { id: 'analysis', label: 'See Clearly', icon: '🔍' },
+      { id: 'diagnosis', label: 'Solve Problem', icon: '🔧' },
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
     ],
     headerTitles: {
-      dashboard: 'My Dashboard',
-      assessment: 'Self Assessment',
-      analysis: 'Personal Analysis',
-      chat: 'Akↄfa Coach',
-      diagnosis: 'Problem Solver'
+      dashboard: 'My Summary',
+      assessment: 'Check Myself',
+      analysis: 'See Clearly',
+      chat: 'Talk to Akↄfa',
+      diagnosis: 'Solve Problem'
     }
   },
   team: {
-    name: 'Team Performance',
-    description: 'Understand and improve team dynamics',
+    name: 'My Team',
+    description: 'Make my team work better together',
     layers: {
       bioHardware: {
-        name: 'Team Capacity',
-        description: 'Team resources, workload, energy levels, and burnout risk',
+        name: 'Team Strength',
+        description: 'The energy and capacity your team get - are people tired or fresh?',
         icon: '⚡'
       },
       internalOS: {
-        name: 'Team Culture',
-        description: 'Shared beliefs, psychological safety, and team mindset',
-        icon: '🎯'
+        name: 'Team Spirit',
+        description: 'Trust, respect, how people feel safe to talk true',
+        icon: '🤝'
       },
       culturalSoftware: {
-        name: 'Shared Practices',
-        description: 'Team rituals, processes, communication patterns, and norms',
+        name: 'How We Work',
+        description: 'The way una dey do things, your processes and habits',
         icon: '📋'
       },
       socialInstance: {
-        name: 'Team Dynamics',
-        description: 'Collaboration, conflict resolution, and interpersonal relationships',
-        icon: '🤝'
+        name: 'Team Vibes',
+        description: 'How people relate, settle wahala, work together',
+        icon: '👥'
       },
       consciousUser: {
-        name: 'Leadership Clarity',
-        description: 'Vision alignment, decision-making, and strategic awareness',
+        name: 'Clear Direction',
+        description: 'Everyone know where we dey go and why',
         icon: '🧭'
       }
     },
     navItems: [
-      { id: 'dashboard', label: 'Team Dashboard', icon: '🏠' },
-      { id: 'assessment', label: 'Team Assessment', icon: '📊' },
-      { id: 'analysis', label: 'Team Analysis', icon: '🔍' },
-      { id: 'diagnosis', label: 'Issue Diagnosis', icon: '🔧' },
-      { id: 'chat', label: 'Akↄfa Coach', icon: '💬' }
+      { id: 'dashboard', label: 'Team Summary', icon: '🏠' },
+      { id: 'assessment', label: 'Check Team', icon: '📊' },
+      { id: 'analysis', label: 'Team Insight', icon: '🔍' },
+      { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
     ],
     headerTitles: {
-      dashboard: 'Team Dashboard',
-      assessment: 'Team Assessment',
-      analysis: 'Team Analysis',
-      chat: 'Akↄfa Coach',
-      diagnosis: 'Issue Diagnosis'
+      dashboard: 'Team Summary',
+      assessment: 'Check Team',
+      analysis: 'Team Insight',
+      chat: 'Talk to Akↄfa',
+      diagnosis: 'Fix Problem'
     }
   },
   business: {
-    name: 'Business Growth',
-    description: 'Optimize organizational performance',
+    name: 'My Business',
+    description: 'Grow my business proper',
     layers: {
       bioHardware: {
-        name: 'Infrastructure',
-        description: 'Physical resources, technology, capital, and operational capacity',
+        name: 'Business Foundation',
+        description: 'Money, equipment, technology, resources wey you get',
         icon: '🏗️'
       },
       internalOS: {
-        name: 'Company Culture',
-        description: 'Organizational values, beliefs, and internal narratives',
-        icon: '🎭'
+        name: 'Company Way',
+        description: 'How people behave, the values wey guide your company',
+        icon: '🎯'
       },
       culturalSoftware: {
         name: 'Market Position',
-        description: 'Brand identity, competitive advantages, and market perception',
+        description: 'How customers see you, your brand, your advantage',
         icon: '📈'
       },
       socialInstance: {
-        name: 'Stakeholder Network',
-        description: 'Customer relationships, partnerships, and ecosystem connections',
+        name: 'Your Network',
+        description: 'Customers, partners, investors - people wey matter',
         icon: '🌐'
       },
       consciousUser: {
-        name: 'Strategic Vision',
-        description: 'Leadership clarity, long-term planning, and adaptive capacity',
+        name: 'Vision & Strategy',
+        description: 'Where you wan reach, your big picture plan',
         icon: '🔭'
       }
     },
     navItems: [
-      { id: 'dashboard', label: 'Business Dashboard', icon: '🏠' },
-      { id: 'assessment', label: 'Org Assessment', icon: '📊' },
-      { id: 'analysis', label: 'Business Analysis', icon: '🔍' },
-      { id: 'diagnosis', label: 'Problem Diagnosis', icon: '🔧' },
-      { id: 'chat', label: 'Akↄfa Coach', icon: '💬' }
+      { id: 'dashboard', label: 'Business Summary', icon: '🏠' },
+      { id: 'assessment', label: 'Check Business', icon: '📊' },
+      { id: 'analysis', label: 'Business Insight', icon: '🔍' },
+      { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
     ],
     headerTitles: {
-      dashboard: 'Business Dashboard',
-      assessment: 'Organization Assessment',
-      analysis: 'Business Analysis',
-      chat: 'Akↄfa Coach',
-      diagnosis: 'Problem Diagnosis'
+      dashboard: 'Business Summary',
+      assessment: 'Check Business',
+      analysis: 'Business Insight',
+      chat: 'Talk to Akↄfa',
+      diagnosis: 'Fix Problem'
     }
   },
   policy: {
-    name: 'Policy & Research',
-    description: 'Study systems and create solutions',
+    name: 'Community & Policy',
+    description: 'Understand systems and help communities',
     layers: {
       bioHardware: {
-        name: 'Population Health',
-        description: 'Public health metrics, demographics, and physical wellbeing indicators',
+        name: 'People Wellbeing',
+        description: 'Health, welfare, how people dey generally',
         icon: '🏥'
       },
       internalOS: {
-        name: 'Institutional Norms',
-        description: 'Collective beliefs, social narratives, and cultural attitudes',
+        name: 'Community Beliefs',
+        description: 'What the community believe, their customs and ways',
         icon: '🏛️'
       },
       culturalSoftware: {
-        name: 'Policy Frameworks',
-        description: 'Laws, regulations, incentive structures, and governance systems',
+        name: 'Rules & Laws',
+        description: 'The policies, regulations, how things suppose work',
         icon: '📜'
       },
       socialInstance: {
-        name: 'Governance Systems',
-        description: 'Institutions, power structures, and stakeholder relationships',
+        name: 'Who Runs Things',
+        description: 'Government, chiefs, leaders - who make decisions',
         icon: '⚖️'
       },
       consciousUser: {
-        name: 'Research Insights',
-        description: 'Evidence-based understanding, data analysis, and systemic awareness',
+        name: 'What Data Shows',
+        description: 'Research, evidence, what the facts dey tell us',
         icon: '🔬'
       }
     },
     navItems: [
-      { id: 'dashboard', label: 'Research Dashboard', icon: '🏠' },
-      { id: 'assessment', label: 'System Assessment', icon: '📊' },
-      { id: 'analysis', label: 'Policy Analysis', icon: '🔍' },
-      { id: 'diagnosis', label: 'Issue Analysis', icon: '🔧' },
-      { id: 'chat', label: 'Akↄfa Coach', icon: '💬' }
+      { id: 'dashboard', label: 'System Summary', icon: '🏠' },
+      { id: 'assessment', label: 'Check System', icon: '📊' },
+      { id: 'analysis', label: 'System Insight', icon: '🔍' },
+      { id: 'diagnosis', label: 'Find Solutions', icon: '🔧' },
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
     ],
     headerTitles: {
-      dashboard: 'Research Dashboard',
-      assessment: 'System Assessment',
-      analysis: 'Policy Analysis',
-      chat: 'Akↄfa Coach',
-      diagnosis: 'Issue Analysis'
+      dashboard: 'System Summary',
+      assessment: 'Check System',
+      analysis: 'System Insight',
+      chat: 'Talk to Akↄfa',
+      diagnosis: 'Find Solutions'
     }
   }
 };
@@ -197,5 +197,5 @@ export const getNavItems = (purpose) => {
 
 export const getHeaderTitle = (purpose, page) => {
   const config = getPurposeConfig(purpose);
-  return config.headerTitles[page] || 'Dashboard';
+  return config.headerTitles[page] || 'Summary';
 };

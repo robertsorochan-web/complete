@@ -1,11 +1,20 @@
-# Akorfa Fixit - Project Documentation
+# Akↄfa Fixit - Project Documentation
 
 ## Overview
-Akorfa Fixit is a purpose-aware assessment and coaching application that helps users understand and improve across 5 interconnected dimensions. The app supports 4 different contexts:
-- **Personal**: Individual life improvement (Body & Health, Inner Beliefs, Values & Worldview, Daily Life, Self-Awareness)
-- **Team**: Team performance consulting (Team Capacity, Team Culture, Shared Practices, Team Dynamics, Leadership Clarity)
-- **Business**: Organizational optimization (Infrastructure, Company Culture, Market Position, Stakeholder Network, Strategic Vision)
-- **Policy**: System-level analysis (Population Health, Institutional Norms, Policy Frameworks, Governance Systems, Research Insights)
+Akↄfa Fixit is a problem-solving app wey help users find the root cause of their problems across 5 life areas. The app uses West African everyday language to make things simple and clear - no jargon, no tech speak.
+
+The 5 Life Areas:
+- **Body & Health** - Your physical wellbeing, energy, sleep, exercise
+- **Inner Beliefs** - What you believe about yourself, your fears and confidence
+- **Values & Worldview** - Your culture, upbringing, and how you see the world
+- **Daily Life** - Your relationships, job, money, and everyday responsibilities
+- **Self-Awareness** - How well you understand yourself and can make decisions
+
+## App Purpose by Context
+- **Personal**: Individual life improvement
+- **Team**: Team performance consulting
+- **Business**: Organizational optimization
+- **Policy**: System-level analysis
 
 ## Project Structure
 
@@ -51,8 +60,8 @@ Akorfa Fixit is a purpose-aware assessment and coaching application that helps u
 ### Protected Routes (require JWT)
 - `GET /api/assessments` - Get user's assessment data
 - `POST /api/assessments` - Update user's assessment
-- `POST /api/ai/chat` - Chat with AI coach (purpose-aware)
-- `POST /api/ai/diagnosis` - Get AI diagnosis for a scenario
+- `POST /api/ai/chat` - Chat with Akↄfa (purpose-aware)
+- `POST /api/ai/diagnosis` - Get diagnosis for a scenario
 - `POST /api/ai/insights` - Get personalized insights
 
 ## Database Schema
@@ -78,31 +87,30 @@ Akorfa Fixit is a purpose-aware assessment and coaching application that helps u
 - Backend runs on port 3000
 - Frontend runs on port 5000 (with Vite proxy to backend)
 
+## User Preferences
+- West African pidgin English for all user-facing text
+- No technical jargon - use everyday language
+- Akↄfa branding (with ↄ character) throughout
+
 ## Recent Changes (Dec 2024)
-- Restructured codebase into separate frontend/ and backend/ directories
-- Configured for deployment: Netlify (frontend), Render (backend), Supabase/Neon (database)
-- Added production-ready CORS configuration
-- Added render.yaml for Render deployment
-- Updated netlify.toml for Netlify deployment
-- Added .env.example files for both frontend and backend
-- Added comprehensive deployment documentation in README.md
-- Updated AI model from deprecated mixtral-8x7b-32768 to llama-3.3-70b-versatile
-- Added favicon and site metadata
-- Added "How It Works" section to homepage
-- Added social proof section with stats and testimonials
-- Added functional contact form with backend endpoint (/api/contact)
-- Integrated Google Analytics with custom tracking utility
-- Added result sharing feature with social media integration (Twitter, LinkedIn, Email)
-- Fixed analytics to track both public and authenticated pages
-- Enhanced signup form with real-time email validation (format + uniqueness check)
-- Added password visibility toggle and strength indicators
-- Created engaging onboarding flow with quick 5-question assessment
-- New users get immediate personalized insights after signup ("aha moment" experience)
-- Fixed async/await bugs in authentication flow for purpose persistence
+- Replaced all "Akorfa/AI" branding with "Akↄfa"
+- Rewrote all UI text to use West African pidgin English
+- Converted technical framework terms to everyday language:
+  - Bio Hardware → Body & Health
+  - Internal OS → Inner Beliefs
+  - Cultural Software → Values & Worldview
+  - Social Instance → Daily Life
+  - Conscious User → Self-Awareness
+- Updated homepage with compelling messaging ("Stop Chasing Symptoms. Fix The Real Problem.")
+- Added pidgin expressions: "You dey try different things but nothing dey work?"
+- Updated Chat, Diagnosis, and Dashboard pages with West African language
+- Updated backend config and AI prompts with new terminology
+- Added retention features: daily check-ins, progress tracking
+- Updated error messages to use everyday language
 
 ## User Experience Flow
 1. User signs up with email, password, name, and purpose selection
 2. After signup, taken to 5-question quick assessment (one per layer)
-3. Assessment generates personalized insights showing strengths and bottlenecks
+3. Assessment generates personalized insights showing strengths and weak areas
 4. User lands on dashboard with their initial assessment saved
-5. Can refine assessment, chat with AI coach, or get diagnosis for specific problems
+5. Can refine assessment, talk to Akↄfa, or get diagnosis for specific problems

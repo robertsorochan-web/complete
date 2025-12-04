@@ -117,7 +117,7 @@ router.post('/diagnosis', async (req, res) => {
     const layerScores = config.layers.map((name, i) => `- ${name}: ${scores[i]}`).join('\n');
     const layerExplanations = config.layers.map((name, i) => `- ${name}: ${config.descriptions[i]}`).join('\n');
 
-    const systemPrompt = `You are ${config.roleDescription} using the Akorfa Stack Framework. When someone describes a problem, you:
+    const systemPrompt = `You are ${config.roleDescription} using the Akↄfa Way. When someone describes a problem, you:
 1. Identify which of the 5 ${config.context} are contributing to it
 2. Show how they interact and make the problem worse
 3. Provide 4-5 specific, concrete action steps to fix it

@@ -3,17 +3,17 @@ import { signup } from '../../services/auth';
 import { ChevronRight, Mail, Lock, User, AlertCircle, Check } from 'lucide-react';
 
 const purposes = [
-  { id: 'personal', label: 'Personal Development', icon: '💡', desc: 'Improve my own life and well-being', color: 'from-purple-500 to-pink-500' },
-  { id: 'team', label: 'Team Performance', icon: '👥', desc: 'Understand and improve team dynamics', color: 'from-blue-500 to-cyan-500' },
-  { id: 'business', label: 'Business Growth', icon: '🎯', desc: 'Optimize organizational performance', color: 'from-orange-500 to-yellow-500' },
-  { id: 'policy', label: 'Policy & Research', icon: '📊', desc: 'Study systems and create solutions', color: 'from-green-500 to-emerald-500' },
+  { id: 'personal', label: 'My Life', icon: '🌟', desc: 'I wan make my life better', color: 'from-purple-500 to-pink-500' },
+  { id: 'team', label: 'My Team', icon: '👥', desc: 'I wan help my team work better', color: 'from-blue-500 to-cyan-500' },
+  { id: 'business', label: 'My Business', icon: '📈', desc: 'I wan grow my business', color: 'from-orange-500 to-yellow-500' },
+  { id: 'policy', label: 'Community', icon: '🏛️', desc: 'I wan help my community', color: 'from-green-500 to-emerald-500' },
 ];
 
 const validateEmail = (email) => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   if (!email) return { valid: false, message: '' };
-  if (!emailRegex.test(email)) return { valid: false, message: 'Please enter a valid email address' };
-  if (!email.includes('.') || email.endsWith('.')) return { valid: false, message: 'Email must have a valid domain' };
+  if (!emailRegex.test(email)) return { valid: false, message: 'Enter correct email address' };
+  if (!email.includes('.') || email.endsWith('.')) return { valid: false, message: 'Email must get proper ending' };
   return { valid: true, message: '' };
 };
 
@@ -36,9 +36,9 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
     switch (field) {
       case 'name':
         if (!value.trim()) {
-          errors.name = 'Name is required';
+          errors.name = 'Put your name';
         } else if (value.trim().length < 2) {
-          errors.name = 'Name must be at least 2 characters';
+          errors.name = 'Name too short';
         } else {
           delete errors.name;
         }
@@ -48,18 +48,18 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
         if (!emailCheck.valid && value) {
           errors.email = emailCheck.message;
         } else if (!value) {
-          errors.email = 'Email is required';
+          errors.email = 'Put your email';
         } else {
           delete errors.email;
         }
         break;
       case 'password':
         if (!value) {
-          errors.password = 'Password is required';
+          errors.password = 'Create password';
         } else if (value.length < 6) {
-          errors.password = 'Password must be at least 6 characters';
+          errors.password = 'Password too short (6+ letters)';
         } else if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
-          errors.password = 'Password should contain letters and numbers';
+          errors.password = 'Add letters and numbers';
         } else {
           delete errors.password;
         }
@@ -109,7 +109,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
       onSignupSuccess(user);
     } catch (err) {
       if (err.message.includes('already registered') || err.message.includes('already exists')) {
-        setFieldErrors({ ...fieldErrors, email: 'This email is already registered. Try logging in.' });
+        setFieldErrors({ ...fieldErrors, email: 'This email don register before. Try login.' });
       } else {
         setError(err.message);
       }
@@ -127,8 +127,8 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
           <div className="bg-slate-800 rounded-2xl p-8">
             <div className="text-center mb-8">
               <div className="text-4xl mb-4">✨</div>
-              <h1 className="text-3xl font-bold mb-2">Welcome to Akorfa</h1>
-              <p className="text-gray-400">First, tell us what you're looking to improve</p>
+              <h1 className="text-3xl font-bold mb-2">Welcome to Akↄfa</h1>
+              <p className="text-gray-400">Wetin you wan improve?</p>
             </div>
 
             <div className="space-y-3">
@@ -155,7 +155,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
             </div>
 
             <div className="mt-8 text-center text-sm text-gray-400">
-              Already have an account?{' '}
+              You get account already?{' '}
               <button
                 onClick={onSwitchToLogin}
                 className="text-purple-400 hover:text-purple-300 font-semibold transition"
@@ -172,7 +172,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               className="flex items-center gap-2 text-gray-400 hover:text-white transition mb-6"
             >
               <ChevronRight className="w-4 h-4 rotate-180" />
-              <span className="text-sm">Change purpose</span>
+              <span className="text-sm">Change choice</span>
             </button>
 
             <div className="flex items-center gap-3 mb-6 p-3 bg-slate-700 rounded-xl">
@@ -185,11 +185,11 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold mb-6">Create your account</h2>
+            <h2 className="text-2xl font-bold mb-6">Create Your Account</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Full Name</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">Your Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
@@ -201,7 +201,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                       fieldErrors.name && touched.name ? 'border-red-500' : 
                       touched.name && !fieldErrors.name && formData.name ? 'border-green-500' : 'border-slate-600'
                     } focus:border-purple-500 outline-none transition`}
-                    placeholder="Your full name"
+                    placeholder="Wetin dem dey call you?"
                   />
                   {touched.name && !fieldErrors.name && formData.name && (
                     <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
@@ -216,7 +216,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Email Address</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
@@ -255,7 +255,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                       fieldErrors.password && touched.password ? 'border-red-500' : 
                       touched.password && !fieldErrors.password && formData.password ? 'border-green-500' : 'border-slate-600'
                     } focus:border-purple-500 outline-none transition`}
-                    placeholder="Min. 6 characters with letters & numbers"
+                    placeholder="6+ letters and numbers"
                   />
                   {touched.password && !fieldErrors.password && formData.password && (
                     <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
@@ -284,16 +284,16 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Creating Account...
+                    Creating...
                   </span>
                 ) : (
-                  'Create Account & Get Started'
+                  'Start Now - Free'
                 )}
               </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-gray-400">
-              Already have an account?{' '}
+              You get account already?{' '}
               <button
                 onClick={onSwitchToLogin}
                 className="text-purple-400 hover:text-purple-300 font-semibold transition"

@@ -42,7 +42,7 @@ app.get('/health', (req, res) => {
 
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Akorfa Fixit API', 
+    message: 'Akↄfa Fixit API', 
     version: '1.0.0',
     endpoints: {
       health: '/health',
@@ -86,7 +86,7 @@ const startServer = async () => {
     console.log('Database initialized');
     
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Akorfa Backend running on port ${PORT}`);
+      console.log(`Akↄfa Backend running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (err) {

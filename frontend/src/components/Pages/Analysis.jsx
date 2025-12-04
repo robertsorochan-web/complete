@@ -73,7 +73,7 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       focusLabel: 'Priority Intervention Area',
       focusDesc: 'The system\'s weakest dimension right now',
       detailedTitle: 'System\'s 5 Dimensions (Detailed)',
-      tip: 'System dimensions interact in complex ways. Evidence-based interventions should consider spillover effects.'
+      tip: 'System areas dey connect in many ways. When you fix one area, e fit affect others - so think about the whole picture.'
     }
   };
 

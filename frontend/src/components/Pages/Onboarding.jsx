@@ -13,20 +13,20 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
 
   const contextConfig = {
     personal: {
-      title: "Let's understand your life",
-      subtitle: "Rate these 5 areas to discover what's holding you back"
+      title: "Make we understand your life",
+      subtitle: "Rate these 5 areas - be honest, no shame"
     },
     team: {
-      title: "Let's assess your team",
-      subtitle: "Rate these 5 dimensions to identify team dynamics"
+      title: "Make we check your team",
+      subtitle: "Rate these 5 areas to see where team need help"
     },
     business: {
-      title: "Let's assess your business",
-      subtitle: "Rate these 5 dimensions to identify growth opportunities"
+      title: "Make we check your business",
+      subtitle: "Rate these 5 areas to find growth opportunities"
     },
     policy: {
-      title: "Let's assess the system",
-      subtitle: "Rate these 5 dimensions to identify intervention points"
+      title: "Make we check the system",
+      subtitle: "Rate these 5 areas to find where to intervene"
     }
   };
 
@@ -34,7 +34,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
 
   const questions = layerKeys.map((key, idx) => ({
     key,
-    layerName: layers[key]?.name || `Layer ${idx + 1}`,
+    layerName: layers[key]?.name || `Area ${idx + 1}`,
     description: layers[key]?.description || '',
     icon: layers[key]?.icon || '📊'
   }));
@@ -65,23 +65,23 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
 
     const headlines = {
       personal: lowestScore <= 4 
-        ? `Your ${lowestLayerName} is holding you back`
-        : `You're doing well, but ${lowestLayerName} could unlock more`,
+        ? `Your ${lowestLayerName} dey hold you back`
+        : `You dey try, but ${lowestLayerName} fit unlock more`,
       team: lowestScore <= 4 
-        ? `Your team's ${lowestLayerName} needs urgent attention`
-        : `Your team has potential in ${lowestLayerName}`,
+        ? `Your team ${lowestLayerName} need urgent work`
+        : `Team get potential for ${lowestLayerName}`,
       business: lowestScore <= 4 
-        ? `${lowestLayerName} is your growth blocker`
-        : `Unlock growth through ${lowestLayerName}`,
+        ? `${lowestLayerName} dey block your growth`
+        : `Improve ${lowestLayerName} to unlock growth`,
       policy: lowestScore <= 4 
-        ? `${lowestLayerName} requires intervention`
-        : `${lowestLayerName} presents opportunities`
+        ? `${lowestLayerName} need intervention`
+        : `${lowestLayerName} get opportunity`
     };
 
     setInsight({
       headline: headlines[purpose] || headlines.personal,
-      detail: `While your ${highestLayerName} (${highestScore}/10) is strong, your ${lowestLayerName} (${lowestScore}/10) is creating a bottleneck. When one area is low, it drags down the others.`,
-      action: `Focus on improving your ${lowestLayerName} first. This will create a ripple effect that lifts everything else.`,
+      detail: `Your ${highestLayerName} (${highestScore}/10) dey strong, but your ${lowestLayerName} (${lowestScore}/10) dey create wahala. When one area low, e dey pull the others down.`,
+      action: `Focus on improving your ${lowestLayerName} first. E go create change wey go lift everything else.`,
       avgScore: avgScore.toFixed(1),
       lowestLayer: lowestLayerName,
       highestLayer: highestLayerName,
@@ -103,11 +103,11 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
   };
 
   const ratingOptions = [
-    { value: 1, label: 'Very Low', color: 'bg-red-500' },
-    { value: 3, label: 'Low', color: 'bg-orange-500' },
-    { value: 5, label: 'Average', color: 'bg-yellow-500' },
-    { value: 7, label: 'Good', color: 'bg-blue-500' },
-    { value: 9, label: 'Excellent', color: 'bg-green-500' }
+    { value: 1, label: 'Bad', color: 'bg-red-500', emoji: '😰' },
+    { value: 3, label: 'Low', color: 'bg-orange-500', emoji: '😔' },
+    { value: 5, label: 'Okay', color: 'bg-yellow-500', emoji: '😐' },
+    { value: 7, label: 'Good', color: 'bg-blue-500', emoji: '😊' },
+    { value: 9, label: 'Great', color: 'bg-green-500', emoji: '🔥' }
   ];
 
   if (showResult && insight) {
@@ -118,7 +118,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-full text-purple-300 text-sm mb-4">
                 <Sparkles className="w-4 h-4" />
-                Your Quick Assessment Results
+                Your Results Don Ready!
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">
                 {insight.headline}
@@ -131,7 +131,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-slate-800/50 rounded-xl p-4 text-center">
                 <div className="text-3xl font-bold text-purple-400">{insight.avgScore}</div>
-                <div className="text-xs text-gray-400">Overall Score</div>
+                <div className="text-xs text-gray-400">Overall</div>
               </div>
               <div className="bg-green-900/30 rounded-xl p-4 text-center border border-green-500/30">
                 <div className="text-3xl font-bold text-green-400">{insight.highestScore}</div>
@@ -139,7 +139,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
               </div>
               <div className="bg-red-900/30 rounded-xl p-4 text-center border border-red-500/30">
                 <div className="text-3xl font-bold text-red-400">{insight.lowestScore}</div>
-                <div className="text-xs text-gray-400">Needs Work</div>
+                <div className="text-xs text-gray-400">Fix This First</div>
               </div>
             </div>
 
@@ -149,7 +149,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
                   <Target className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-white mb-1">Your First Step</div>
+                  <div className="font-semibold text-white mb-1">Wetin You Fit Do Now</div>
                   <p className="text-gray-300 text-sm">{insight.action}</p>
                 </div>
               </div>
@@ -159,8 +159,8 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
               <div className="flex items-center gap-3">
                 <Zap className="w-6 h-6 text-yellow-400" />
                 <div className="text-sm">
-                  <span className="text-yellow-400 font-semibold">Pro tip:</span>
-                  <span className="text-gray-300"> Improving your lowest area often creates a domino effect that boosts everything else.</span>
+                  <span className="text-yellow-400 font-semibold">Wisdom:</span>
+                  <span className="text-gray-300"> When you fix the weakest area, everything else go improve. Na domino effect.</span>
                 </div>
               </div>
             </div>
@@ -169,12 +169,12 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
               onClick={handleComplete}
               className="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-xl font-semibold text-white transition flex items-center justify-center gap-2"
             >
-              <span>Go to My Dashboard</span>
+              <span>Go to My Summary</span>
               <ChevronRight className="w-5 h-5" />
             </button>
 
             <p className="text-center text-gray-500 text-xs mt-4">
-              You can always refine your assessment later in the Assessment tab
+              You fit update your scores anytime for the Check Myself section
             </p>
           </div>
         </div>
@@ -189,7 +189,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-full text-purple-300 text-sm mb-4">
               <TrendingUp className="w-4 h-4" />
-              Quick Assessment
+              Quick Check - 2 Minutes
             </div>
             <h1 className="text-2xl font-bold mb-2">{config.title}</h1>
             <p className="text-gray-400">{config.subtitle}</p>
@@ -207,7 +207,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
               ))}
             </div>
             <div className="text-sm text-gray-400 text-center">
-              Question {step + 1} of {questions.length}
+              {step + 1} of {questions.length}
             </div>
           </div>
 
@@ -225,7 +225,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             </div>
             
             <p className="text-center text-gray-300 mb-6">
-              How would you rate this area right now?
+              How this area dey for you right now?
             </p>
 
             <div className="grid grid-cols-5 gap-2">
@@ -235,8 +235,8 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
                   onClick={() => handleAnswer(option.value)}
                   className="flex flex-col items-center p-3 rounded-xl bg-slate-700 hover:bg-slate-600 border-2 border-slate-600 hover:border-purple-500 transition-all group"
                 >
-                  <div className={`w-8 h-8 rounded-full ${option.color} flex items-center justify-center text-white font-bold text-sm mb-1`}>
-                    {option.value}
+                  <div className="text-2xl mb-1">
+                    {option.emoji}
                   </div>
                   <span className="text-xs text-gray-400 group-hover:text-white transition">
                     {option.label}
@@ -246,7 +246,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             </div>
 
             <p className="text-center text-xs text-gray-500 mt-4">
-              1 = Very Low, 9 = Excellent
+              Be honest - no shame. Na for your good.
             </p>
           </div>
         </div>

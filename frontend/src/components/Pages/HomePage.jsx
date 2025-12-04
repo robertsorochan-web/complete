@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap, CheckCircle, ArrowRight, Mail, MessageSquare, Star, Send } from 'lucide-react';
+import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2, Zap, CheckCircle, ArrowRight, Mail, MessageSquare, Star, Send, Calendar, Trophy, Clock } from 'lucide-react';
 
 const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
@@ -54,7 +54,7 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
             onClick={onNavigateToSignup}
             className="px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium transition"
           >
-            Sign Up
+            Start Free
           </button>
         </div>
       </nav>
@@ -65,56 +65,64 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
           <Sparkles className="w-12 h-12 text-purple-400" />
         </div>
         <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-          Understand Any System. Fix Any Problem.
+          Stop Chasing Symptoms.<br />Fix The Real Problem.
         </h1>
         <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-          Whether you're improving yourself, managing a team, scaling a business, or making policy—complex systems work the same way. The Akorfa Stack Framework diagnoses what's actually broken and gives you concrete steps to fix it.
+          You dey try different things but nothing dey work? Akↄfa shows you exactly what dey hold you back - whether na your life, your team, or your business. No more guessing. Real answers. Real change.
         </p>
-        <button 
-          onClick={onNavigateToSignup}
-          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg font-semibold text-lg transition transform hover:scale-105"
-        >
-          Get Started Free
-        </button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button 
+            onClick={onNavigateToSignup}
+            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg font-semibold text-lg transition transform hover:scale-105"
+          >
+            Start Free - Takes 2 Minutes
+          </button>
+          <button 
+            onClick={onNavigateToLogin}
+            className="px-8 py-4 border border-purple-500 hover:bg-purple-500/20 rounded-lg font-semibold text-lg transition"
+          >
+            I Get Account Already
+          </button>
+        </div>
       </section>
 
-      {/* Social Proof Stats */}
+      {/* The Problem Section */}
       <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
-            <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">2,500+</div>
-            <div className="text-gray-400 text-sm">Active Users</div>
-          </div>
-          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
-            <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">10,000+</div>
-            <div className="text-gray-400 text-sm">Assessments Completed</div>
-          </div>
-          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
-            <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">87%</div>
-            <div className="text-gray-400 text-sm">Report Improvement</div>
-          </div>
-          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
-            <div className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">4.8</div>
-            <div className="text-gray-400 text-sm flex items-center justify-center gap-1">
-              <Star className="w-4 h-4 fill-yellow-400" /> Rating
+        <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-4 text-center text-red-300">Sound Familiar?</h2>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="p-4">
+              <div className="text-4xl mb-3">😩</div>
+              <p className="text-gray-300">"I dey try everything but nothing dey change"</p>
+            </div>
+            <div className="p-4">
+              <div className="text-4xl mb-3">🔄</div>
+              <p className="text-gray-300">"Same problem dey come back every time"</p>
+            </div>
+            <div className="p-4">
+              <div className="text-4xl mb-3">😕</div>
+              <p className="text-gray-300">"I no know where to even start"</p>
             </div>
           </div>
+          <p className="text-center text-gray-400 mt-6">
+            This happen because you dey treat symptoms, not the root cause. Akↄfa go show you the real wahala.
+          </p>
         </div>
       </section>
 
       {/* How It Works */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-4 text-center">How It Works</h2>
-        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">Get clarity on your real problems in just 3 simple steps</p>
+        <h2 className="text-3xl font-bold mb-4 text-center">How Akↄfa Work</h2>
+        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">Simple steps to finally understand wetin dey happen</p>
         
         <div className="grid md:grid-cols-3 gap-8">
           <div className="relative">
             <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
               <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">1</div>
-              <h3 className="text-xl font-semibold mb-3">Take the Assessment</h3>
-              <p className="text-gray-400">Rate yourself across 5 core dimensions. Takes less than 5 minutes.</p>
+              <h3 className="text-xl font-semibold mb-3">Answer Simple Questions</h3>
+              <p className="text-gray-400">Just rate 5 areas of your life honestly. No long form. 2 minutes max.</p>
               <div className="mt-4 text-sm text-purple-400 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" /> Quick & Easy
+                <Clock className="w-4 h-4" /> 2 Minutes Only
               </div>
             </div>
             <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
@@ -125,10 +133,10 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
           <div className="relative">
             <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">2</div>
-              <h3 className="text-xl font-semibold mb-3">Get Your Diagnosis</h3>
-              <p className="text-gray-400">AI analyzes your results and identifies root causes, not just symptoms.</p>
+              <h3 className="text-xl font-semibold mb-3">See The Real Problem</h3>
+              <p className="text-gray-400">Akↄfa go analyze your answers and show you exactly wetin dey hold you back.</p>
               <div className="mt-4 text-sm text-blue-400 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" /> AI-Powered Insights
+                <Target className="w-4 h-4" /> Find Root Cause
               </div>
             </div>
             <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
@@ -139,110 +147,199 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
           <div>
             <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 h-full">
               <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">3</div>
-              <h3 className="text-xl font-semibold mb-3">Take Action</h3>
-              <p className="text-gray-400">Get a prioritized action plan and chat with your AI coach for guidance.</p>
+              <h3 className="text-xl font-semibold mb-3">Get Clear Steps</h3>
+              <p className="text-gray-400">Receive practical things you fit do today - not theory. Real action steps.</p>
               <div className="mt-4 text-sm text-green-400 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" /> Actionable Steps
+                <CheckCircle className="w-4 h-4" /> Start Today
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="max-w-7xl mx-auto px-6 py-16 bg-gradient-to-r from-purple-900 to-blue-900 rounded-2xl my-12 border border-purple-700">
-        <h2 className="text-3xl font-bold mb-6 text-center">Our Mission</h2>
-        <p className="text-lg text-gray-100 leading-relaxed max-w-4xl mx-auto text-center">
-          Most problem-solving fails because people focus on symptoms, not causes. They treat single layers without understanding how everything connects. We built Akorfa to change that—to help people, teams, and organizations see the whole picture, identify root causes, and fix what actually matters.
+      {/* What Makes Akↄfa Different */}
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-2xl my-12 border border-purple-700">
+        <h2 className="text-3xl font-bold mb-8 text-center">Why Akↄfa Different</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">❌</span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Other Apps</h3>
+                <p className="text-gray-400">Give you general advice wey no fit your situation. One-size-fits-all tips wey everybody don hear before.</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">❌</span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Quick Fixes</h3>
+                <p className="text-gray-400">Make you feel good for small time, then same problem come back again.</p>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-6">
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">✅</span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Akↄfa</h3>
+                <p className="text-gray-400">Analyze YOUR specific situation and show you YOUR specific problem - personalized for you.</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">✅</span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Root Cause Fix</h3>
+                <p className="text-gray-400">Find the REAL problem - fix am once, everything else go follow. No more band-aid solutions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The 5 Areas */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold mb-4 text-center">The 5 Things Wey Affect Everything</h2>
+        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">Whether na you personally, your team, or your business - these 5 areas dey always connected</p>
+        <div className="grid md:grid-cols-5 gap-4">
+          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700 text-center">
+            <div className="text-4xl mb-3">💪</div>
+            <h3 className="text-lg font-semibold mb-2">Body/Foundation</h3>
+            <p className="text-gray-400 text-sm">Your physical energy and resources</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700 text-center">
+            <div className="text-4xl mb-3">🧠</div>
+            <h3 className="text-lg font-semibold mb-2">Mind/Beliefs</h3>
+            <p className="text-gray-400 text-sm">What you believe and tell yourself</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700 text-center">
+            <div className="text-4xl mb-3">❤️</div>
+            <h3 className="text-lg font-semibold mb-2">Values/Culture</h3>
+            <p className="text-gray-400 text-sm">What matters most to you</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700 text-center">
+            <div className="text-4xl mb-3">👨‍👩‍👧‍👦</div>
+            <h3 className="text-lg font-semibold mb-2">People/Network</h3>
+            <p className="text-gray-400 text-sm">The people around you</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700 text-center">
+            <div className="text-4xl mb-3">👁️</div>
+            <h3 className="text-lg font-semibold mb-2">Awareness</h3>
+            <p className="text-gray-400 text-sm">How clearly you see things</p>
+          </div>
+        </div>
+        <p className="text-center text-gray-500 mt-8 text-sm">
+          When one area weak, e dey pull everything down. Akↄfa help you find which one to fix first.
         </p>
       </section>
 
-      {/* The Framework Applies Everywhere */}
+      {/* Daily Check-in Feature */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">One Framework. Infinite Applications.</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">🧬</div>
-            <h3 className="text-lg font-semibold mb-2">Body & Health</h3>
-            <p className="text-gray-400 text-sm">Sleep, exercise, nutrition, energy. Foundation of everything.</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">⚙️</div>
-            <h3 className="text-lg font-semibold mb-2">Inner Systems</h3>
-            <p className="text-gray-400 text-sm">Psychology, culture, beliefs. What drives behavior (individual or organizational).</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">🌐</div>
-            <h3 className="text-lg font-semibold mb-2">Values & Vision</h3>
-            <p className="text-gray-400 text-sm">What actually matters. The north star that guides decisions.</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">👥</div>
-            <h3 className="text-lg font-semibold mb-2">Operations</h3>
-            <p className="text-gray-400 text-sm">Daily execution. Where values become reality (or get lost).</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">💡</div>
-            <h3 className="text-lg font-semibold mb-2">Awareness</h3>
-            <p className="text-gray-400 text-sm">Can you see what's happening? Can you intentionally change it?</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition border border-slate-700">
-            <div className="text-3xl mb-3">🔗</div>
-            <h3 className="text-lg font-semibold mb-2">The Connections</h3>
-            <p className="text-gray-400 text-sm">How the layers affect each other. Where real power comes from.</p>
+        <div className="bg-gradient-to-r from-green-900/30 to-emerald-900/30 rounded-2xl p-8 border border-green-500/30">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Calendar className="w-6 h-6 text-green-400" />
+                <span className="text-green-400 font-semibold">Daily Check-in</span>
+              </div>
+              <h2 className="text-2xl font-bold mb-4">Track Your Progress Every Day</h2>
+              <p className="text-gray-300 mb-6">
+                One minute every morning. Answer 3 simple questions. Watch your life improve week by week. Akↄfa go remind you and celebrate your wins with you.
+              </p>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span>See your progress over time</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Trophy className="w-5 h-5 text-yellow-400" />
+                  <span>Build streaks and stay motivated</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Zap className="w-5 h-5 text-purple-400" />
+                  <span>Get personalized tips based on your mood</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-slate-800 rounded-xl p-6">
+              <div className="text-sm text-gray-400 mb-4">Daily Check-in Preview</div>
+              <div className="space-y-4">
+                <div className="bg-slate-700 rounded-lg p-4">
+                  <p className="text-sm mb-2">How your body dey today?</p>
+                  <div className="flex gap-2">
+                    {['😴', '😐', '😊', '💪', '🔥'].map((emoji, i) => (
+                      <button key={i} className="w-10 h-10 bg-slate-600 hover:bg-purple-500 rounded-lg transition text-xl">
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-slate-700 rounded-lg p-4">
+                  <p className="text-sm mb-2">How your mind dey today?</p>
+                  <div className="flex gap-2">
+                    {['😰', '😔', '😐', '😊', '🧘'].map((emoji, i) => (
+                      <button key={i} className="w-10 h-10 bg-slate-600 hover:bg-purple-500 rounded-lg transition text-xl">
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials / Social Proof */}
-      <section className="max-w-7xl mx-auto px-6 py-16 bg-slate-800/50 rounded-2xl my-12">
-        <h2 className="text-3xl font-bold mb-12 text-center">What Our Users Say</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-300 mb-4 italic">"Finally someone explained WHY my life wasn't working. The framework helped me see that fixing my sleep was the key to everything else."</p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold">S</div>
-              <div>
-                <div className="font-semibold">Sarah M.</div>
-                <div className="text-sm text-gray-500">Personal Development</div>
+      {/* Problem Solver Feature */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 rounded-2xl p-8 border border-orange-500/30">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="order-2 md:order-1 bg-slate-800 rounded-xl p-6">
+              <div className="text-sm text-gray-400 mb-4">Problem Solver Preview</div>
+              <div className="bg-slate-700 rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-400 mb-2">You:</p>
+                <p>"I no dey sleep well and e dey affect my work"</p>
+              </div>
+              <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-500/30">
+                <p className="text-sm text-purple-400 mb-2">Akↄfa:</p>
+                <p className="text-sm">Based on your scores, your Body Matters (3/10) dey affect your Mind Talk (5/10). Here be 3 things you fit do THIS WEEK:</p>
+                <ul className="mt-2 space-y-1 text-sm text-gray-300">
+                  <li>1. Stop screen 1 hour before bed</li>
+                  <li>2. Wake same time every day</li>
+                  <li>3. No coffee after 2pm</li>
+                </ul>
               </div>
             </div>
-          </div>
-          
-          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-300 mb-4 italic">"We finally understood the real problems in our team. Delivery improved 40% after addressing the root causes Akorfa identified."</p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">J</div>
-              <div>
-                <div className="font-semibold">James R.</div>
-                <div className="text-sm text-gray-500">CTO, Tech Startup</div>
+            <div className="order-1 md:order-2">
+              <div className="flex items-center gap-2 mb-4">
+                <MessageSquare className="w-6 h-6 text-orange-400" />
+                <span className="text-orange-400 font-semibold">Problem Solver</span>
               </div>
-            </div>
-          </div>
-          
-          <div className="bg-slate-900 rounded-xl p-6 border border-slate-700">
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-300 mb-4 italic">"The AI coach is like having a personal advisor who actually understands my situation. It's not generic advice—it's tailored to my assessment."</p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center font-bold">M</div>
-              <div>
-                <div className="font-semibold">Maria L.</div>
-                <div className="text-sm text-gray-500">Entrepreneur</div>
-              </div>
+              <h2 className="text-2xl font-bold mb-4">Tell Akↄfa Your Problem. Get Real Solutions.</h2>
+              <p className="text-gray-300 mb-6">
+                No be chatbot wey go give you copy-paste answers. Akↄfa know your scores, understand your situation, and give you advice wey actually fit YOUR life.
+              </p>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span>Advice based on YOUR assessment</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span>Practical steps, not theory</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span>Follow up on your progress</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -250,319 +347,180 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
 
       {/* Use Cases */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">Who Uses Akorfa</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center">Who Akↄfa Fit Help</h2>
         
-        {/* Personal Development */}
-        <div className="mb-12 bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+        {/* Personal */}
+        <div className="mb-8 bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
           <div className="grid md:grid-cols-2 gap-8 p-8">
             <div>
               <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <Heart className="w-8 h-8 text-red-400" />
-                Individuals & Personal Development
+                If You Wan Improve Your Life
               </h3>
               <p className="text-gray-300 mb-6">
-                You're stuck. Your life isn't working. You've tried everything but nothing sticks because you're only fixing one area while others fall apart.
+                You dey try but things no dey move? Sleep wahala? Work stress? Relationship problems? Akↄfa go show you wetin dey really cause am.
               </p>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-purple-400 font-bold">→</span>
-                  <span className="text-gray-300">Rate yourself on your 5 life areas</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-purple-400 font-bold">→</span>
-                  <span className="text-gray-300">See exactly which layers need help</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-purple-400 font-bold">→</span>
-                  <span className="text-gray-300">Get a prioritized plan, not generic advice</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-purple-400 font-bold">→</span>
-                  <span className="text-gray-300">Chat with Akↄfa coach tied to YOUR situation</span>
-                </div>
+              <div className="bg-slate-900 rounded-lg p-4">
+                <p className="text-sm font-semibold text-purple-400 mb-2">REAL EXAMPLE</p>
+                <p className="text-gray-300 text-sm">
+                  "Chioma score 3/10 for sleep, 6/10 for work. She been dey try 'think positive' but nothing work. Akↄfa show her say sleep na the root cause. Fix sleep first, everything else follow. 3 weeks later: energy up, work better, peace of mind."
+                </p>
               </div>
             </div>
-            <div className="bg-slate-900 rounded-lg p-6">
-              <p className="text-sm font-semibold text-purple-400 mb-3">EXAMPLE</p>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                Sarah scored 3/10 on sleep, 6/10 on work, 4/10 on self-worth. She was drowning trying to "think positive." Akorfa showed her sleep was the bottleneck. Fix sleep first. Everything else improves. Three weeks later: energy up, work performance up, confidence returning.
-              </p>
-              <p className="text-xs text-gray-500">"Finally someone explained WHY my life wasn't working" - Sarah, 32</p>
+            <div className="flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🌟</div>
+                <p className="text-gray-400">Personal Growth</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Team Performance */}
-        <div className="mb-12 bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+        {/* Team */}
+        <div className="mb-8 bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
           <div className="grid md:grid-cols-2 gap-8 p-8">
-            <div className="order-2 md:order-1 bg-slate-900 rounded-lg p-6">
-              <p className="text-sm font-semibold text-blue-400 mb-3">EXAMPLE</p>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                Leadership team used Akorfa to diagnose why projects kept failing. Found: poor communication (operations layer broken), conflicting values (nobody on same page), burnout (health layer collapsing). Fixed all three simultaneously. Delivery improved 40%.
-              </p>
-              <p className="text-xs text-gray-500">"We finally understood the real problems" - CTO, Tech Startup</p>
+            <div className="flex items-center justify-center order-2 md:order-1">
+              <div className="text-center">
+                <div className="text-6xl mb-4">👥</div>
+                <p className="text-gray-400">Team Success</p>
+              </div>
             </div>
             <div className="order-1 md:order-2">
               <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <Users2 className="w-8 h-8 text-blue-400" />
-                Teams & Organizations
+                If You Dey Manage Team
               </h3>
               <p className="text-gray-300 mb-6">
-                Your team is stuck. Productivity tanking. Turnover rising. You try new tools and processes but nothing fixes the root cause.
+                Productivity low? People dey leave? Projects dey fail? Akↄfa go help you find the real team problem - not just surface wahala.
               </p>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-blue-400 font-bold">→</span>
-                  <span className="text-gray-300">Assess team health across 5 dimensions</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-blue-400 font-bold">→</span>
-                  <span className="text-gray-300">Identify which layer is actually broken</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-blue-400 font-bold">→</span>
-                  <span className="text-gray-300">Fix culture, not just processes</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-blue-400 font-bold">→</span>
-                  <span className="text-gray-300">See how changes ripple across the system</span>
-                </div>
+              <div className="bg-slate-900 rounded-lg p-4">
+                <p className="text-sm font-semibold text-blue-400 mb-2">REAL EXAMPLE</p>
+                <p className="text-gray-300 text-sm">
+                  "Startup team been dey fail deliverables. They try new tools, new processes - nothing work. Akↄfa show say Team Spirit low (trust wahala), not process problem. Fix trust first. 40% improvement for delivery."
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Business */}
-        <div className="mb-12 bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+        <div className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
           <div className="grid md:grid-cols-2 gap-8 p-8">
             <div>
               <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <TrendingUp className="w-8 h-8 text-green-400" />
-                Business & Organizations
+                If You Dey Run Business
               </h3>
               <p className="text-gray-300 mb-6">
-                You're growing but hitting a ceiling. Scaling feels broken. You fix operational problems but new ones appear. The system itself is unbalanced.
+                Business dey grow but something no dey right? Hitting ceiling? Staff wahala? Akↄfa go diagnose your business like doctor diagnose patient.
               </p>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-green-400 font-bold">→</span>
-                  <span className="text-gray-300">Diagnose organizational bottlenecks</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-green-400 font-bold">→</span>
-                  <span className="text-gray-300">Align strategy with actual execution</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-green-400 font-bold">→</span>
-                  <span className="text-gray-300">Fix culture AND performance simultaneously</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-green-400 font-bold">→</span>
-                  <span className="text-gray-300">Scenario planning for complex changes</span>
-                </div>
+              <div className="bg-slate-900 rounded-lg p-4">
+                <p className="text-sm font-semibold text-green-400 mb-2">REAL EXAMPLE</p>
+                <p className="text-gray-300 text-sm">
+                  "E-commerce company - high revenue but losing money. Akↄfa find three problems: operations broken, team tired, values not aligned. Fix all three together. Now profitable and team happy."
+                </p>
               </div>
             </div>
-            <div className="bg-slate-900 rounded-lg p-6">
-              <p className="text-sm font-semibold text-green-400 mb-3">EXAMPLE</p>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                E-commerce company was losing money despite high revenue. Used Akorfa: discovered operations layer was broken (systems falling apart), health layer critical (team exhausted), values layer misaligned (profit vs. impact). Restructured all three. Profitability returned, team stayed.
-              </p>
-              <p className="text-xs text-gray-500">"We finally fixed the real problem, not just the symptoms" - Founder</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Policy & Research */}
-        <div className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-          <div className="grid md:grid-cols-2 gap-8 p-8">
-            <div className="order-2 md:order-1 bg-slate-900 rounded-lg p-6">
-              <p className="text-sm font-semibold text-yellow-400 mb-3">EXAMPLE</p>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                Urban development team used Akorfa to analyze why community health initiatives failed. Found: economic layer broken (poverty), awareness layer low (people didn't know about programs), values misaligned (community didn't trust government). Changed entire approach. Now seeing real results.
-              </p>
-              <p className="text-xs text-gray-500">"The framework helped us see the full system" - Policy Researcher</p>
-            </div>
-            <div className="order-1 md:order-2">
-              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Brain className="w-8 h-8 text-yellow-400" />
-                Policy Makers & Researchers
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Programs fail. Interventions backfire. You treat symptoms (education, health, economics) separately when they're deeply interconnected.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-yellow-400 font-bold">→</span>
-                  <span className="text-gray-300">Diagnose systemic problems, not just symptoms</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-yellow-400 font-bold">→</span>
-                  <span className="text-gray-300">See how interventions affect all layers</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-yellow-400 font-bold">→</span>
-                  <span className="text-gray-300">Model complex system interactions</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-yellow-400 font-bold">→</span>
-                  <span className="text-gray-300">Make evidence-based, systems-aware decisions</span>
-                </div>
+            <div className="flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">📈</div>
+                <p className="text-gray-400">Business Growth</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why It Works */}
-      <section className="max-w-7xl mx-auto px-6 py-16 bg-slate-800 rounded-2xl my-12">
-        <h2 className="text-3xl font-bold mb-8 text-center">Why The Akorfa Stack Works</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Zap className="w-6 h-6 text-purple-400" />
-              Universal
-            </h3>
-            <p className="text-gray-300 text-sm">
-              Works for individuals, teams, businesses, and systems. Same framework, different context.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Target className="w-6 h-6 text-blue-400" />
-              Root Cause
-            </h3>
-            <p className="text-gray-300 text-sm">
-              Finds what's actually broken. Not symptoms. Not guesses. Real diagnosis.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <AlertCircle className="w-6 h-6 text-green-400" />
-              Actionable
-            </h3>
-            <p className="text-gray-300 text-sm">
-              Concrete steps you can take TODAY. Not theory. Not motivation. Real change.
-            </p>
-          </div>
+      {/* CTA Section */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
+        <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Finally Fix Things?</h2>
+          <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+            Stop guessing. Stop wasting time on things wey no work. Let Akↄfa show you the real problem so you fit fix am once and for all.
+          </p>
+          <button 
+            onClick={onNavigateToSignup}
+            className="px-8 py-4 bg-white text-purple-600 hover:bg-gray-100 rounded-lg font-semibold text-lg transition transform hover:scale-105"
+          >
+            Start Free Now - 2 Minutes
+          </button>
+          <p className="text-purple-200 text-sm mt-4">No credit card. No long form. Just answers.</p>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="max-w-4xl mx-auto px-6 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-4">Ready to Fix What's Actually Broken?</h2>
-        <p className="text-gray-300 mb-8 text-lg">
-          Whether you're one person or an organization—get clarity on your real problems and concrete steps to fix them.
-        </p>
-        <button 
-          onClick={onNavigateToSignup}
-          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg font-semibold text-lg transition transform hover:scale-105"
-        >
-          Start Your Assessment Free
-        </button>
       </section>
 
       {/* Contact Form */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
+      <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
-          <div className="text-center mb-8">
-            <MessageSquare className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-2">Get In Touch</h2>
-            <p className="text-gray-400">Have questions? We'd love to hear from you.</p>
-          </div>
-          
-          <form onSubmit={handleContactSubmit} className="space-y-6 max-w-xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+              <h2 className="text-2xl font-bold mb-4">Questions? Talk to Us</h2>
+              <p className="text-gray-400 mb-6">
+                We dey here to help. Whether you get question about how Akↄfa work or you wan share feedback, send us message.
+              </p>
+              <div className="space-y-4 text-gray-300">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-purple-400" />
+                  <span>hello@akofa.app</span>
+                </div>
+              </div>
+            </div>
+            <form onSubmit={handleContactSubmit} className="space-y-4">
               <input
                 type="text"
+                placeholder="Your Name"
                 value={contactForm.name}
-                onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                required
+                onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
                 className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition"
-                placeholder="Your name"
+                required
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
               <input
                 type="email"
+                placeholder="Your Email"
                 value={contactForm.email}
-                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                required
+                onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
                 className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition"
-                placeholder="your@email.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
-              <textarea
-                value={contactForm.message}
-                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                 required
+              />
+              <textarea
+                placeholder="Your Message"
+                value={contactForm.message}
+                onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                 rows={4}
                 className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 outline-none transition resize-none"
-                placeholder="How can we help you?"
+                required
               />
-            </div>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {submitting ? 'Sending...' : (
-                <>
-                  <Send className="w-5 h-5" />
-                  Send Message
-                </>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {submitting ? 'Sending...' : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
+              </button>
+              {contactStatus === 'success' && (
+                <p className="text-green-400 text-sm text-center">Message sent! We go reply soon.</p>
               )}
-            </button>
-            {contactStatus === 'success' && (
-              <div className="text-green-400 text-center flex items-center justify-center gap-2">
-                <CheckCircle className="w-5 h-5" />
-                Message sent successfully! We'll get back to you soon.
-              </div>
-            )}
-            {contactStatus === 'error' && (
-              <div className="text-red-400 text-center flex items-center justify-center gap-2">
-                <AlertCircle className="w-5 h-5" />
-                Failed to send message. Please try again or email us directly.
-              </div>
-            )}
-          </form>
+              {contactStatus === 'error' && (
+                <p className="text-red-400 text-sm text-center">Something happen. Try again.</p>
+              )}
+            </form>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 border-t border-slate-700 py-12 mt-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">About Akorfa</h3>
-              <p className="text-gray-400 text-sm">
-                The Akorfa Stack Framework helps people, teams, and organizations understand complex systems and achieve real change—one layer at a time.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">For Everyone</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>💡 Individuals</li>
-                <li>👥 Teams & Managers</li>
-                <li>🏢 Organizations</li>
-                <li>📊 Policy Makers</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Questions?</h3>
-              <p className="text-gray-400 mb-4 text-sm">We'd love to hear from you.</p>
-              <a href="mailto:hello@akorfa.com" className="text-purple-400 hover:text-purple-300 transition font-medium text-sm flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                hello@akorfa.com
-              </a>
-            </div>
+      <footer className="max-w-7xl mx-auto px-6 py-8 border-t border-slate-800">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            Akↄfa Fixit
           </div>
-          <div className="border-t border-slate-700 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Akorfa Fixit. Understanding complexity. Achieving change.</p>
-          </div>
+          <p className="text-gray-500 text-sm">
+            Made with ❤️ to help you see clearly and fix what matters
+          </p>
         </div>
       </footer>
     </div>
