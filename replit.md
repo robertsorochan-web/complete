@@ -198,9 +198,88 @@ The 5 Life Areas:
 - Added retention features: daily check-ins, progress tracking
 - Updated error messages to use everyday language
 
+### Wave 5 - Full Stack Features Implementation (Dec 4, 2024)
+
+#### Daily Stack Check-in System
+- **Daily Check-ins**: 5-layer micro-assessments with 1-10 sliders
+- **Mood & Energy Tracking**: Track mood and energy levels daily
+- **Cultural Bug Logging**: Text input for "Cultural Software bug noticed today"
+- **AI Reflection Prompts**: Random daily reflection prompts
+- **Streak Tracking**: Visual streak counter with 30-day calendar heatmap
+- **Daily Wins & Symptoms**: Log what went well and any challenges
+
+#### StackScore Gamification System
+- **StackScore Formula**: (Consistency × 0.3 + Progress × 0.4 + Balance × 0.3) × 550 + 300 + AI_Bonus
+- **Credit Score Style**: 300-850 range visualization
+- **Tier System**: Novice → Practitioner → Adept → Master → Guru
+- **Anonymous Leaderboard**: Compete with others globally
+- **Score History**: Track score changes over time with charts
+
+#### Community Features
+- **Themed Challenge Groups**: Bio-Hackers, Mindfulness Masters, Culture Coders, Relationship Architects, OS Optimizers
+- **Anonymous Insight Sharing**: Share improvements with layer tags
+- **Success Stories**: Submit and view transformation stories
+- **Accountability Partners**: Get matched with accountability partners
+- **Like System**: Engage with community insights
+
+#### Challenge Marketplace
+- **8 Default Challenges**: Sleep Optimization, Mindful Morning, Belief Audit, Connection Week, etc.
+- **Difficulty Levels**: Easy, Medium, Hard
+- **Point System**: Earn points for completing challenges
+- **Progress Tracking**: Track daily progress with completion badges
+- **Layer-Specific Challenges**: Filter by layer focus
+
+#### Monetization Tier System
+- **Free Tier**: 3 AI insights/month, 1 layer daily check-in, read-only community
+- **Pro Tier**: Unlimited AI, full check-ins, data export, custom notifications
+- **Teams Tier**: Organization dashboards, bulk management
+- **Enterprise Tier**: White-label, API access, custom features
+
+#### Progress Timeline
+- **Interactive History**: View check-in history with charts
+- **Before/After Comparison**: Compare recent vs older periods
+- **Badge Gallery**: View all earned badges
+- **Milestone Tracking**: Recent achievements display
+- **Period Averages**: See averages across time periods
+
+#### New Backend Routes
+- `GET/POST /api/checkins` - Daily check-in management
+- `GET /api/checkins/streak` - Streak information
+- `GET /api/stackscore` - Current StackScore with breakdown
+- `GET /api/stackscore/leaderboard` - Anonymous leaderboard
+- `GET/POST /api/community/groups` - Community groups
+- `GET/POST /api/community/insights` - Shared insights
+- `GET/POST /api/community/stories` - Success stories
+- `GET/POST /api/challenges` - Challenge marketplace
+- `GET/PUT /api/profile` - User profile with tier info
+- `GET/PUT /api/profile/notifications` - Notification preferences
+
+#### New Database Tables
+- `daily_checkins` - Daily check-in data
+- `user_badges` - Earned badges
+- `stack_score_history` - Score history
+- `community_groups` - Themed groups
+- `user_groups` - Group memberships
+- `challenges` - Available challenges
+- `user_challenges` - Challenge participation
+- `accountability_partners` - Partner matching
+- `success_stories` - User stories
+- `shared_insights` - Community insights
+- `progress_milestones` - Achievement tracking
+- `notification_preferences` - User notification settings
+
+#### New Frontend Pages
+- `DailyCheckin.jsx` - Full daily check-in flow
+- `StackScorePage.jsx` - Score dashboard with history
+- `CommunityPage.jsx` - Groups, insights, stories, partners
+- `ChallengesPage.jsx` - Challenge marketplace
+- `ProgressTimeline.jsx` - History and milestones
+- `ProfilePage.jsx` - Enhanced profile with badges
+
 ## User Experience Flow
 1. User signs up with email, password, name, and purpose selection
 2. After signup, taken to 5-question quick assessment (one per layer)
 3. Assessment generates personalized insights showing strengths and weak areas
 4. User lands on dashboard with their initial assessment saved
-5. Can refine assessment, talk to Akↄfa, or get diagnosis for specific problems
+5. Can do daily check-ins, view StackScore, join challenges and community
+6. Can refine assessment, talk to Akↄfa, or get diagnosis for specific problems

@@ -31,17 +31,29 @@ export const purposeConfig = {
     },
     navItems: [
       { id: 'dashboard', label: 'My Summary', icon: '🏠' },
+      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
+      { id: 'stackscore', label: 'StackScore', icon: '📈' },
       { id: 'assessment', label: 'Check Myself', icon: '📊' },
+      { id: 'challenges', label: 'Challenges', icon: '🏆' },
+      { id: 'community', label: 'Community', icon: '👥' },
+      { id: 'timeline', label: 'Progress', icon: '📅' },
       { id: 'analysis', label: 'See Clearly', icon: '🔍' },
       { id: 'diagnosis', label: 'Solve Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
+      { id: 'profile', label: 'My Profile', icon: '👤' }
     ],
     headerTitles: {
       dashboard: 'My Summary',
+      checkin: 'Daily Check-in',
+      stackscore: 'StackScore',
       assessment: 'Check Myself',
+      challenges: 'Challenges',
+      community: 'Community',
+      timeline: 'Progress Timeline',
       analysis: 'See Clearly',
       chat: 'Talk to Akↄfa',
-      diagnosis: 'Solve Problem'
+      diagnosis: 'Solve Problem',
+      profile: 'My Profile'
     }
   },
   team: {
@@ -76,17 +88,29 @@ export const purposeConfig = {
     },
     navItems: [
       { id: 'dashboard', label: 'Team Summary', icon: '🏠' },
+      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
+      { id: 'stackscore', label: 'StackScore', icon: '📈' },
       { id: 'assessment', label: 'Check Team', icon: '📊' },
+      { id: 'challenges', label: 'Challenges', icon: '🏆' },
+      { id: 'community', label: 'Community', icon: '👥' },
+      { id: 'timeline', label: 'Progress', icon: '📅' },
       { id: 'analysis', label: 'Team Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
+      { id: 'profile', label: 'My Profile', icon: '👤' }
     ],
     headerTitles: {
       dashboard: 'Team Summary',
+      checkin: 'Daily Check-in',
+      stackscore: 'StackScore',
       assessment: 'Check Team',
+      challenges: 'Challenges',
+      community: 'Community',
+      timeline: 'Progress Timeline',
       analysis: 'Team Insight',
       chat: 'Talk to Akↄfa',
-      diagnosis: 'Fix Problem'
+      diagnosis: 'Fix Problem',
+      profile: 'My Profile'
     }
   },
   business: {
@@ -126,19 +150,31 @@ export const purposeConfig = {
     },
     navItems: [
       { id: 'dashboard', label: 'Business Summary', icon: '🏠' },
+      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
+      { id: 'stackscore', label: 'StackScore', icon: '📈' },
       { id: 'assessment', label: 'Check Business', icon: '📊' },
       { id: 'tools', label: 'Business Tools', icon: '🧰' },
+      { id: 'challenges', label: 'Challenges', icon: '🏆' },
+      { id: 'community', label: 'Community', icon: '👥' },
+      { id: 'timeline', label: 'Progress', icon: '📅' },
       { id: 'analysis', label: 'Business Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
+      { id: 'profile', label: 'My Profile', icon: '👤' }
     ],
     headerTitles: {
       dashboard: 'Business Summary',
+      checkin: 'Daily Check-in',
+      stackscore: 'StackScore',
       assessment: 'Check Business',
       tools: 'Business Tools',
+      challenges: 'Challenges',
+      community: 'Community',
+      timeline: 'Progress Timeline',
       analysis: 'Business Insight',
       chat: 'Talk to Akↄfa',
-      diagnosis: 'Fix Problem'
+      diagnosis: 'Fix Problem',
+      profile: 'My Profile'
     }
   },
   policy: {
@@ -173,17 +209,29 @@ export const purposeConfig = {
     },
     navItems: [
       { id: 'dashboard', label: 'System Summary', icon: '🏠' },
+      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
+      { id: 'stackscore', label: 'StackScore', icon: '📈' },
       { id: 'assessment', label: 'Check System', icon: '📊' },
+      { id: 'challenges', label: 'Challenges', icon: '🏆' },
+      { id: 'community', label: 'Community', icon: '👥' },
+      { id: 'timeline', label: 'Progress', icon: '📅' },
       { id: 'analysis', label: 'System Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Find Solutions', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' }
+      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
+      { id: 'profile', label: 'My Profile', icon: '👤' }
     ],
     headerTitles: {
       dashboard: 'System Summary',
+      checkin: 'Daily Check-in',
+      stackscore: 'StackScore',
       assessment: 'Check System',
+      challenges: 'Challenges',
+      community: 'Community',
+      timeline: 'Progress Timeline',
       analysis: 'System Insight',
       chat: 'Talk to Akↄfa',
-      diagnosis: 'Find Solutions'
+      diagnosis: 'Find Solutions',
+      profile: 'My Profile'
     }
   }
 };

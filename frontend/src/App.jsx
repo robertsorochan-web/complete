@@ -13,6 +13,12 @@ import Analysis from './components/Pages/Analysis';
 import Chat from './components/Pages/Chat';
 import Diagnosis from './components/Pages/Diagnosis';
 import BusinessTools from './components/Pages/BusinessTools';
+import DailyCheckin from './components/Pages/DailyCheckin';
+import StackScorePage from './components/Pages/StackScorePage';
+import CommunityPage from './components/Pages/CommunityPage';
+import ChallengesPage from './components/Pages/ChallengesPage';
+import ProgressTimeline from './components/Pages/ProgressTimeline';
+import ProfilePage from './components/Pages/ProfilePage';
 import WelcomeOverlay from './components/ui/WelcomeOverlay';
 import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import AccessibilitySettings from './components/ui/AccessibilitySettings';
@@ -199,11 +205,17 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard': return <Dashboard assessmentData={assessmentData} purpose={user?.purpose} />;
+      case 'checkin': return <DailyCheckin />;
+      case 'stackscore': return <StackScorePage />;
       case 'assessment': return <Assessment assessmentData={assessmentData} setAssessmentData={handleAssessmentUpdate} purpose={user?.purpose} />;
+      case 'challenges': return <ChallengesPage />;
+      case 'community': return <CommunityPage />;
+      case 'timeline': return <ProgressTimeline />;
       case 'analysis': return <Analysis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'chat': return <Chat assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'tools': return <BusinessTools purpose={user?.purpose} />;
+      case 'profile': return <ProfilePage user={user} onLogout={handleLogout} />;
       default: return <Dashboard assessmentData={assessmentData} />;
     }
   };

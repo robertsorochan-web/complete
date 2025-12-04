@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase } from 'lucide-react';
+import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { getNavItems, getPurposeConfig } from '../../config/purposeConfig';
 
@@ -9,7 +9,13 @@ const navIcons = {
   analysis: Search,
   diagnosis: Wrench,
   chat: MessageCircle,
-  tools: Briefcase
+  tools: Briefcase,
+  checkin: CheckSquare,
+  stackscore: TrendingUp,
+  community: Users,
+  challenges: Trophy,
+  timeline: Calendar,
+  profile: User
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
@@ -64,21 +70,21 @@ const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1">
+        <nav className="flex-1 space-y-1 overflow-y-auto">
           {navItems.map(item => {
             const Icon = navIcons[item.id] || Home;
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`w-full text-left px-4 py-4 rounded-xl transition-all flex items-center gap-3 ${
+                className={`w-full text-left px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${
                   currentPage === item.id 
                     ? 'bg-purple-600 shadow-lg shadow-purple-500/20' 
                     : 'hover:bg-white/5'
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
-                <span className="font-medium">{item.label}</span>
+                <Icon className="w-5 h-5" />
+                <span className="font-medium text-sm">{item.label}</span>
               </button>
             );
           })}
@@ -121,7 +127,7 @@ const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
                     : 'text-gray-400'
                 }`}
               >
-                <span className="text-xl mb-1">{item.icon}</span>
+                <Icon className="w-5 h-5 mb-1" />
                 <span className="text-xs">{item.label.split(' ')[0]}</span>
               </button>
             );

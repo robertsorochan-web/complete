@@ -5,6 +5,11 @@ import { initDb } from './db/init.js';
 import authRoutes from './routes/auth.js';
 import assessmentRoutes from './routes/assessments.js';
 import aiRoutes from './routes/ai.js';
+import checkinRoutes from './routes/checkins.js';
+import stackscoreRoutes from './routes/stackscore.js';
+import communityRoutes from './routes/community.js';
+import challengeRoutes from './routes/challenges.js';
+import profileRoutes from './routes/profile.js';
 import { authMiddleware } from './middleware/auth.js';
 
 dotenv.config();
@@ -43,12 +48,17 @@ app.get('/health', (req, res) => {
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Akↄfa Fixit API', 
-    version: '1.0.0',
+    version: '2.0.0',
     endpoints: {
       health: '/health',
       auth: '/api/auth',
       assessments: '/api/assessments',
-      ai: '/api/ai'
+      ai: '/api/ai',
+      checkins: '/api/checkins',
+      stackscore: '/api/stackscore',
+      community: '/api/community',
+      challenges: '/api/challenges',
+      profile: '/api/profile'
     }
   });
 });
@@ -57,6 +67,11 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api/assessments', authMiddleware, assessmentRoutes);
 app.use('/api/ai', authMiddleware, aiRoutes);
+app.use('/api/checkins', authMiddleware, checkinRoutes);
+app.use('/api/stackscore', authMiddleware, stackscoreRoutes);
+app.use('/api/community', authMiddleware, communityRoutes);
+app.use('/api/challenges', authMiddleware, challengeRoutes);
+app.use('/api/profile', authMiddleware, profileRoutes);
 
 app.post('/api/contact', async (req, res) => {
   try {
