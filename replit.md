@@ -94,3 +94,15 @@ Akorfa Fixit is a purpose-aware assessment and coaching application that helps u
 - Integrated Google Analytics with custom tracking utility
 - Added result sharing feature with social media integration (Twitter, LinkedIn, Email)
 - Fixed analytics to track both public and authenticated pages
+- Enhanced signup form with real-time email validation (format + uniqueness check)
+- Added password visibility toggle and strength indicators
+- Created engaging onboarding flow with quick 5-question assessment
+- New users get immediate personalized insights after signup ("aha moment" experience)
+- Fixed async/await bugs in authentication flow for purpose persistence
+
+## User Experience Flow
+1. User signs up with email, password, name, and purpose selection
+2. After signup, taken to 5-question quick assessment (one per layer)
+3. Assessment generates personalized insights showing strengths and bottlenecks
+4. User lands on dashboard with their initial assessment saved
+5. Can refine assessment, chat with AI coach, or get diagnosis for specific problems
