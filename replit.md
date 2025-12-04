@@ -110,6 +110,14 @@ The 5 Life Areas:
 - `frontend/src/utils/frameworkMetrics.js` - Calculations for uncertainty, confidence, cultural adjustments
 - `frontend/src/components/ui/FrameworkWarnings.jsx` - Warning banners, ethical guardrails, user agreement
 - `frontend/src/components/ui/AdvancedFramework.jsx` - Cultural context, temporal, feedback loops, red team mode
+- `frontend/src/utils/ghanaWisdom.js` - Ghanaian proverbs (Twi/English), actionable tips, real-world examples
+
+### Ghana-Specific Enhancements (Dec 2024)
+- **Ghanaian Proverbs**: Dashboard and Analysis now show proverbs in Twi with English translations
+- **Actionable Tips in Pidgin**: Specific, practical advice based on weakest area (e.g., "Wake up same time every day - even weekends. Na consistency dey help.")
+- **Real-World Examples**: Relatable scenarios (market woman, chop bar owner, office worker) showing problem/solution
+- **Use Case Tags on Signup**: Shows Ghana examples like "Sleep wahala", "Chop bar/shop", "Market stall"
+- **Purpose-Aware Examples**: Different examples for personal (Kwame), team (office), business (Auntie Ama), and community contexts
 
 ### Previous Changes
 - Replaced all "Akorfa/AI" branding with "Akↄfa"
