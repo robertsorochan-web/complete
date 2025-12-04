@@ -15,7 +15,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
       if (!formData.email || !formData.password) {
         throw new Error('Email and password are required');
       }
-      const user = login(formData.email, formData.password);
+      const user = await login(formData.email, formData.password);
       onLoginSuccess(user);
     } catch (err) {
       setError(err.message);

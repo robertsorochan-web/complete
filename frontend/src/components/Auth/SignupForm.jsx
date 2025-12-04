@@ -32,7 +32,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
       if (formData.password.length < 6) {
         throw new Error('Password must be at least 6 characters');
       }
-      const user = signup(formData.email, formData.password, formData.purpose, formData.name);
+      const user = await signup(formData.email, formData.password, formData.purpose, formData.name);
       onSignupSuccess(user);
     } catch (err) {
       setError(err.message);
