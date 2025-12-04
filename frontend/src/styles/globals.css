@@ -123,6 +123,69 @@ body {
   content-visibility: auto;
 }
 
+/* Safe area for bottom navigation on mobile */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Mobile sidebar hidden by default */
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .app-container {
+    flex-direction: column !important;
+  }
+  
+  .main-content {
+    padding-bottom: 4rem;
+  }
+}
+
+/* Bigger touch targets for mobile */
+@media (max-width: 640px) {
+  .btn-mobile {
+    min-height: 52px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  .grid-mobile-1 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .grid-mobile-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Optimize for slow 3G connections */
+@media (prefers-reduced-data: reduce) {
+  img, video {
+    content-visibility: auto;
+  }
+  
+  * {
+    background-image: none !important;
+  }
+}
+
+/* Dark mode improvements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
 /* Custom scrollbar for mobile */
 ::-webkit-scrollbar {
   width: 4px;
@@ -140,6 +203,20 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
+}
+
+/* WhatsApp button animation */
+@keyframes pulse-green {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-pulse {
+  animation: pulse-green 2s infinite;
 }
 
 /* Focus states for accessibility */

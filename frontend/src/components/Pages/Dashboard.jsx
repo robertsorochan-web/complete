@@ -12,6 +12,10 @@ import LocalResourcesPanel from '../ui/LocalResourcesPanel';
 import GroupAnalysis from '../ui/GroupAnalysis';
 import PrintableReport from '../ui/PrintableReport';
 import { SpeakButton } from '../ui/VoiceNavigation';
+import ProgressTracker from '../ui/ProgressTracker';
+import EmergencyAlerts from '../ui/EmergencyAlerts';
+import LocalPartnerships from '../ui/LocalPartnerships';
+import SMSTipsSubscription from '../ui/SMSTipsSubscription';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const [showWarning, setShowWarning] = useState(true);
@@ -128,33 +132,36 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         <p className="text-gray-300 text-sm">{labels.description}</p>
       </div>
 
-      {/* Main Stats with Emojis */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
-          <div className="text-4xl mb-2">{getScoreEmoji(parseFloat(avgScore))}</div>
-          <div className={`text-3xl font-bold ${getScoreColor(parseFloat(avgScore))}`}>
-            {avgScore}/10
+      {/* Emergency Alerts */}
+      <EmergencyAlerts region="Greater Accra" sector={purpose} />
+
+      {/* Main Stats with Emojis - Health Score Format */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+          <div className="text-5xl mb-3">{getScoreEmoji(parseFloat(avgScore))}</div>
+          <div className={`text-4xl font-bold ${getScoreColor(parseFloat(avgScore))}`}>
+            {Math.round(parseFloat(avgScore))}/10
           </div>
-          <div className="text-sm text-gray-400">{labels.overallTitle}</div>
-          <div className="text-xs text-purple-400 mt-1">{getScoreLabel(parseFloat(avgScore))}</div>
+          <div className="text-lg text-gray-300 mt-1">{getScoreLabel(parseFloat(avgScore))}</div>
+          <div className="text-sm text-gray-500 mt-2">{labels.overallTitle}</div>
         </div>
-        <div className="bg-green-900/20 rounded-xl p-4 text-center border border-green-500/30">
-          <div className="text-4xl mb-2">{getScoreEmoji(highestLayer)}</div>
-          <div className="flex items-center justify-center gap-1 mb-1">
-            <TrendingUp className="w-4 h-4 text-green-400" />
-            <span className="text-3xl font-bold text-green-400">{highestLayer}/10</span>
+        <div className="bg-green-900/20 rounded-xl p-6 text-center border border-green-500/30">
+          <div className="text-5xl mb-3">{getScoreEmoji(highestLayer)}</div>
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <TrendingUp className="w-5 h-5 text-green-400" />
+            <span className="text-4xl font-bold text-green-400">{highestLayer}/10</span>
           </div>
-          <div className="text-sm text-gray-400">Your Strength</div>
-          <div className="text-xs text-green-400/70 mt-1">{strength}</div>
+          <div className="text-lg text-gray-300">Your Strength</div>
+          <div className="text-sm text-green-400/70 mt-2">{strength}</div>
         </div>
-        <div className="bg-red-900/20 rounded-xl p-4 text-center border border-red-500/30">
-          <div className="text-4xl mb-2">{getScoreEmoji(lowestLayer)}</div>
-          <div className="flex items-center justify-center gap-1 mb-1">
-            <TrendingDown className="w-4 h-4 text-red-400" />
-            <span className="text-3xl font-bold text-red-400">{lowestLayer}/10</span>
+        <div className="bg-red-900/20 rounded-xl p-6 text-center border border-red-500/30">
+          <div className="text-5xl mb-3">{getScoreEmoji(lowestLayer)}</div>
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <TrendingDown className="w-5 h-5 text-red-400" />
+            <span className="text-4xl font-bold text-red-400">{lowestLayer}/10</span>
           </div>
-          <div className="text-sm text-gray-400">Needs Work</div>
-          <div className="text-xs text-red-400/70 mt-1">{bottleneck}</div>
+          <div className="text-lg text-gray-300">Needs Work</div>
+          <div className="text-sm text-red-400/70 mt-2">{bottleneck}</div>
         </div>
       </div>
 
@@ -283,8 +290,11 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         </div>
       </div>
 
+      {/* Progress Tracker */}
+      <ProgressTracker assessmentData={assessmentData} purpose={purpose} />
+
       {/* Share & Print Section */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ShareableResults 
           assessmentData={assessmentData}
           purpose={purpose}
@@ -301,8 +311,14 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         />
       </div>
 
+      {/* Local Partnerships */}
+      <LocalPartnerships sector={purpose} />
+
       {/* Local Resources */}
       <LocalResourcesPanel sector={purpose} />
+
+      {/* SMS Tips for Feature Phones */}
+      <SMSTipsSubscription purpose={purpose} />
 
       {/* Group Analysis */}
       <GroupAnalysis assessmentData={assessmentData} purpose={purpose} />

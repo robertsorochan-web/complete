@@ -127,12 +127,35 @@ The 5 Life Areas:
 - `frontend/src/components/ui/GroupAnalysis.jsx` - Multi-member assessment
 - `frontend/src/components/ui/PrintableReport.jsx` - PDF-ready reports
 
-#### Wave 3 - Planned (Require External Integration)
-- SMS/Offline options for feature phones (needs Twilio)
-- Weekly check-in reminders via SMS
-- Emergency alerts (weather, fuel prices)
-- Impact tracking dashboard
-- Partner distribution system
+#### Wave 3 - Implemented (Dec 4, 2024)
+- **Welcome Overlay**: New users see use-case selector before onboarding (My Small Business, My Farm/Fishing, My Education, My Community, Personal Life, Team/Workplace)
+- **Floating WhatsApp Support**: Green floating button for instant WhatsApp support chat
+- **Progress Tracker**: Daily action steps with checkboxes, streak tracking, and reminder notifications
+- **Emergency Alerts**: Real-time alerts for fuel prices, weather, market updates (sector-specific)
+- **Local Partnerships**: Display of local support organizations by sector (fishing cooperatives, traders associations, NBSSI, etc.)
+- **SMS Tips Subscription**: Users can subscribe to receive tips via SMS without internet
+- **Confidence Scoring**: Recommendations now show confidence levels (High/Medium/Low)
+- **Offline Mode**: Service worker for basic offline functionality with cached assets
+- **Enhanced Mobile UI**: Bottom navigation bar, hamburger menu, bigger touch targets
+- **PWA Support**: Web app manifest for installable PWA experience
+
+#### New UI Components (Wave 3)
+- `frontend/src/components/ui/WelcomeOverlay.jsx` - Use-case selector overlay for new users
+- `frontend/src/components/ui/FloatingWhatsAppButton.jsx` - Floating WhatsApp support button
+- `frontend/src/components/ui/ProgressTracker.jsx` - Daily action steps with checkboxes and streaks
+- `frontend/src/components/ui/EmergencyAlerts.jsx` - Real-time alerts by sector
+- `frontend/src/components/ui/LocalPartnerships.jsx` - Local support organizations display
+- `frontend/src/components/ui/SMSTipsSubscription.jsx` - SMS tips signup form
+- `frontend/src/components/ui/ConfidenceScore.jsx` - Confidence scoring for recommendations
+- `frontend/public/sw.js` - Service worker for offline support
+- `frontend/public/manifest.json` - PWA manifest
+- `frontend/public/offline.html` - Offline fallback page
+
+#### Wave 4 - Planned (Require External Integration)
+- Weekly check-in reminders via SMS (needs Twilio)
+- Real-time market price APIs
+- Mobile money integration
+- Full Twi translation
 
 ### Conceptual Stress Test Fixes (Latest)
 - **Uncertainty Metrics**: Stability scores now display as ranges with confidence intervals (e.g., "7.2 +/- 1.3")

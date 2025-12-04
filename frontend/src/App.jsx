@@ -12,6 +12,8 @@ import Assessment from './components/Pages/Assessment';
 import Analysis from './components/Pages/Analysis';
 import Chat from './components/Pages/Chat';
 import Diagnosis from './components/Pages/Diagnosis';
+import WelcomeOverlay from './components/ui/WelcomeOverlay';
+import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import './styles/globals.css';
 
 export default function App() {
@@ -19,6 +21,8 @@ export default function App() {
   const [authPage, setAuthPage] = useState('home');
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(false);
+  const [selectedUseCase, setSelectedUseCase] = useState(null);
   const [assessmentData, setAssessmentData] = useState({
     bioHardware: 5,
     internalOS: 5,
@@ -54,6 +58,12 @@ export default function App() {
         } catch (err) {
           console.error('Failed to load assessment:', err);
         }
+        
+        const hasSeenWelcome = localStorage.getItem('akofa_seen_welcome');
+        const hasCompletedOnboarding = localStorage.getItem('akofa_completed_onboarding');
+        if (!hasSeenWelcome && !hasCompletedOnboarding) {
+          setShowWelcomeOverlay(true);
+        }
       }
       setLoading(false);
     };
@@ -62,13 +72,36 @@ export default function App() {
 
   const handleSignupSuccess = (user) => {
     setUser(user);
-    setShowOnboarding(true);
+    const hasSeenWelcome = localStorage.getItem('akofa_seen_welcome');
+    if (!hasSeenWelcome) {
+      setShowWelcomeOverlay(true);
+    } else {
+      setShowOnboarding(true);
+    }
     setAuthPage('home');
+  };
+
+  const handleUseCaseSelect = (purpose, useCase) => {
+    setSelectedUseCase(useCase);
+    localStorage.setItem('akofa_seen_welcome', 'true');
+    localStorage.setItem('akofa_selected_usecase', JSON.stringify(useCase));
+    setShowWelcomeOverlay(false);
+    if (user) {
+      setUser({ ...user, purpose: purpose });
+    }
+    setShowOnboarding(true);
+  };
+
+  const handleSkipWelcome = () => {
+    localStorage.setItem('akofa_seen_welcome', 'true');
+    setShowWelcomeOverlay(false);
+    setShowOnboarding(true);
   };
 
   const handleOnboardingComplete = async (onboardingAssessmentData) => {
     setAssessmentData(onboardingAssessmentData);
     setShowOnboarding(false);
+    localStorage.setItem('akofa_completed_onboarding', 'true');
     if (user) {
       try {
         await updateUserAssessment(user.id, onboardingAssessmentData);
@@ -142,6 +175,15 @@ export default function App() {
     }
   }
 
+  if (showWelcomeOverlay) {
+    return (
+      <WelcomeOverlay 
+        onSelectUseCase={handleUseCaseSelect}
+        onSkip={handleSkipWelcome}
+      />
+    );
+  }
+
   if (showOnboarding) {
     return (
       <Onboarding 
@@ -164,19 +206,23 @@ export default function App() {
   };
 
   return (
-    <div className="app-container min-h-screen flex">
+    <div className="app-container min-h-screen flex flex-col md:flex-row">
       <Sidebar 
         currentPage={currentPage} 
         setCurrentPage={setCurrentPage}
         user={user}
         onLogout={handleLogout}
       />
-      <div className="main-content flex-1 flex flex-col">
+      <div className="main-content flex-1 flex flex-col min-h-screen">
         <Header currentPage={currentPage} user={user} onLogout={handleLogout} assessmentData={assessmentData} />
-        <main className="content-area p-6 flex-1 overflow-auto">
+        <main className="content-area p-4 md:p-6 flex-1 overflow-auto pb-20 md:pb-6">
           {renderPage()}
         </main>
       </div>
+      <FloatingWhatsAppButton 
+        phoneNumber="+233000000000" 
+        message="Hello! I need help with Akↄfa Fixit"
+      />
     </div>
   );
 }

@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5" />
+  <meta name="theme-color" content="#0F172A" />
   <title>Akↄfa Fixit - Understand Any System. Fix Any Problem.</title>
   <meta name="description" content="The Akorfa Stack Framework diagnoses what's actually broken and gives you concrete steps to fix it. Works for individuals, teams, businesses, and policy makers." />
-  <meta name="keywords" content="personal development, team performance, business optimization, systems thinking, root cause analysis" />
+  <meta name="keywords" content="personal development, team performance, business optimization, systems thinking, root cause analysis, Ghana, Africa" />
   
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/favicon.png" />
+  <link rel="manifest" href="/manifest.json" />
   
   <meta property="og:title" content="Akↄfa Fixit - Understand Any System. Fix Any Problem." />
   <meta property="og:description" content="The Akorfa Stack Framework diagnoses what's actually broken and gives you concrete steps to fix it." />
@@ -18,9 +20,26 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Akↄfa Fixit" />
   <meta name="twitter:description" content="Understand Any System. Fix Any Problem." />
+  
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 <body>
   <div id="root"></div>
   <script type="module" src="./src/main.jsx"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('SW registration failed:', error);
+          });
+      });
+    }
+  </script>
 </body>
 </html>

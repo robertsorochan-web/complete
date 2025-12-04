@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Mic } from 'lucide-react';
+import { Volume2, VolumeX, Mic, Languages } from 'lucide-react';
 
-const VoiceNavigation = ({ text, autoPlay = false }) => {
+const twiPhrases = {
+  welcome: "Akwaaba! Yɛfrɛ wo kwan pa so.",
+  yourScore: "Wo score ne",
+  strength: "Wo strength ne",
+  needsWork: "Deɛ ɛhia adwuma ne",
+  actionTip: "Deɛ wobɛtumi ayɛ nnɛ",
+  goodJob: "Wo yɛ adeɛ pa!",
+  keepGoing: "Kɔ so ara!",
+  health: "Wo apɔmuden",
+  money: "Wo sika",
+  team: "Wo team",
+  systems: "Wo nhyehyɛe",
+  vision: "Wo vision"
+};
+
+const VoiceNavigation = ({ text, autoPlay = false, language = 'en' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(() => {
     return localStorage.getItem('akofa_voice_enabled') === 'true';
   });
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [selectedLang, setSelectedLang] = useState(language);
 
   useEffect(() => {
     setSpeechSupported('speechSynthesis' in window);
@@ -24,8 +40,8 @@ const VoiceNavigation = ({ text, autoPlay = false }) => {
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = 'en-GH';
-    utterance.rate = 0.9;
+    utterance.lang = selectedLang === 'tw' ? 'en-GH' : 'en-GH';
+    utterance.rate = selectedLang === 'tw' ? 0.8 : 0.9;
     utterance.pitch = 1;
 
     utterance.onstart = () => setIsPlaying(true);
@@ -33,6 +49,12 @@ const VoiceNavigation = ({ text, autoPlay = false }) => {
     utterance.onerror = () => setIsPlaying(false);
 
     window.speechSynthesis.speak(utterance);
+  };
+
+  const speakTwi = (key) => {
+    if (twiPhrases[key]) {
+      speak(twiPhrases[key]);
+    }
   };
 
   const stopSpeaking = () => {
@@ -52,10 +74,24 @@ const VoiceNavigation = ({ text, autoPlay = false }) => {
     }
   };
 
+  const toggleLanguage = () => {
+    const newLang = selectedLang === 'en' ? 'tw' : 'en';
+    setSelectedLang(newLang);
+  };
+
   if (!speechSupported) return null;
 
   return (
     <div className="voice-navigation flex items-center gap-2">
+      <button
+        onClick={toggleLanguage}
+        className="p-2 rounded-lg bg-slate-700 text-gray-400 hover:text-white transition"
+        title={`Switch to ${selectedLang === 'en' ? 'Twi' : 'English'}`}
+      >
+        <Languages className="w-5 h-5" />
+        <span className="text-xs ml-1">{selectedLang.toUpperCase()}</span>
+      </button>
+      
       <button
         onClick={toggleVoice}
         className={`p-2 rounded-lg transition ${
@@ -84,6 +120,8 @@ const VoiceNavigation = ({ text, autoPlay = false }) => {
     </div>
   );
 };
+
+export { twiPhrases };
 
 export const SpeakButton = ({ text, className = '' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
