@@ -18,6 +18,47 @@ const reflectionPrompts = [
 
 const getRandomPrompt = () => reflectionPrompts[Math.floor(Math.random() * reflectionPrompts.length)];
 
+// Get today's check-in (alias for /today)
+router.get('/', async (req, res) => {
+  try {
+    const result = await query(
+      `SELECT * FROM daily_checkins 
+       WHERE user_id = $1 AND checkin_date = CURRENT_DATE`,
+      [req.userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ 
+        hasCheckedIn: false,
+        prompt: getRandomPrompt()
+      });
+    }
+
+    const checkin = result.rows[0];
+    res.json({
+      hasCheckedIn: true,
+      checkin: {
+        id: checkin.id,
+        bioHardware: checkin.bio_hardware,
+        internalOS: checkin.internal_os,
+        culturalSoftware: checkin.cultural_software,
+        socialInstance: checkin.social_instance,
+        consciousUser: checkin.conscious_user,
+        culturalBug: checkin.cultural_bug,
+        mood: checkin.mood,
+        energyLevel: checkin.energy_level,
+        dailyWin: checkin.daily_win,
+        symptomLog: checkin.symptom_log,
+        reflectionPrompt: checkin.reflection_prompt,
+        reflectionResponse: checkin.reflection_response
+      }
+    });
+  } catch (err) {
+    console.error('Get checkin error:', err);
+    res.status(500).json({ error: 'Failed to get check-in' });
+  }
+});
+
 // Get today's check-in
 router.get('/today', async (req, res) => {
   try {

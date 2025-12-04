@@ -93,7 +93,7 @@ router.get('/', async (req, res) => {
     }
 
     // Get AI bonus (from completed recommendations)
-    const aiBonus = Math.min(50, user.total_checkins * 0.5);
+    const aiBonus = Math.round(Math.min(50, user.total_checkins * 0.5));
 
     const score = calculateStackScore(consistency, progress, balance, aiBonus);
     const tierInfo = getScoreTier(score);

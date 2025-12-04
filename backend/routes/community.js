@@ -7,12 +7,12 @@ const router = express.Router();
 router.get('/groups', async (req, res) => {
   try {
     const result = await query(
-      `SELECT g.*, 
-              (SELECT COUNT(*) FROM user_groups WHERE group_id = g.id) as member_count,
+      `SELECT g.id, g.name, g.slug, g.description, g.theme, g.icon, g.created_at,
+              (SELECT COUNT(*) FROM user_groups WHERE group_id = g.id) as members_count,
               EXISTS(SELECT 1 FROM user_groups WHERE group_id = g.id AND user_id = $1) as is_member
        FROM community_groups g 
        WHERE g.is_active = true
-       ORDER BY member_count DESC`,
+       ORDER BY members_count DESC`,
       [req.userId]
     );
 
@@ -24,7 +24,7 @@ router.get('/groups', async (req, res) => {
         description: g.description,
         theme: g.theme,
         icon: g.icon,
-        memberCount: parseInt(g.member_count),
+        memberCount: parseInt(g.members_count),
         isMember: g.is_member
       }))
     });
