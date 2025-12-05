@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { User, Award, Settings, Bell, Shield, LogOut, Crown, Zap, Calendar, Target, Heart, Brain, Code, Users as UsersIcon, Eye, Check } from 'lucide-react';
+import { User, Award, Settings, Bell, Shield, LogOut, Crown, Zap, Calendar, Target, Heart, Brain, Code, Users as UsersIcon, Eye, Check, Download, Upload, FileJson, FileText } from 'lucide-react';
+import { exportToJSON, exportToCSV } from '../../utils/exportData';
 import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -148,7 +149,7 @@ export default function ProfilePage({ user, onLogout }) {
 
       {/* Tabs */}
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {['overview', 'badges', 'settings'].map(tab => (
+        {['overview', 'badges', 'export', 'settings'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -254,6 +255,106 @@ export default function ProfilePage({ user, onLogout }) {
               <p>No badges earned yet. Keep going!</p>
             </div>
           )}
+        </div>
+      )}
+
+      {activeTab === 'export' && (
+        <div className="space-y-6">
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <Download className="w-5 h-5 text-cyan-400" />
+              Export Your Data
+            </h3>
+            <p className="text-gray-400 mb-6">Download your personal data in various formats. This includes your check-ins, assessments, mood entries, and progress history.</p>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <button
+                onClick={async () => {
+                  const token = localStorage.getItem('akofa_token');
+                  await exportToJSON(token);
+                }}
+                className="p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-cyan-500/50 transition flex items-center gap-4"
+              >
+                <div className="p-3 rounded-lg bg-cyan-500/20">
+                  <FileJson className="w-6 h-6 text-cyan-400" />
+                </div>
+                <div className="text-left">
+                  <p className="text-white font-medium">Full Export (JSON)</p>
+                  <p className="text-gray-400 text-sm">All data in JSON format</p>
+                </div>
+              </button>
+
+              <button
+                onClick={async () => {
+                  const token = localStorage.getItem('akofa_token');
+                  await exportToCSV(token, 'checkins');
+                }}
+                className="p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-green-500/50 transition flex items-center gap-4"
+              >
+                <div className="p-3 rounded-lg bg-green-500/20">
+                  <FileText className="w-6 h-6 text-green-400" />
+                </div>
+                <div className="text-left">
+                  <p className="text-white font-medium">Check-ins (CSV)</p>
+                  <p className="text-gray-400 text-sm">Daily check-in history</p>
+                </div>
+              </button>
+
+              <button
+                onClick={async () => {
+                  const token = localStorage.getItem('akofa_token');
+                  await exportToCSV(token, 'moods');
+                }}
+                className="p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-purple-500/50 transition flex items-center gap-4"
+              >
+                <div className="p-3 rounded-lg bg-purple-500/20">
+                  <FileText className="w-6 h-6 text-purple-400" />
+                </div>
+                <div className="text-left">
+                  <p className="text-white font-medium">Mood History (CSV)</p>
+                  <p className="text-gray-400 text-sm">Mood and energy logs</p>
+                </div>
+              </button>
+
+              <button
+                onClick={async () => {
+                  const token = localStorage.getItem('akofa_token');
+                  await exportToCSV(token, 'assessments');
+                }}
+                className="p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-yellow-500/50 transition flex items-center gap-4"
+              >
+                <div className="p-3 rounded-lg bg-yellow-500/20">
+                  <FileText className="w-6 h-6 text-yellow-400" />
+                </div>
+                <div className="text-left">
+                  <p className="text-white font-medium">Assessments (CSV)</p>
+                  <p className="text-gray-400 text-sm">StackScore assessments</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-green-400" />
+              Data Privacy
+            </h3>
+            <p className="text-gray-400 mb-4">Your data belongs to you. We never sell or share your personal information.</p>
+            <ul className="space-y-2 text-gray-400 text-sm">
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-400" />
+                All exports are encrypted during transfer
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-400" />
+                Data is stored securely on our servers
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-400" />
+                You can request data deletion anytime
+              </li>
+            </ul>
+          </div>
         </div>
       )}
 

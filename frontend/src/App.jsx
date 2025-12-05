@@ -21,9 +21,15 @@ import ChallengesPage from './components/Pages/ChallengesPage';
 import ProgressTimeline from './components/Pages/ProgressTimeline';
 import ProfilePage from './components/Pages/ProfilePage';
 import HelpPage from './components/Pages/HelpPage';
+import QuestsPage from './components/Pages/QuestsPage';
+import LeaderboardPage from './components/Pages/LeaderboardPage';
+import MoodPage from './components/Pages/MoodPage';
+import ToolsPage from './components/Pages/ToolsPage';
+import LayerGuidePage from './components/Pages/LayerGuidePage';
 import WelcomeOverlay from './components/ui/WelcomeOverlay';
 import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import AccessibilitySettings from './components/ui/AccessibilitySettings';
+import OfflineIndicator from './components/ui/OfflineIndicator';
 import './styles/globals.css';
 
 function AppContent() {
@@ -208,15 +214,19 @@ function AppContent() {
     switch (currentPage) {
       case 'dashboard': return <Dashboard assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'checkin': return <DailyCheckin />;
+      case 'quests': return <QuestsPage />;
       case 'stackscore': return <StackScorePage />;
       case 'assessment': return <Assessment assessmentData={assessmentData} setAssessmentData={handleAssessmentUpdate} purpose={user?.purpose} />;
       case 'challenges': return <ChallengesPage />;
+      case 'leaderboard': return <LeaderboardPage />;
       case 'community': return <CommunityPage />;
+      case 'mood': return <MoodPage />;
       case 'timeline': return <ProgressTimeline />;
       case 'analysis': return <Analysis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'chat': return <Chat assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
-      case 'tools': return <BusinessTools purpose={user?.purpose} />;
+      case 'tools': return <ToolsPage />;
+      case 'layerguide': return <LayerGuidePage />;
       case 'profile': return <ProfilePage user={user} onLogout={handleLogout} />;
       case 'help': return <HelpPage />;
       default: return <Dashboard assessmentData={assessmentData} />;
@@ -242,6 +252,7 @@ function AppContent() {
         message="Hello! I need help with Akↄfa Fixit"
       />
       <AccessibilitySettings />
+      <OfflineIndicator />
     </div>
   );
 }

@@ -204,6 +204,120 @@ router.post('/:challengeId/quit', async (req, res) => {
   }
 });
 
+// Get Hall of Fame - top challenge completers
+router.get('/hall-of-fame', async (req, res) => {
+  try {
+    const result = await query(
+      `SELECT u.id, 
+              CASE WHEN u.name IS NOT NULL AND u.name != '' THEN LEFT(u.name, 2) || '***' ELSE 'User' END as display_name,
+              COUNT(CASE WHEN uc.status = 'completed' THEN 1 END) as completed_count,
+              COALESCE(SUM(CASE WHEN uc.status = 'completed' THEN c.points ELSE 0 END), 0) as total_points,
+              MAX(uc.completed_at) as last_completed
+       FROM users u
+       INNER JOIN user_challenges uc ON u.id = uc.user_id
+       INNER JOIN challenges c ON uc.challenge_id = c.id
+       GROUP BY u.id, u.name
+       HAVING COUNT(CASE WHEN uc.status = 'completed' THEN 1 END) >= 1
+       ORDER BY total_points DESC, completed_count DESC
+       LIMIT 50`,
+      []
+    );
+
+    res.json({
+      hallOfFame: result.rows.map((r, i) => ({
+        rank: i + 1,
+        displayName: r.display_name,
+        completedCount: parseInt(r.completed_count),
+        totalPoints: parseInt(r.total_points),
+        lastCompleted: r.last_completed,
+        isCurrentUser: r.id === req.userId
+      }))
+    });
+  } catch (err) {
+    console.error('Get hall of fame error:', err);
+    res.status(500).json({ error: 'Failed to get hall of fame' });
+  }
+});
+
+// Get user's completed challenge certificates
+router.get('/certificates', async (req, res) => {
+  try {
+    const result = await query(
+      `SELECT c.id, c.title, c.description, c.difficulty, c.points, c.duration_days,
+              uc.started_at, uc.completed_at, u.name as user_name
+       FROM user_challenges uc
+       INNER JOIN challenges c ON uc.challenge_id = c.id
+       INNER JOIN users u ON uc.user_id = u.id
+       WHERE uc.user_id = $1 AND uc.status = 'completed'
+       ORDER BY uc.completed_at DESC`,
+      [req.userId]
+    );
+
+    res.json({
+      certificates: result.rows.map(c => ({
+        challengeId: c.id,
+        title: c.title,
+        description: c.description,
+        difficulty: c.difficulty,
+        points: c.points,
+        duration: c.duration_days,
+        startedAt: c.started_at,
+        completedAt: c.completed_at,
+        userName: c.user_name,
+        certificateCode: `AKOFA-${c.id}-${req.userId}-${new Date(c.completed_at).getTime().toString(36).toUpperCase()}`
+      }))
+    });
+  } catch (err) {
+    console.error('Get certificates error:', err);
+    res.status(500).json({ error: 'Failed to get certificates' });
+  }
+});
+
+// Create user challenge (custom challenge)
+router.post('/create', async (req, res) => {
+  try {
+    const { title, description, layerFocus, durationDays, difficulty, tasks } = req.body;
+
+    if (!title || !description || !durationDays) {
+      return res.status(400).json({ error: 'Title, description, and duration are required' });
+    }
+
+    const points = difficulty === 'easy' ? durationDays * 10 : 
+                   difficulty === 'hard' ? durationDays * 25 : durationDays * 15;
+
+    const result = await query(
+      `INSERT INTO challenges (title, description, layer_focus, duration_days, difficulty, points, challenge_type, is_active)
+       VALUES ($1, $2, $3, $4, $5, $6, 'user_created', true)
+       RETURNING *`,
+      [title, description, layerFocus || 'consciousUser', durationDays, difficulty || 'medium', points]
+    );
+
+    const challengeId = result.rows[0].id;
+
+    // Auto-join the creator to their challenge
+    await query(
+      `INSERT INTO user_challenges (user_id, challenge_id, status, progress) VALUES ($1, $2, 'active', 0)`,
+      [req.userId, challengeId]
+    );
+
+    res.json({
+      success: true,
+      challenge: {
+        id: challengeId,
+        title,
+        description,
+        layerFocus: layerFocus || 'consciousUser',
+        duration: durationDays,
+        difficulty: difficulty || 'medium',
+        points
+      }
+    });
+  } catch (err) {
+    console.error('Create challenge error:', err);
+    res.status(500).json({ error: 'Failed to create challenge' });
+  }
+});
+
 // Get challenge leaderboard
 router.get('/:challengeId/leaderboard', async (req, res) => {
   try {

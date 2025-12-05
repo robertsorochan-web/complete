@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User, HelpCircle } from 'lucide-react';
+import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User, HelpCircle, Target, Medal, Heart } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { getNavItems, getPurposeConfig } from '../../config/purposeConfig';
 import { useLanguage } from '../../context/LanguageContext';
@@ -17,7 +17,10 @@ const navIcons = {
   challenges: Trophy,
   timeline: Calendar,
   profile: User,
-  help: HelpCircle
+  help: HelpCircle,
+  quests: Target,
+  leaderboard: Medal,
+  mood: Heart
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {

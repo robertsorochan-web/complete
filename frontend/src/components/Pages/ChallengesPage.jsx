@@ -73,6 +73,10 @@ export default function ChallengesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [userStats, setUserStats] = useState({ completed: 0, active: 0, points: 0, streak: 0 });
+  const [hallOfFame, setHallOfFame] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newChallenge, setNewChallenge] = useState({ title: '', description: '', layerFocus: 'consciousUser', durationDays: 7, difficulty: 'medium' });
 
   useEffect(() => {
     fetchChallenges();
@@ -99,7 +103,7 @@ export default function ChallengesPage() {
         const res = await fetch(url, { headers: getAuthHeaders() });
         const data = await res.json();
         setChallenges(data.challenges || challengeTemplates);
-      } else {
+      } else if (activeTab === 'my') {
         const res = await fetch(`${API_URL}/api/challenges/my-challenges`, { headers: getAuthHeaders() });
         const data = await res.json();
         setMyChallenges(data.challenges || []);
@@ -112,6 +116,14 @@ export default function ChallengesPage() {
           points: data.totalPoints || 0,
           streak: data.challengeStreak || 0
         });
+      } else if (activeTab === 'hallOfFame') {
+        const res = await fetch(`${API_URL}/api/challenges/hall-of-fame`, { headers: getAuthHeaders() });
+        const data = await res.json();
+        setHallOfFame(data.hallOfFame || []);
+      } else if (activeTab === 'certificates') {
+        const res = await fetch(`${API_URL}/api/challenges/certificates`, { headers: getAuthHeaders() });
+        const data = await res.json();
+        setCertificates(data.certificates || []);
       }
     } catch (err) {
       console.error('Failed to fetch challenges:', err);
@@ -120,6 +132,25 @@ export default function ChallengesPage() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateChallenge = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/challenges/create`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(newChallenge)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setShowCreateForm(false);
+        setNewChallenge({ title: '', description: '', layerFocus: 'consciousUser', durationDays: 7, difficulty: 'medium' });
+        setActiveTab('my');
+        fetchChallenges();
+      }
+    } catch (err) {
+      console.error('Failed to create challenge:', err);
     }
   };
 
@@ -440,10 +471,10 @@ export default function ChallengesPage() {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-2 justify-center">
+      <div className="flex flex-wrap gap-2 justify-center">
         <button
           onClick={() => setActiveTab('marketplace')}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
             activeTab === 'marketplace' 
               ? 'bg-purple-500 text-white' 
               : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
@@ -454,7 +485,7 @@ export default function ChallengesPage() {
         </button>
         <button
           onClick={() => setActiveTab('my')}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
             activeTab === 'my' 
               ? 'bg-purple-500 text-white' 
               : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
@@ -462,6 +493,28 @@ export default function ChallengesPage() {
         >
           <TrendingUp className="w-4 h-4" />
           {challengeText.myChallenges || 'My Challenges'}
+        </button>
+        <button
+          onClick={() => setActiveTab('hallOfFame')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+            activeTab === 'hallOfFame' 
+              ? 'bg-purple-500 text-white' 
+              : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+          }`}
+        >
+          <Trophy className="w-4 h-4" />
+          Hall of Fame
+        </button>
+        <button
+          onClick={() => setActiveTab('certificates')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+            activeTab === 'certificates' 
+              ? 'bg-purple-500 text-white' 
+              : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+          }`}
+        >
+          <Award className="w-4 h-4" />
+          Certificates
         </button>
       </div>
 
@@ -506,6 +559,90 @@ export default function ChallengesPage() {
         </div>
       )}
 
+      {/* Create Challenge Button */}
+      {activeTab === 'marketplace' && (
+        <div className="flex justify-center">
+          <button
+            onClick={() => setShowCreateForm(true)}
+            className="px-6 py-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg hover:opacity-90 transition flex items-center gap-2"
+          >
+            <Zap className="w-4 h-4" />
+            Create Your Own Challenge
+          </button>
+        </div>
+      )}
+
+      {/* Create Challenge Form Modal */}
+      {showCreateForm && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
+            <h3 className="text-xl font-bold text-white mb-4">Create New Challenge</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Challenge Title</label>
+                <input
+                  type="text"
+                  value={newChallenge.title}
+                  onChange={(e) => setNewChallenge({...newChallenge, title: e.target.value})}
+                  className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
+                  placeholder="e.g., 30-Day Gratitude Practice"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Description</label>
+                <textarea
+                  value={newChallenge.description}
+                  onChange={(e) => setNewChallenge({...newChallenge, description: e.target.value})}
+                  className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
+                  rows={3}
+                  placeholder="What is this challenge about?"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Duration (days)</label>
+                  <input
+                    type="number"
+                    value={newChallenge.durationDays}
+                    onChange={(e) => setNewChallenge({...newChallenge, durationDays: parseInt(e.target.value) || 7})}
+                    className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
+                    min="1"
+                    max="365"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Difficulty</label>
+                  <select
+                    value={newChallenge.difficulty}
+                    onChange={(e) => setNewChallenge({...newChallenge, difficulty: e.target.value})}
+                    className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
+                  >
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setShowCreateForm(false)}
+                  className="flex-1 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateChallenge}
+                  disabled={!newChallenge.title || !newChallenge.description}
+                  className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
+                >
+                  Create & Start
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       {loading ? (
         <div className="flex items-center justify-center h-64">
@@ -513,12 +650,14 @@ export default function ChallengesPage() {
         </div>
       ) : (
         <div className="grid gap-4">
-          {activeTab === 'marketplace' ? (
+          {activeTab === 'marketplace' && (
             (challenges.length > 0 ? challenges : challengeTemplates)
               .filter(c => !selectedLayer || c.layer === selectedLayer || c.layerFocus === selectedLayer)
               .filter(c => !selectedDifficulty || c.difficulty === selectedDifficulty)
               .map(c => renderChallengeCard(c))
-          ) : (
+          )}
+
+          {activeTab === 'my' && (
             myChallenges.length > 0 ? (
               <>
                 {myChallenges.filter(c => c.status === 'active').length > 0 && (
@@ -558,6 +697,97 @@ export default function ChallengesPage() {
                 </button>
               </div>
             )
+          )}
+
+          {activeTab === 'hallOfFame' && (
+            <div className="space-y-4">
+              <div className="text-center mb-6">
+                <Trophy className="w-12 h-12 text-yellow-500 mx-auto mb-2" />
+                <h2 className="text-xl font-bold text-white">Challenge Champions</h2>
+                <p className="text-gray-400 text-sm">Top challenge completers in our community</p>
+              </div>
+              {hallOfFame.length > 0 ? (
+                hallOfFame.map((user, i) => (
+                  <div key={i} className={`flex items-center gap-4 p-4 rounded-xl transition-all ${
+                    user.isCurrentUser 
+                      ? 'bg-purple-900/30 border border-purple-500/50' 
+                      : 'bg-slate-800/50 hover:bg-slate-800'
+                  }`}>
+                    <div className="w-10 text-center">
+                      {user.rank <= 3 ? (
+                        <span className={`text-2xl ${user.rank === 1 ? 'text-yellow-400' : user.rank === 2 ? 'text-gray-300' : 'text-amber-600'}`}>
+                          {user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : '🥉'}
+                        </span>
+                      ) : (
+                        <span className="text-gray-500 font-medium">#{user.rank}</span>
+                      )}
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                      <span className="font-bold text-white">{user.displayName?.[0] || 'U'}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className={`font-medium ${user.isCurrentUser ? 'text-purple-400' : 'text-white'}`}>
+                        {user.displayName} {user.isCurrentUser && '(You)'}
+                      </p>
+                      <p className="text-xs text-gray-500">{user.completedCount} challenges completed</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-yellow-400 font-bold">{user.totalPoints} pts</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 text-gray-500">
+                  <Trophy className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                  <p>Complete challenges to join the Hall of Fame!</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'certificates' && (
+            <div className="space-y-4">
+              <div className="text-center mb-6">
+                <Award className="w-12 h-12 text-purple-400 mx-auto mb-2" />
+                <h2 className="text-xl font-bold text-white">Your Certificates</h2>
+                <p className="text-gray-400 text-sm">Proof of your accomplishments</p>
+              </div>
+              {certificates.length > 0 ? (
+                certificates.map((cert, i) => (
+                  <div key={i} className="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 rounded-xl p-6 border border-purple-500/30">
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 rounded-xl bg-yellow-500/20">
+                        <Award className="w-8 h-8 text-yellow-400" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-white text-lg">{cert.title}</h3>
+                        <p className="text-gray-400 text-sm mb-2">{cert.description}</p>
+                        <div className="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                          <span>Duration: {cert.duration} days</span>
+                          <span>Points: {cert.points}</span>
+                          <span>Completed: {new Date(cert.completedAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-3">
+                          <p className="text-xs text-gray-400">Certificate Code:</p>
+                          <p className="text-purple-400 font-mono text-sm">{cert.certificateCode}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 text-gray-500">
+                  <Award className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                  <p>Complete challenges to earn certificates!</p>
+                  <button
+                    onClick={() => setActiveTab('marketplace')}
+                    className="mt-4 px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+                  >
+                    Browse Challenges
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}

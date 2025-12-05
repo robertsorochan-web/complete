@@ -10,6 +10,11 @@ import stackscoreRoutes from './routes/stackscore.js';
 import communityRoutes from './routes/community.js';
 import challengeRoutes from './routes/challenges.js';
 import profileRoutes from './routes/profile.js';
+import levelingRoutes from './routes/leveling.js';
+import questsRoutes from './routes/quests.js';
+import moodRoutes from './routes/mood.js';
+import leaderboardRoutes from './routes/leaderboard.js';
+import exportRoutes from './routes/export.js';
 import { authMiddleware } from './middleware/auth.js';
 
 dotenv.config();
@@ -72,6 +77,11 @@ app.use('/api/stackscore', authMiddleware, stackscoreRoutes);
 app.use('/api/community', authMiddleware, communityRoutes);
 app.use('/api/challenges', authMiddleware, challengeRoutes);
 app.use('/api/profile', authMiddleware, profileRoutes);
+app.use('/api/leveling', authMiddleware, levelingRoutes);
+app.use('/api/quests', authMiddleware, questsRoutes);
+app.use('/api/mood', authMiddleware, moodRoutes);
+app.use('/api/leaderboard', authMiddleware, leaderboardRoutes);
+app.use('/api/export', authMiddleware, exportRoutes);
 
 app.post('/api/contact', async (req, res) => {
   try {

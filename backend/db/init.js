@@ -285,6 +285,188 @@ export const initDb = async () => {
       )
     `);
 
+    // XP and Level tracking
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_xp (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+        total_xp INTEGER DEFAULT 0,
+        current_level INTEGER DEFAULT 1,
+        xp_to_next_level INTEGER DEFAULT 100,
+        lifetime_xp INTEGER DEFAULT 0,
+        last_xp_earned_at TIMESTAMP DEFAULT NOW(),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // XP transactions log
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS xp_transactions (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        xp_amount INTEGER NOT NULL,
+        action_type VARCHAR(50) NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Quests table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS quests (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(200) NOT NULL,
+        description TEXT,
+        quest_type VARCHAR(50) DEFAULT 'daily',
+        action_type VARCHAR(100) NOT NULL,
+        target_count INTEGER DEFAULT 1,
+        xp_reward INTEGER DEFAULT 25,
+        difficulty VARCHAR(20) DEFAULT 'easy',
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // User quest progress
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_quests (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        quest_id INTEGER REFERENCES quests(id) ON DELETE CASCADE,
+        progress INTEGER DEFAULT 0,
+        status VARCHAR(20) DEFAULT 'active',
+        assigned_date DATE DEFAULT CURRENT_DATE,
+        completed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, quest_id, assigned_date)
+      )
+    `);
+
+    // Mood tracking enhanced
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS mood_logs (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        mood_score INTEGER NOT NULL CHECK (mood_score >= 1 AND mood_score <= 5),
+        energy_score INTEGER CHECK (energy_score >= 1 AND energy_score <= 5),
+        notes TEXT,
+        tags TEXT[],
+        time_of_day VARCHAR(20),
+        logged_at TIMESTAMP DEFAULT NOW(),
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Leaderboard snapshots (weekly/monthly)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS leaderboard_snapshots (
+        id SERIAL PRIMARY KEY,
+        period_type VARCHAR(20) NOT NULL,
+        period_start DATE NOT NULL,
+        period_end DATE NOT NULL,
+        rankings JSONB NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Friend challenges
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS friend_challenges (
+        id SERIAL PRIMARY KEY,
+        challenge_code VARCHAR(20) UNIQUE NOT NULL,
+        creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        challenge_type VARCHAR(50) DEFAULT 'streak',
+        target_value INTEGER DEFAULT 7,
+        start_date DATE DEFAULT CURRENT_DATE,
+        end_date DATE,
+        status VARCHAR(20) DEFAULT 'pending',
+        winner_id INTEGER REFERENCES users(id),
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Friend challenge participants
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS friend_challenge_participants (
+        id SERIAL PRIMARY KEY,
+        challenge_id INTEGER REFERENCES friend_challenges(id) ON DELETE CASCADE,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        current_progress INTEGER DEFAULT 0,
+        joined_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(challenge_id, user_id)
+      )
+    `);
+
+    // Streak recovery tracking
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS streak_recovery (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        lost_streak INTEGER NOT NULL,
+        recovery_used BOOLEAN DEFAULT false,
+        lost_at TIMESTAMP DEFAULT NOW(),
+        recovered_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // User favorites/saved items
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_favorites (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        item_type VARCHAR(50) NOT NULL,
+        item_id INTEGER NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, item_type, item_id)
+      )
+    `);
+
+    // Testimonials table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        testimonial_text TEXT NOT NULL,
+        before_score INTEGER,
+        after_score INTEGER,
+        layer_focus VARCHAR(50),
+        is_approved BOOLEAN DEFAULT false,
+        is_featured BOOLEAN DEFAULT false,
+        display_name VARCHAR(100),
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Feature waitlist
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS feature_waitlist (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        email VARCHAR(255),
+        feature_name VARCHAR(100) NOT NULL,
+        vote_count INTEGER DEFAULT 1,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, feature_name)
+      )
+    `);
+
+    // Insert default quests
+    await client.query(`
+      INSERT INTO quests (title, description, quest_type, action_type, target_count, xp_reward, difficulty) 
+      VALUES 
+        ('Morning Check-in', 'Complete your daily check-in', 'daily', 'checkin', 1, 25, 'easy'),
+        ('Reflection Master', 'Write a reflection response', 'daily', 'reflection', 1, 15, 'easy'),
+        ('Mood Logger', 'Log your mood 3 times today', 'daily', 'mood_log', 3, 30, 'medium'),
+        ('Community Contributor', 'Share an insight with the community', 'daily', 'share_insight', 1, 20, 'easy'),
+        ('Week Warrior', 'Maintain a 7-day streak', 'weekly', 'streak', 7, 100, 'medium'),
+        ('Challenge Starter', 'Start a new challenge', 'weekly', 'start_challenge', 1, 50, 'easy'),
+        ('Layer Explorer', 'Rate all 5 layers in one check-in', 'daily', 'full_checkin', 1, 35, 'easy'),
+        ('Consistency King', 'Complete check-ins for 30 days', 'monthly', 'streak', 30, 500, 'hard')
+      ON CONFLICT DO NOTHING
+    `);
+
     // Insert default community groups
     await client.query(`
       INSERT INTO community_groups (name, slug, description, theme, icon) 
