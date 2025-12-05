@@ -19,6 +19,7 @@ import CommunityPage from './components/Pages/CommunityPage';
 import ChallengesPage from './components/Pages/ChallengesPage';
 import ProgressTimeline from './components/Pages/ProgressTimeline';
 import ProfilePage from './components/Pages/ProfilePage';
+import HelpPage from './components/Pages/HelpPage';
 import WelcomeOverlay from './components/ui/WelcomeOverlay';
 import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import AccessibilitySettings from './components/ui/AccessibilitySettings';
@@ -216,6 +217,7 @@ export default function App() {
       case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'tools': return <BusinessTools purpose={user?.purpose} />;
       case 'profile': return <ProfilePage user={user} onLogout={handleLogout} />;
+      case 'help': return <HelpPage />;
       default: return <Dashboard assessmentData={assessmentData} />;
     }
   };

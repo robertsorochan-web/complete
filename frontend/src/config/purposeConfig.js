@@ -40,7 +40,8 @@ export const purposeConfig = {
       { id: 'analysis', label: 'See Clearly', icon: '🔍' },
       { id: 'diagnosis', label: 'Solve Problem', icon: '🔧' },
       { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' }
+      { id: 'profile', label: 'My Profile', icon: '👤' },
+      { id: 'help', label: 'Help / FAQ', icon: '❓' }
     ],
     headerTitles: {
       dashboard: 'My Summary',
@@ -53,7 +54,8 @@ export const purposeConfig = {
       analysis: 'See Clearly',
       chat: 'Talk to Akↄfa',
       diagnosis: 'Solve Problem',
-      profile: 'My Profile'
+      profile: 'My Profile',
+      help: 'Help / FAQ'
     }
   },
   team: {
@@ -97,7 +99,8 @@ export const purposeConfig = {
       { id: 'analysis', label: 'Team Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
       { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' }
+      { id: 'profile', label: 'My Profile', icon: '👤' },
+      { id: 'help', label: 'Help / FAQ', icon: '❓' }
     ],
     headerTitles: {
       dashboard: 'Team Summary',
@@ -110,7 +113,8 @@ export const purposeConfig = {
       analysis: 'Team Insight',
       chat: 'Talk to Akↄfa',
       diagnosis: 'Fix Problem',
-      profile: 'My Profile'
+      profile: 'My Profile',
+      help: 'Help / FAQ'
     }
   },
   business: {
@@ -160,7 +164,8 @@ export const purposeConfig = {
       { id: 'analysis', label: 'Business Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
       { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' }
+      { id: 'profile', label: 'My Profile', icon: '👤' },
+      { id: 'help', label: 'Help / FAQ', icon: '❓' }
     ],
     headerTitles: {
       dashboard: 'Business Summary',
@@ -174,7 +179,8 @@ export const purposeConfig = {
       analysis: 'Business Insight',
       chat: 'Talk to Akↄfa',
       diagnosis: 'Fix Problem',
-      profile: 'My Profile'
+      profile: 'My Profile',
+      help: 'Help / FAQ'
     }
   },
   policy: {
@@ -218,7 +224,8 @@ export const purposeConfig = {
       { id: 'analysis', label: 'System Insight', icon: '🔍' },
       { id: 'diagnosis', label: 'Find Solutions', icon: '🔧' },
       { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' }
+      { id: 'profile', label: 'My Profile', icon: '👤' },
+      { id: 'help', label: 'Help / FAQ', icon: '❓' }
     ],
     headerTitles: {
       dashboard: 'System Summary',
@@ -231,7 +238,8 @@ export const purposeConfig = {
       analysis: 'System Insight',
       chat: 'Talk to Akↄfa',
       diagnosis: 'Find Solutions',
-      profile: 'My Profile'
+      profile: 'My Profile',
+      help: 'Help / FAQ'
     }
   }
 };

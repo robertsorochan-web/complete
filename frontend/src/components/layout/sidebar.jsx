@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User } from 'lucide-react';
+import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User, HelpCircle } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { getNavItems, getPurposeConfig } from '../../config/purposeConfig';
 
@@ -15,7 +15,8 @@ const navIcons = {
   community: Users,
   challenges: Trophy,
   timeline: Calendar,
-  profile: User
+  profile: User,
+  help: HelpCircle
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {

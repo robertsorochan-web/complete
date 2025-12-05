@@ -3,11 +3,13 @@ import { Sparkles, Target, Brain, Users, Heart, AlertCircle, TrendingUp, Users2,
 import { SuccessStoriesGrid } from '../ui/SuccessStories';
 import { getAllUseCases } from '../../config/useCaseTemplates';
 import LanguageToggle from '../ui/LanguageToggle';
+import { t, getCurrentLanguage } from '../../config/i18n';
 
 const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [contactStatus, setContactStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const lang = getCurrentLanguage();
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -69,23 +71,27 @@ const HomePage = ({ onNavigateToSignup, onNavigateToLogin }) => {
           <Sparkles className="w-12 h-12 text-purple-400" />
         </div>
         <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-          Stop Chasing Symptoms.<br />Fix The Real Problem.
+          {t('home.title', lang).split('.').map((part, i) => (
+            <React.Fragment key={i}>
+              {part}{i === 0 && '.'}<br className={i === 0 ? '' : 'hidden'} />
+            </React.Fragment>
+          ))}
         </h1>
         <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-          You dey try different things but nothing dey work? Akↄfa shows you exactly what dey hold you back - whether na your life, your team, or your business. No more guessing. Real answers. Real change.
+          {t('home.subtitle', lang)}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
             onClick={onNavigateToSignup}
             className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg font-semibold text-lg transition transform hover:scale-105"
           >
-            Start Free - Takes 2 Minutes
+            {t('home.startFree', lang)}
           </button>
           <button 
             onClick={onNavigateToLogin}
             className="px-8 py-4 border border-purple-500 hover:bg-purple-500/20 rounded-lg font-semibold text-lg transition"
           >
-            I Get Account Already
+            {t('home.login', lang)}
           </button>
         </div>
       </section>

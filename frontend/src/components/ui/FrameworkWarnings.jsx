@@ -3,23 +3,13 @@ import { AlertTriangle, Info, Shield, CheckCircle, X } from 'lucide-react';
 import { getFrameworkLimitations, getEthicalWarnings } from '../../utils/frameworkMetrics';
 
 export const CriticalWarningBanner = ({ onDismiss }) => {
+  return null;
+};
+
+export const FooterDisclaimer = () => {
   return (
-    <div className="bg-gradient-to-r from-amber-900/80 to-orange-900/80 border border-amber-500/50 rounded-xl p-4 mb-6">
-      <div className="flex items-start gap-3">
-        <AlertTriangle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
-        <div className="flex-1">
-          <h4 className="font-semibold text-amber-100 mb-1">Heuristic Tool, Not Truth</h4>
-          <p className="text-sm text-amber-200/90">
-            This framework models reality but is not reality. All outputs contain significant uncertainty. 
-            Never use for high-stakes decisions without multiple validation methods.
-          </p>
-        </div>
-        {onDismiss && (
-          <button onClick={onDismiss} className="text-amber-400 hover:text-amber-200 transition">
-            <X className="w-5 h-5" />
-          </button>
-        )}
-      </div>
+    <div className="text-center text-xs text-gray-500 py-2 border-t border-slate-800 mt-6">
+      <span className="opacity-60">This is a guidance tool, not professional advice. Results are for personal insight only.</span>
     </div>
   );
 };
@@ -177,6 +167,7 @@ export const ConfidenceIndicator = ({ confidence, label = "Confidence" }) => {
 
 export default {
   CriticalWarningBanner,
+  FooterDisclaimer,
   EthicalGuardrails,
   LimitationsDisclosure,
   UserAgreementCheckbox,

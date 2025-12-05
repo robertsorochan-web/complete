@@ -3,7 +3,7 @@ import MetricCard from '../ui/MetricCard';
 import { getLayerConfig } from '../../config/purposeConfig';
 import { TrendingUp, TrendingDown, Target, Zap, Calendar, AlertTriangle, Lightbulb, Share2, Users, Printer, Volume2, Calculator, ClipboardList } from 'lucide-react';
 import { calculateStabilityWithRange } from '../../utils/frameworkMetrics';
-import { CriticalWarningBanner, ConfidenceIndicator, EthicalGuardrails, LimitationsDisclosure } from '../ui/FrameworkWarnings';
+import { CriticalWarningBanner, ConfidenceIndicator, EthicalGuardrails, LimitationsDisclosure, FooterDisclaimer } from '../ui/FrameworkWarnings';
 import { TemporalDimensions } from '../ui/AdvancedFramework';
 import { getProverbForLayer, getActionableTip, ghanaExamples } from '../../utils/ghanaWisdom';
 import { getScoreEmoji, getScoreLabel } from '../../config/useCaseTemplates';
@@ -21,6 +21,7 @@ import ActionSteps from '../ui/ActionSteps';
 import GoalTracker from '../ui/GoalTracker';
 import ProfitLossCalculator from '../ui/ProfitLossCalculator';
 import BusinessChecklists from '../ui/BusinessChecklists';
+import TipOfTheDay from '../ui/TipOfTheDay';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const [showWarning, setShowWarning] = useState(true);
@@ -220,6 +221,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       {/* 3 Action Steps */}
       <ActionSteps weakestArea={bottleneckKey} purpose={purpose} />
 
+      {/* Tip of the Day */}
+      <TipOfTheDay compact={true} />
+
       {/* Real Example */}
       {example && (
         <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
@@ -358,11 +362,8 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         <GoalTracker purpose={purpose} />
       )}
 
-      {/* Ethical Guidelines */}
-      <EthicalGuardrails compact={true} />
-      
-      {/* Limitations */}
-      <LimitationsDisclosure expanded={false} />
+      {/* Footer Disclaimer */}
+      <FooterDisclaimer />
     </div>
   );
 };
