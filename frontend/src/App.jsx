@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { getCurrentUser, logout, updateUserAssessment, getUserAssessment } from './services/auth';
 import { initGA, trackPageView } from './utils/analytics';
 import { LanguageProvider } from './context/LanguageContext';
@@ -33,10 +34,35 @@ import AccessibilitySettings from './components/ui/AccessibilitySettings';
 import OfflineIndicator from './components/ui/OfflineIndicator';
 import './styles/globals.css';
 
+const routeToPageMap = {
+  '/dashboard': 'dashboard',
+  '/checkin': 'checkin',
+  '/quests': 'quests',
+  '/stackscore': 'stackscore',
+  '/assessment': 'assessment',
+  '/challenges': 'challenges',
+  '/leaderboard': 'leaderboard',
+  '/community': 'community',
+  '/mood': 'mood',
+  '/timeline': 'timeline',
+  '/analysis': 'analysis',
+  '/chat': 'chat',
+  '/diagnosis': 'diagnosis',
+  '/tools': 'tools',
+  '/layerguide': 'layerguide',
+  '/achievements': 'achievements',
+  '/profile': 'profile',
+  '/help': 'help'
+};
+
+const pageToRouteMap = Object.fromEntries(
+  Object.entries(routeToPageMap).map(([route, page]) => [page, route])
+);
+
 function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
-  const [authPage, setAuthPage] = useState('home');
-  const [currentPage, setCurrentPage] = useState('dashboard');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(false);
   const [selectedUseCase, setSelectedUseCase] = useState(null);
@@ -49,6 +75,13 @@ function AppContent() {
   });
   const [loading, setLoading] = useState(true);
 
+  const currentPage = routeToPageMap[location.pathname] || 'dashboard';
+
+  const setCurrentPage = (page) => {
+    const route = pageToRouteMap[page] || '/dashboard';
+    navigate(route);
+  };
+
   useEffect(() => {
     initGA();
     trackPageView('home');
@@ -58,9 +91,9 @@ function AppContent() {
     if (user) {
       trackPageView(showOnboarding ? 'onboarding' : currentPage);
     } else {
-      trackPageView(authPage);
+      trackPageView(location.pathname);
     }
-  }, [currentPage, user, authPage, showOnboarding]);
+  }, [location.pathname, user, showOnboarding, currentPage]);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -87,15 +120,15 @@ function AppContent() {
     loadUser();
   }, []);
 
-  const handleSignupSuccess = (user) => {
-    setUser(user);
+  const handleSignupSuccess = (newUser) => {
+    setUser(newUser);
     const hasSeenWelcome = localStorage.getItem('akofa_seen_welcome');
     if (!hasSeenWelcome) {
       setShowWelcomeOverlay(true);
     } else {
       setShowOnboarding(true);
     }
-    setAuthPage('home');
+    navigate('/dashboard');
   };
 
   const handleUseCaseSelect = (purpose, useCase) => {
@@ -126,27 +159,27 @@ function AppContent() {
         console.error('Failed to save onboarding assessment:', err);
       }
     }
+    navigate('/dashboard');
   };
 
-  const handleLoginSuccess = async (user) => {
-    setUser(user);
+  const handleLoginSuccess = async (newUser) => {
+    setUser(newUser);
     try {
-      const savedAssessment = await getUserAssessment(user.id);
+      const savedAssessment = await getUserAssessment(newUser.id);
       if (savedAssessment) {
         setAssessmentData(savedAssessment);
       }
     } catch (err) {
       console.error('Failed to load assessment:', err);
     }
-    setAuthPage('home');
+    navigate('/dashboard');
   };
 
   const handleLogout = () => {
     logout();
     setUser(null);
-    setAuthPage('home');
-    setCurrentPage('dashboard');
     setShowOnboarding(false);
+    navigate('/');
   };
 
   const handleAssessmentUpdate = async (data) => {
@@ -172,24 +205,29 @@ function AppContent() {
   }
 
   if (!user) {
-    if (authPage === 'home') {
-      return <HomePage 
-        onNavigateToSignup={() => setAuthPage('signup')} 
-        onNavigateToLogin={() => setAuthPage('login')}
-      />;
-    }
-    if (authPage === 'signup') {
-      return <SignupForm 
-        onSignupSuccess={handleSignupSuccess}
-        onSwitchToLogin={() => setAuthPage('login')}
-      />;
-    }
-    if (authPage === 'login') {
-      return <LoginForm 
-        onLoginSuccess={handleLoginSuccess}
-        onSwitchToSignup={() => setAuthPage('signup')}
-      />;
-    }
+    return (
+      <Routes>
+        <Route path="/" element={
+          <HomePage 
+            onNavigateToSignup={() => navigate('/signup')} 
+            onNavigateToLogin={() => navigate('/login')}
+          />
+        } />
+        <Route path="/signup" element={
+          <SignupForm 
+            onSignupSuccess={handleSignupSuccess}
+            onSwitchToLogin={() => navigate('/login')}
+          />
+        } />
+        <Route path="/login" element={
+          <LoginForm 
+            onLoginSuccess={handleLoginSuccess}
+            onSwitchToSignup={() => navigate('/signup')}
+          />
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    );
   }
 
   if (showWelcomeOverlay) {
@@ -211,30 +249,6 @@ function AppContent() {
     );
   }
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'dashboard': return <Dashboard assessmentData={assessmentData} purpose={user?.purpose} />;
-      case 'checkin': return <DailyCheckin />;
-      case 'quests': return <QuestsPage />;
-      case 'stackscore': return <StackScorePage />;
-      case 'assessment': return <Assessment assessmentData={assessmentData} setAssessmentData={handleAssessmentUpdate} purpose={user?.purpose} />;
-      case 'challenges': return <ChallengesPage />;
-      case 'leaderboard': return <LeaderboardPage />;
-      case 'community': return <CommunityPage />;
-      case 'mood': return <MoodPage />;
-      case 'timeline': return <ProgressTimeline />;
-      case 'analysis': return <Analysis assessmentData={assessmentData} purpose={user?.purpose} />;
-      case 'chat': return <Chat assessmentData={assessmentData} purpose={user?.purpose} />;
-      case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
-      case 'tools': return <ToolsPage />;
-      case 'layerguide': return <LayerGuidePage />;
-      case 'achievements': return <AchievementsPage />;
-      case 'profile': return <ProfilePage user={user} onLogout={handleLogout} />;
-      case 'help': return <HelpPage />;
-      default: return <Dashboard assessmentData={assessmentData} />;
-    }
-  };
-
   return (
     <div className="app-container min-h-screen flex flex-col md:flex-row">
       <Sidebar 
@@ -246,7 +260,27 @@ function AppContent() {
       <div className="main-content flex-1 flex flex-col min-h-screen">
         <Header currentPage={currentPage} user={user} onLogout={handleLogout} assessmentData={assessmentData} />
         <main className="content-area p-4 md:p-6 flex-1 overflow-auto pb-20 md:pb-6">
-          {renderPage()}
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard assessmentData={assessmentData} purpose={user?.purpose} />} />
+            <Route path="/checkin" element={<DailyCheckin />} />
+            <Route path="/quests" element={<QuestsPage />} />
+            <Route path="/stackscore" element={<StackScorePage />} />
+            <Route path="/assessment" element={<Assessment assessmentData={assessmentData} setAssessmentData={handleAssessmentUpdate} purpose={user?.purpose} />} />
+            <Route path="/challenges" element={<ChallengesPage />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/mood" element={<MoodPage />} />
+            <Route path="/timeline" element={<ProgressTimeline />} />
+            <Route path="/analysis" element={<Analysis assessmentData={assessmentData} purpose={user?.purpose} />} />
+            <Route path="/chat" element={<Chat assessmentData={assessmentData} purpose={user?.purpose} />} />
+            <Route path="/diagnosis" element={<Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />} />
+            <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/layerguide" element={<LayerGuidePage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/profile" element={<ProfilePage user={user} onLogout={handleLogout} />} />
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
         </main>
       </div>
       <FloatingWhatsAppButton 
@@ -261,8 +295,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <BrowserRouter>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </BrowserRouter>
   );
 }

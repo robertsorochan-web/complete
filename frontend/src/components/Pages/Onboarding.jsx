@@ -13,19 +13,19 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
 
   const contextConfig = {
     personal: {
-      title: "Make we understand your life",
-      subtitle: "Rate these 5 areas - be honest, no shame"
+      title: "Let's understand your life",
+      subtitle: "Rate these 5 areas - be honest, no judgment"
     },
     team: {
-      title: "Make we check your team",
-      subtitle: "Rate these 5 areas to see where team need help"
+      title: "Let's check your team",
+      subtitle: "Rate these 5 areas to see where your team needs help"
     },
     business: {
-      title: "Make we check your business",
+      title: "Let's check your business",
       subtitle: "Rate these 5 areas to find growth opportunities"
     },
     policy: {
-      title: "Make we check the system",
+      title: "Let's check the system",
       subtitle: "Rate these 5 areas to find where to intervene"
     }
   };
@@ -65,23 +65,23 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
 
     const headlines = {
       personal: lowestScore <= 4 
-        ? `Your ${lowestLayerName} dey hold you back`
-        : `You dey try, but ${lowestLayerName} fit unlock more`,
+        ? `Your ${lowestLayerName} is holding you back`
+        : `You are doing well, but ${lowestLayerName} can unlock more`,
       team: lowestScore <= 4 
-        ? `Your team ${lowestLayerName} need urgent work`
-        : `Team get potential for ${lowestLayerName}`,
+        ? `Your team ${lowestLayerName} needs urgent work`
+        : `Team has potential for ${lowestLayerName}`,
       business: lowestScore <= 4 
-        ? `${lowestLayerName} dey block your growth`
+        ? `${lowestLayerName} is blocking your growth`
         : `Improve ${lowestLayerName} to unlock growth`,
       policy: lowestScore <= 4 
-        ? `${lowestLayerName} need intervention`
-        : `${lowestLayerName} get opportunity`
+        ? `${lowestLayerName} needs intervention`
+        : `${lowestLayerName} has opportunity`
     };
 
     setInsight({
       headline: headlines[purpose] || headlines.personal,
-      detail: `Your ${highestLayerName} (${highestScore}/10) dey strong, but your ${lowestLayerName} (${lowestScore}/10) dey create wahala. When one area low, e dey pull the others down.`,
-      action: `Focus on improving your ${lowestLayerName} first. E go create change wey go lift everything else.`,
+      detail: `Your ${highestLayerName} (${highestScore}/10) is strong, but your ${lowestLayerName} (${lowestScore}/10) is creating problems. When one area is low, it pulls the others down.`,
+      action: `Focus on improving your ${lowestLayerName} first. It will create change that lifts everything else.`,
       avgScore: avgScore.toFixed(1),
       lowestLayer: lowestLayerName,
       highestLayer: highestLayerName,
@@ -118,7 +118,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-full text-purple-300 text-sm mb-4">
                 <Sparkles className="w-4 h-4" />
-                Your Results Don Ready!
+                Your Results Are Ready!
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">
                 {insight.headline}
@@ -149,7 +149,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
                   <Target className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-white mb-1">Wetin You Fit Do Now</div>
+                  <div className="font-semibold text-white mb-1">What You Can Do Now</div>
                   <p className="text-gray-300 text-sm">{insight.action}</p>
                 </div>
               </div>
@@ -160,7 +160,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
                 <Zap className="w-6 h-6 text-yellow-400" />
                 <div className="text-sm">
                   <span className="text-yellow-400 font-semibold">Wisdom:</span>
-                  <span className="text-gray-300"> When you fix the weakest area, everything else go improve. Na domino effect.</span>
+                  <span className="text-gray-300"> When you fix the weakest area, everything else will improve. It is a domino effect.</span>
                 </div>
               </div>
             </div>
@@ -174,7 +174,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             </button>
 
             <p className="text-center text-gray-500 text-xs mt-4">
-              You fit update your scores anytime for the Check Myself section
+              You can update your scores anytime in the Assessment section
             </p>
           </div>
         </div>
@@ -225,7 +225,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             </div>
             
             <p className="text-center text-gray-300 mb-6">
-              How this area dey for you right now?
+              How is this area for you right now?
             </p>
 
             <div className="grid grid-cols-5 gap-2">
@@ -246,7 +246,7 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
             </div>
 
             <p className="text-center text-xs text-gray-500 mt-4">
-              Be honest - no shame. Na for your good.
+              Be honest - no shame. This is for your own good.
             </p>
           </div>
         </div>

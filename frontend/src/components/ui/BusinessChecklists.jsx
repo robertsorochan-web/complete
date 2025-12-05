@@ -26,9 +26,9 @@ const checklistTemplates = {
       { id: 2, text: 'TIN Certificate', tip: 'From Ghana Revenue Authority' },
       { id: 3, text: 'Valid ID (Ghana Card, Passport, or Voter ID)', tip: 'Must not be expired' },
       { id: 4, text: 'Proof of address (Utility bill)', tip: 'Not more than 3 months old' },
-      { id: 5, text: 'Business plan or proposal', tip: 'Explain what you go use money for' },
+      { id: 5, text: 'Business plan or proposal', tip: 'Explain what you will use the money for' },
       { id: 6, text: 'Bank statements (6-12 months)', tip: 'Shows your business transactions' },
-      { id: 7, text: 'Financial records (Sales, Expenses)', tip: 'Basic records if you no get formal accounts' },
+      { id: 7, text: 'Financial records (Sales, Expenses)', tip: 'Basic records if you do not have formal accounts' },
       { id: 8, text: 'Collateral documents (if required)', tip: 'Land documents, car papers, etc.' },
       { id: 9, text: 'Guarantor information', tip: 'Usually need 2 guarantors' },
       { id: 10, text: 'Passport photographs', tip: '2-4 recent photos' }
@@ -59,7 +59,7 @@ const checklistTemplates = {
       { id: 3, text: 'Clean and organize workspace', tip: 'First impression matter' },
       { id: 4, text: 'Review today\'s orders/appointments', tip: 'Prepare what you need' },
       { id: 5, text: 'Follow up on pending payments', tip: 'Morning best time to call' },
-      { id: 6, text: 'Check prices of materials/supplies', tip: 'Market prices dey change' },
+      { id: 6, text: 'Check prices of materials/supplies', tip: 'Market prices can change' },
       { id: 7, text: 'Respond to customer messages', tip: 'Quick response = happy customer' },
       { id: 8, text: 'Record all sales today', tip: 'Don\'t leave for tomorrow' }
     ]

@@ -84,33 +84,33 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
   const contextLabels = {
     personal: {
-      overview: dashText.personalOverview || 'How Your Life Dey',
-      description: dashText.personalDescription || 'See how each part of your life dey do. The area wey weak dey pull everything down.',
-      hint: dashText.personalHint || 'Focus on the area with lowest score first - when e improve, other areas go follow.',
+      overview: dashText.personalOverview || 'How Your Life Is Doing',
+      description: dashText.personalDescription || 'See how each part of your life is doing. The weak area pulls everything down.',
+      hint: dashText.personalHint || 'Focus on the area with lowest score first - when it improves, other areas will follow.',
       overallTitle: dashText.overallScore || 'Overall',
       areasTitle: dashText.personalAreasTitle || 'Your 5 Life Areas',
-      actionPrompt: dashText.doFirst || 'What you fit do today:'
+      actionPrompt: dashText.doFirst || 'What you can do today:'
     },
     team: {
-      overview: dashText.teamOverview || 'How Your Team Dey',
-      description: dashText.teamDescription || 'See how each part of your team dey perform. Weak areas dey affect the whole team.',
-      hint: dashText.teamHint || 'Fix the weakest area first - e go make the whole team better.',
+      overview: dashText.teamOverview || 'How Your Team Is Doing',
+      description: dashText.teamDescription || 'See how each part of your team is performing. Weak areas affect the whole team.',
+      hint: dashText.teamHint || 'Fix the weakest area first - it will make the whole team better.',
       overallTitle: dashText.teamScore || 'Team Score',
       areasTitle: dashText.teamAreasTitle || 'Your 5 Team Areas',
-      actionPrompt: dashText.teamActionPrompt || 'What the team fit do:'
+      actionPrompt: dashText.teamActionPrompt || 'What the team can do:'
     },
     business: {
-      overview: dashText.businessOverview || 'How Your Business Dey',
-      description: dashText.businessDescription || 'See how each part of your business dey perform. One weak area fit hold everything back.',
-      hint: dashText.businessHint || 'Strengthen the weakest area first - e go unlock growth for the whole business.',
+      overview: dashText.businessOverview || 'How Your Business Is Doing',
+      description: dashText.businessDescription || 'See how each part of your business is performing. One weak area can hold everything back.',
+      hint: dashText.businessHint || 'Strengthen the weakest area first - it will unlock growth for the whole business.',
       overallTitle: dashText.businessScore || 'Business Score',
       areasTitle: dashText.businessAreasTitle || 'Your 5 Business Areas',
-      actionPrompt: dashText.doFirst || 'What you fit do today:'
+      actionPrompt: dashText.doFirst || 'What you can do today:'
     },
     policy: {
-      overview: dashText.policyOverview || 'How The System Dey',
-      description: dashText.policyDescription || 'See how each part of the system dey perform. Weak areas dey cause problems.',
-      hint: dashText.policyHint || 'Address the weakest area first - e go improve the whole system.',
+      overview: dashText.policyOverview || 'How The System Is Doing',
+      description: dashText.policyDescription || 'See how each part of the system is performing. Weak areas cause problems.',
+      hint: dashText.policyHint || 'Address the weakest area first - it will improve the whole system.',
       overallTitle: dashText.systemScore || 'System Score',
       areasTitle: dashText.policyAreasTitle || 'Your 5 System Areas',
       actionPrompt: dashText.policyActionPrompt || 'What to address:'
@@ -184,9 +184,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
           <div>
             <div className="font-semibold text-white mb-1">{dashText.whatAkofaSee || 'What akↄfa See'}</div>
             <p className="text-gray-300 text-sm">
-              {dashText.insightStrong || 'Your'} <span className="text-green-400 font-medium">{strength}</span> {dashText.deyStrong || 'dey strong'} ({highestLayer}/10), 
-              {dashText.butYour || 'but your'} <span className="text-red-400 font-medium">{bottleneck}</span> ({lowestLayer}/10) {dashText.deyHoldBack || 'dey hold everything back'}. 
-              {dashText.whenYouFix || 'When you fix'} <span className="text-red-400">{bottleneck}</span>, {dashText.otherAreasImprove || 'other areas go improve too'}.
+              {dashText.insightStrong || 'Your'} <span className="text-green-400 font-medium">{strength}</span> {dashText.deyStrong || 'is strong'} ({highestLayer}/10), 
+              {dashText.butYour || 'but your'} <span className="text-red-400 font-medium">{bottleneck}</span> ({lowestLayer}/10) {dashText.deyHoldBack || 'is holding everything back'}. 
+              {dashText.whenYouFix || 'When you fix'} <span className="text-red-400">{bottleneck}</span>, {dashText.otherAreasImprove || 'other areas will improve too'}.
             </p>
           </div>
         </div>
@@ -215,7 +215,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
               <Lightbulb className="w-5 h-5 text-green-400" />
             </div>
             <div>
-              <div className="font-semibold text-green-400 mb-1">{dashText.actionableTipTitle || 'Wetin You Fit Do Today'}:</div>
+              <div className="font-semibold text-green-400 mb-1">{dashText.actionableTipTitle || 'What You Can Do Today'}:</div>
               <p className="text-gray-200">{actionTip}</p>
             </div>
           </div>

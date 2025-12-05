@@ -111,7 +111,7 @@ const LocalPartnerships = ({ sector = 'general' }) => {
           </div>
           <div>
             <h3 className="font-semibold text-white">Local Support Networks</h3>
-            <p className="text-sm text-gray-400">Organizations wey fit help you</p>
+            <p className="text-sm text-gray-400">Organizations that can help you</p>
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@ const LocalPartnerships = ({ sector = 'general' }) => {
 
       <div className="p-4 bg-slate-700/30 border-t border-slate-700">
         <p className="text-xs text-gray-400 text-center">
-          These organizations dey help people like you. Reach out for support!
+          These organizations help people like you. Reach out for support!
         </p>
       </div>
     </div>

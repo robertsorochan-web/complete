@@ -5,10 +5,10 @@ import { chatWithAkofa } from '../../services/auth';
 const Chat = ({ assessmentData, purpose = 'personal' }) => {
   const getWelcomeMessage = () => {
     const messages = {
-      personal: 'Hello! I be Akↄfa, your personal guide. I understand your life based on the scores you give. Ask me anything - about wetin dey hold you back, how to improve, or wetin to do first. I dey here to help you see clearly.',
-      team: 'Hello! I be Akↄfa, your team advisor. Based on your team assessment, I fit help you understand wetin dey affect team performance. Ask me about team challenges, how to build trust, or wetin to fix first.',
-      business: 'Hello! I be Akↄfa, your business advisor. Based on your business assessment, I fit help you see wetin dey block growth. Ask me about strategy, operations, or how to scale better.',
-      policy: 'Hello! I be Akↄfa, your systems advisor. Based on your assessment, I fit help you understand how different parts of the system dey connect. Ask me about interventions, policy impacts, or practical solutions.'
+      personal: 'Hello! I am Akↄfa, your personal guide. I understand your life based on the scores you give. Ask me anything - about what is holding you back, how to improve, or what to do first. I am here to help you see clearly.',
+      team: 'Hello! I am Akↄfa, your team advisor. Based on your team assessment, I can help you understand what is affecting team performance. Ask me about team challenges, how to build trust, or what to fix first.',
+      business: 'Hello! I am Akↄfa, your business advisor. Based on your business assessment, I can help you see what is blocking growth. Ask me about strategy, operations, or how to scale better.',
+      policy: 'Hello! I am Akↄfa, your systems advisor. Based on your assessment, I can help you understand how different parts of the system connect. Ask me about interventions, policy impacts, or practical solutions.'
     };
     return messages[purpose] || messages.personal;
   };
@@ -54,7 +54,7 @@ const Chat = ({ assessmentData, purpose = 'personal' }) => {
   };
 
   const placeholders = {
-    personal: 'Wetin dey your mind? Ask me...',
+    personal: 'What is on your mind? Ask me...',
     team: 'Ask about your team...',
     business: 'Ask about your business...',
     policy: 'Ask about the system...'
@@ -62,23 +62,23 @@ const Chat = ({ assessmentData, purpose = 'personal' }) => {
 
   const quickPrompts = {
     personal: [
-      'Wetin dey hold me back most?',
-      'How I fit improve my sleep?',
+      'What is holding me back most?',
+      'How can I improve my sleep?',
       'Give me action steps for this week'
     ],
     team: [
-      'Wetin dey affect team performance?',
-      'How we fit build more trust?',
+      'What is affecting team performance?',
+      'How can we build more trust?',
       'Give me team action steps'
     ],
     business: [
-      'Wetin dey block our growth?',
-      'How we fit improve operations?',
+      'What is blocking our growth?',
+      'How can we improve operations?',
       'Give me business action steps'
     ],
     policy: [
-      'Where we suppose start?',
-      'How these areas connect?',
+      'Where should we start?',
+      'How do these areas connect?',
       'Give me practical recommendations'
     ]
   };
@@ -167,7 +167,7 @@ const Chat = ({ assessmentData, purpose = 'personal' }) => {
           </button>
         </form>
         <p className="text-xs text-gray-500 mt-2 text-center">
-          Akↄfa understand your scores and give advice wey fit your situation
+          Akↄfa understands your scores and gives advice that fits your situation
         </p>
       </div>
     </div>

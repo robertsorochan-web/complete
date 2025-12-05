@@ -85,7 +85,7 @@ const RecommendationWithConfidence = ({
         </div>
       </div>
       
-      <ConfidenceScore score={confidence} label="How sure we dey" />
+      <ConfidenceScore score={confidence} label="Confidence level" />
       
       {onAction && (
         <button

@@ -11,38 +11,38 @@ const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
   const contextLabels = {
     personal: {
       title: 'Problem Solver',
-      description: 'Tell Akↄfa wetin dey worry you. I go find the root cause and give you steps wey go actually work.',
-      examples: '"I dey always tired for work and I dey vex on my family", "I dey delay important things", "I feel stuck for my job but I dey fear to change"',
+      description: 'Tell Akↄfa what is worrying you. I will find the root cause and give you steps that will actually work.',
+      examples: '"I am always tired at work and I get angry at my family", "I keep delaying important things", "I feel stuck in my job but I am afraid to change"',
       placeholder: 'Describe your problem or challenge here...',
-      analyzing: 'Akↄfa dey analyze your situation...',
-      rootCausesTitle: 'Wetin Dey Cause The Problem',
+      analyzing: 'Akↄfa is analyzing your situation...',
+      rootCausesTitle: 'What Is Causing The Problem',
       newButton: 'Solve Another Problem'
     },
     team: {
       title: 'Team Problem Solver',
-      description: 'Tell Akↄfa wetin dey worry your team. I go find the root cause and give you steps to fix am.',
-      examples: '"Team morale low and people dey leave", "Projects dey always late", "Departments dey fight each other"',
-      placeholder: 'Describe the team wahala here...',
-      analyzing: 'Akↄfa dey analyze your team issue...',
-      rootCausesTitle: 'Wetin Dey Cause The Team Problem',
+      description: 'Tell Akↄfa what is worrying your team. I will find the root cause and give you steps to fix it.',
+      examples: '"Team morale is low and people are leaving", "Projects are always late", "Departments are fighting each other"',
+      placeholder: 'Describe the team challenge here...',
+      analyzing: 'Akↄfa is analyzing your team issue...',
+      rootCausesTitle: 'What Is Causing The Team Problem',
       newButton: 'Solve Another Team Problem'
     },
     business: {
       title: 'Business Problem Solver',
-      description: 'Tell Akↄfa wetin dey worry your business. I go diagnose am and give you strategy to fix am.',
-      examples: '"Revenue dey drop even though we dey market well", "We no fit keep good staff", "Our product no dey fit market again"',
+      description: 'Tell Akↄfa what is worrying your business. I will diagnose it and give you strategy to fix it.',
+      examples: '"Revenue is dropping even though we are marketing well", "We cannot keep good staff", "Our product does not fit the market anymore"',
       placeholder: 'Describe the business challenge here...',
-      analyzing: 'Akↄfa dey analyze your business problem...',
-      rootCausesTitle: 'Wetin Dey Cause The Business Problem',
+      analyzing: 'Akↄfa is analyzing your business problem...',
+      rootCausesTitle: 'What Is Causing The Business Problem',
       newButton: 'Solve Another Business Problem'
     },
     policy: {
       title: 'System Problem Solver',
-      description: 'Tell Akↄfa about the system issue. I go analyze am and give practical recommendations wey go work.',
-      examples: '"Inequality dey rise even with economic growth", "Healthcare access no dey equal", "Environmental policies no dey work"',
+      description: 'Tell Akↄfa about the system issue. I will analyze it and give practical recommendations that will work.',
+      examples: '"Inequality is rising even with economic growth", "Healthcare access is not equal", "Environmental policies are not working"',
       placeholder: 'Describe the systemic issue here...',
-      analyzing: 'Akↄfa dey analyze the system issue...',
-      rootCausesTitle: 'Wetin Dey Cause The System Problem',
+      analyzing: 'Akↄfa is analyzing the system issue...',
+      rootCausesTitle: 'What Is Causing The System Problem',
       newButton: 'Analyze Another Issue'
     }
   };
@@ -134,7 +134,7 @@ const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
           <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-xl p-6 border border-purple-500/30">
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
               <AlertCircle className="w-6 h-6 text-purple-400" />
-              Wetin Dey Happen
+              What Is Happening
             </h3>
             <p className="text-gray-100 leading-relaxed">{diagnosis.summary}</p>
           </div>
@@ -157,7 +157,7 @@ const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
             <div className="bg-slate-800 rounded-xl p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <CheckCircle className="w-6 h-6 text-green-400" />
-                Wetin You Go Do
+                What You Should Do
               </h3>
               <div className="space-y-4">
                 {diagnosis.actionSteps.map((step, idx) => (
@@ -182,7 +182,7 @@ const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
 
           {diagnosis.whyItHelps && (
             <div className="bg-gradient-to-r from-green-900/30 to-emerald-900/30 rounded-xl p-6 border border-green-500/30">
-              <h3 className="text-lg font-semibold mb-3">Why This Go Work</h3>
+              <h3 className="text-lg font-semibold mb-3">Why This Will Work</h3>
               <p className="text-gray-300 text-sm leading-relaxed">{diagnosis.whyItHelps}</p>
             </div>
           )}

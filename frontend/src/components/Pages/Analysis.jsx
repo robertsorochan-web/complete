@@ -129,7 +129,7 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       focusLabel: 'Priority Intervention Area',
       focusDesc: 'The system\'s weakest dimension right now',
       detailedTitle: 'System\'s 5 Dimensions (Detailed)',
-      tip: 'System areas dey connect in many ways. When you fix one area, e fit affect others - so think about the whole picture.'
+      tip: 'System areas connect in many ways. When you fix one area, it can affect others - so think about the whole picture.'
     }
   };
 
@@ -219,7 +219,7 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
               <span className="text-xl">💡</span>
             </div>
             <div>
-              <div className="font-semibold text-green-400 mb-1">Wetin You Fit Do Today:</div>
+              <div className="font-semibold text-green-400 mb-1">What You Can Do Today:</div>
               <p className="text-gray-200">{actionTip}</p>
             </div>
           </div>

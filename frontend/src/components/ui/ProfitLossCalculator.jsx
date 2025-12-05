@@ -46,7 +46,7 @@ const ProfitLossCalculator = () => {
   };
 
   const clearAll = () => {
-    if (confirm('You sure you want delete everything?')) {
+    if (confirm('Are you sure you want to delete everything?')) {
       setEntries({ income: [], expenses: [] });
     }
   };
@@ -113,8 +113,8 @@ const ProfitLossCalculator = () => {
           {profit >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
           <span>
             {profit >= 0 
-              ? `You dey make ${profitMargin}% profit margin` 
-              : `You dey lose money! Review your expenses.`
+              ? `You are making ${profitMargin}% profit margin` 
+              : `You are losing money! Review your expenses.`
             }
           </span>
         </div>
@@ -220,7 +220,7 @@ const ProfitLossCalculator = () => {
           Clear All
         </button>
         <button
-          onClick={() => alert('Saved! Your data dey safe.')}
+          onClick={() => alert('Saved! Your data is safe.')}
           className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium flex items-center gap-2 transition"
         >
           <Save className="w-4 h-4" />

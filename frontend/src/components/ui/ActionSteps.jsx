@@ -9,36 +9,36 @@ const actionStepsByArea = {
       { id: 3, text: "Walk for 15 minutes after lunch or dinner", priority: "medium" }
     ],
     business: [
-      { id: 1, text: "Count your cash and write down how much you get", priority: "high" },
+      { id: 1, text: "Count your cash and write down how much you have", priority: "high" },
       { id: 2, text: "List all your stock and equipment with their values", priority: "high" },
       { id: 3, text: "Check which resources you need most urgently", priority: "medium" }
     ],
     team: [
       { id: 1, text: "Check if team members get enough rest and breaks", priority: "high" },
-      { id: 2, text: "Assess if you get enough people for the work", priority: "medium" },
-      { id: 3, text: "Review if equipment and tools dey work properly", priority: "medium" }
+      { id: 2, text: "Assess if you have enough people for the work", priority: "medium" },
+      { id: 3, text: "Review if equipment and tools are working properly", priority: "medium" }
     ]
   },
   internalOS: {
     personal: [
-      { id: 1, text: "Write 3 things wey you dey grateful for today", priority: "high" },
+      { id: 1, text: "Write 3 things you are grateful for today", priority: "high" },
       { id: 2, text: "Speak one positive thing about yourself out loud", priority: "medium" },
       { id: 3, text: "Take 5 deep breaths when you feel stressed", priority: "low" }
     ],
     business: [
-      { id: 1, text: "Talk to your best worker about how dem dey feel", priority: "high" },
+      { id: 1, text: "Talk to your best worker about how they are feeling", priority: "high" },
       { id: 2, text: "Thank your team for their hard work this week", priority: "medium" },
       { id: 3, text: "Ask one trusted person for honest feedback", priority: "medium" }
     ],
     team: [
-      { id: 1, text: "Hold short team meeting to check how everyone dey", priority: "high" },
+      { id: 1, text: "Hold short team meeting to check how everyone is doing", priority: "high" },
       { id: 2, text: "Recognize one team member for good work", priority: "medium" },
       { id: 3, text: "Create safe space for people to share concerns", priority: "medium" }
     ]
   },
   culturalSoftware: {
     personal: [
-      { id: 1, text: "Spend 30 minutes doing something wey you value", priority: "high" },
+      { id: 1, text: "Spend 30 minutes doing something you value", priority: "high" },
       { id: 2, text: "Connect with family or community today", priority: "medium" },
       { id: 3, text: "Think about what really matters to you", priority: "low" }
     ],
@@ -48,32 +48,32 @@ const actionStepsByArea = {
       { id: 3, text: "Set up a system for tracking what you owe and who owes you", priority: "medium" }
     ],
     team: [
-      { id: 1, text: "Document how your team suppose do common tasks", priority: "high" },
+      { id: 1, text: "Document how your team should do common tasks", priority: "high" },
       { id: 2, text: "Create checklist for important processes", priority: "medium" },
       { id: 3, text: "Review and simplify any confusing procedures", priority: "medium" }
     ]
   },
   socialInstance: {
     personal: [
-      { id: 1, text: "Call one friend or family member you no talk to in a while", priority: "high" },
+      { id: 1, text: "Call one friend or family member you have not talked to in a while", priority: "high" },
       { id: 2, text: "Help one person today without expecting anything", priority: "medium" },
       { id: 3, text: "Join or attend one community activity this week", priority: "low" }
     ],
     business: [
-      { id: 1, text: "Ask 3 customers what dem like and no like about your business", priority: "high" },
-      { id: 2, text: "Follow up with one customer who never come back", priority: "medium" },
+      { id: 1, text: "Ask 3 customers what they like and do not like about your business", priority: "high" },
+      { id: 2, text: "Follow up with one customer who has not come back", priority: "medium" },
       { id: 3, text: "Tell your suppliers about any problems early", priority: "medium" }
     ],
     team: [
       { id: 1, text: "Create simple way for team to share updates daily", priority: "high" },
-      { id: 2, text: "Fix one communication problem team complain about", priority: "medium" },
+      { id: 2, text: "Fix one communication problem team complains about", priority: "medium" },
       { id: 3, text: "Schedule regular check-in with key partners", priority: "medium" }
     ]
   },
   consciousUser: {
     personal: [
-      { id: 1, text: "Write down one goal you want achieve this month", priority: "high" },
-      { id: 2, text: "Reflect on one decision you made recently - what you learn?", priority: "medium" },
+      { id: 1, text: "Write down one goal you want to achieve this month", priority: "high" },
+      { id: 2, text: "Reflect on one decision you made recently - what did you learn?", priority: "medium" },
       { id: 3, text: "Plan your tomorrow before you sleep tonight", priority: "medium" }
     ],
     business: [
@@ -82,7 +82,7 @@ const actionStepsByArea = {
       { id: 3, text: "Make simple plan with dates for your next big step", priority: "medium" }
     ],
     team: [
-      { id: 1, text: "Share team goals with everyone so dem understand", priority: "high" },
+      { id: 1, text: "Share team goals with everyone so they understand", priority: "high" },
       { id: 2, text: "Break big goals into small steps with deadlines", priority: "medium" },
       { id: 3, text: "Review progress on goals with the team weekly", priority: "medium" }
     ]
