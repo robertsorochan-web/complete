@@ -1,0 +1,112 @@
+".
+method @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+n @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+setTimeout
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+setInterval
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+./src/scripts/content/contentScript.ts @ contentScript.js:22698
+__webpack_require__ @ contentScript.js:240569
+(anonymous) @ contentScript.js:240633
+(anonymous) @ contentScript.js:240635
+Navigated to https://akorfast.netlify.app/
+(index):31 Refused to apply style from 'https://akorfast.netlify.app/assets/index-c096fb51.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Understand this error
+index-a9b67fd8.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+sw.js:87 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at cacheFirst (sw.js:87:11)
+cacheFirst @ sw.js:87
+await in cacheFirst
+(anonymous) @ sw.js:49Understand this error
+(index):38 SW registered: https://akorfast.netlify.app/
+5XHR finished loading: POST "<URL>".
+sw.js:87 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at cacheFirst (sw.js:87:11)
+cacheFirst @ sw.js:87
+await in cacheFirst
+(anonymous) @ sw.js:49Understand this error
+Navigated to https://akorfast.netlify.app/
+(index):31 Refused to apply style from 'https://akorfast.netlify.app/assets/index-c096fb51.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Understand this error
+index-a9b67fd8.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+sw.js:87 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at cacheFirst (sw.js:87:11)
+cacheFirst @ sw.js:87
+await in cacheFirst
+(anonymous) @ sw.js:49Understand this error
+(index):38 SW registered: https://akorfast.netlify.app/
+8XHR finished loading: POST "<URL>".
+(index):1 Refused to apply style from 'https://akorfast.netlify.app/assets/index-c096fb51.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Understand this error
+Navigated to https://akorfast.netlify.app/
+(index):31 Refused to apply style from 'https://akorfast.netlify.app/assets/index-c096fb51.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Understand this error
+index-a9b67fd8.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+sw.js:87 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at cacheFirst (sw.js:87:11)
+cacheFirst @ sw.js:87
+await in cacheFirst
+(anonymous) @ sw.js:49Understand this error
+(index):38 SW registered: https://akorfast.netlify.app/
+contentScript.js:17637 XHR finished loading: POST "https://us.i.posthog.com/decide/?v=3&ip=1&_=1764953035330&ver=1.160.3&compression=base64".
+method @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+./src/scripts/content/contentScript.ts @ contentScript.js:22698
+__webpack_require__ @ contentScript.js:240569
+(anonymous) @ contentScript.js:240633
+(anonymous) @ contentScript.js:240635
+contentScript.js:17637 XHR finished loading: POST "https://us.i.posthog.com/e/?ip=1&_=1764953035402&ver=1.160.3&compression=gzip-js".
+method @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+setTimeout
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+./src/scripts/content/contentScript.ts @ contentScript.js:22698
+__webpack_require__ @ contentScript.js:240569
+(anonymous) @ contentScript.js:240633
+(anonymous) @ contentScript.js:240635
+sw.js:17 Caching static assets
+contentScript.js:17637 XHR finished loading: POST "https://us.i.posthog.com/i/v0/e/?ip=1&_=1764953043335&ver=1.160.3&compression=gzip-js".
+method @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+n @ contentScript.js:17637
+(anonymous) @ contentScript.js:17637
+setTimeout
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+setInterval
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+value @ contentScript.js:17637
+./src/scripts/content/contentScript.ts @ contentScript.js:22698
+__webpack_require__ @ contentScript.js:240569
+(anonymous) @ contentScript.js:240633
+(anonymous) @ contentScript.js:240635
+Navigated to https://akorfast.netlify.app/
+(index):38 SW registered: https://akorfast.netlify.app/
+5XHR finished loading: POST "<URL>".
