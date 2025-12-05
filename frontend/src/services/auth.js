@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const STORAGE_KEY = 'akofa_user';
 const TOKEN_KEY = 'akofa_token';
 
@@ -27,7 +27,7 @@ const apiCall = async (endpoint, options = {}) => {
 };
 
 export const signup = async (email, password, purpose, name) => {
-  const data = await apiCall('/auth/signup', {
+  const data = await apiCall('/api/auth/signup', {
     method: 'POST',
     body: JSON.stringify({ email, password, name, purpose })
   });
@@ -39,7 +39,7 @@ export const signup = async (email, password, purpose, name) => {
 };
 
 export const login = async (email, password) => {
-  const data = await apiCall('/auth/login', {
+  const data = await apiCall('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password })
   });
@@ -62,7 +62,7 @@ export const getCurrentUser = () => {
 };
 
 export const updateUserAssessment = async (userId, assessmentData) => {
-  return apiCall('/assessments', {
+  return apiCall('/api/assessments', {
     method: 'POST',
     body: JSON.stringify({
       bioHardware: assessmentData.bioHardware,
@@ -76,7 +76,7 @@ export const updateUserAssessment = async (userId, assessmentData) => {
 
 export const getUserAssessment = async (userId) => {
   try {
-    const data = await apiCall('/assessments');
+    const data = await apiCall('/api/assessments');
     return {
       bioHardware: data.bioHardware,
       internalOS: data.internalOS,
@@ -97,7 +97,7 @@ export const getUserAssessment = async (userId) => {
 
 export const chatWithAkofa = async (message, assessmentData, purpose = 'personal', conversationHistory = []) => {
   try {
-    const data = await apiCall('/ai/chat', {
+    const data = await apiCall('/api/ai/chat', {
       method: 'POST',
       body: JSON.stringify({ message, assessmentData, conversationHistory, purpose })
     });
@@ -110,7 +110,7 @@ export const chatWithAkofa = async (message, assessmentData, purpose = 'personal
 
 export const getDiagnosis = async (scenario, assessmentData, purpose = 'personal') => {
   try {
-    const data = await apiCall('/ai/diagnosis', {
+    const data = await apiCall('/api/ai/diagnosis', {
       method: 'POST',
       body: JSON.stringify({ scenario, assessmentData, purpose })
     });
