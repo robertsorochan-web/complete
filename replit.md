@@ -6,17 +6,19 @@ Akↄfa Fixit is a problem-solving application designed to help users identify t
 ## User Preferences
 - West African pidgin English for all user-facing text
 - No technical jargon - use everyday language
-- Akↄfa branding (with ↄ character) throughout
+- Akↄfa branding (with ↄ character) throughout - brand name "Akↄfa Fixit" is never translated
 - Minimized disclaimer warnings (small footer text instead of prominent banners)
 
 ## Recent Changes (December 2025)
-- **Ewe Language Support:** Added Ewe (Eʋegbe) as 7th language with comprehensive translations across all sections
-- **Multilingual Support:** Now supports 7 languages - English, Ewe, Pidgin, Twi, Ga, Yoruba, and Hausa
+- **Internationalization Overhaul:** Comprehensive i18n system with exactly 3 languages: English (default), French, and Pijin
+- **i18n Architecture:** Central translations in frontend/src/config/i18n.js with 200+ translation keys across all sections
+- **Config Files Updated:** purposeConfig.js, successStories.js, useCaseTemplates.js, localResources.js now use dynamic translations
+- **Template-Specific Layer Labels:** Each use case (fishing, market, farming, etc.) has unique localized layer labels
+- **Ghana-Specific Resources:** Accurate local cooperatives, associations, government programs, and emergency numbers (191/192/193)
+- **Language Toggle:** Dropdown selector showing English, Français, and Pijin with native names
 - **Enhanced Daily Streaks:** Added milestone celebrations (7/14/30/60/100/365 days), monthly calendar view, shareable streak images with html2canvas
 - **Challenge Marketplace:** Enhanced with challenge templates, layer/difficulty filtering, progress tracking, community stats
 - **Community Wall:** Added hashtag support, trending topics, feed filtering (recent/top/featured), save/bookmark functionality
-- **Translation Infrastructure:** Added comprehensive translation keys for streak, challenges, and community sections
-- **Language Toggle:** Updated language selector with dropdown supporting all 7 languages
 - **Minimized Disclaimer:** Replaced prominent warning banner with small footer disclaimer text
 - **Tip of the Day:** New component showing daily tips across all 5 layers (Body & Health, Inner Beliefs, Values, Daily Life, Self-Awareness)
 - **Help/FAQ Page:** Comprehensive help center with searchable FAQ, getting started guide, and tips sections
@@ -32,7 +34,7 @@ The application follows a client-server architecture with a React + Vite fronten
 - **Actionable Steps:** Insights conclude with direct, actionable advice ("Do this first: [specific action]").
 - **Mobile-First Design:** Optimized for mobile devices (360-412px) with touch-friendly targets, bottom navigation, and PWA support.
 - **Accessibility:** Includes Text-to-Speech support for low literacy users.
-- **Multilingual:** Supports 6 West African languages (English, Pidgin, Twi, Ga, Yoruba, Hausa) with easy language switching.
+- **Multilingual:** Supports 3 languages (English, French, Pijin) with easy language switching via dropdown selector.
 - **Gamification:** Incorporates a "StackScore" system (300-850 range) with tiers (Novice to Guru), streak tracking, and an anonymous leaderboard to encourage engagement.
 
 **Technical Implementations:**
