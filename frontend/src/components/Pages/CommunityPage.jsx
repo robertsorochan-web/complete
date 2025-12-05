@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Heart, MessageCircle, ThumbsUp, Send, UserPlus, Trophy, Sparkles, Code, Brain, Eye } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -20,6 +21,8 @@ const layerColors = {
 };
 
 export default function CommunityPage() {
+  const { t, getSection } = useLanguage();
+  const communityText = getSection('community');
   const [activeTab, setActiveTab] = useState('groups');
   const [groups, setGroups] = useState([]);
   const [insights, setInsights] = useState([]);

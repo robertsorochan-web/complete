@@ -22,8 +22,11 @@ import GoalTracker from '../ui/GoalTracker';
 import ProfitLossCalculator from '../ui/ProfitLossCalculator';
 import BusinessChecklists from '../ui/BusinessChecklists';
 import TipOfTheDay from '../ui/TipOfTheDay';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
+  const { t, getSection } = useLanguage();
+  const dashboardText = getSection('dashboard');
   const [showWarning, setShowWarning] = useState(true);
   const [hasAgreed, setHasAgreed] = useState(() => {
     return localStorage.getItem('akofa_user_agreement') === 'true';
@@ -80,33 +83,33 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
   const contextLabels = {
     personal: {
-      overview: 'How Your Life Dey',
-      description: 'See how each part of your life dey do. The area wey weak dey pull everything down.',
-      hint: 'Focus on the area with lowest score first - when e improve, other areas go follow.',
-      overallTitle: 'Overall',
-      areasTitle: 'Your 5 Life Areas',
-      actionPrompt: 'What you fit do today:'
+      overview: dashboardText.howYouDey || 'How Your Life Dey',
+      description: dashboardText.whatAkofaSee || 'See how each part of your life dey do. The area wey weak dey pull everything down.',
+      hint: dashboardText.smallChanges || 'Focus on the area with lowest score first - when e improve, other areas go follow.',
+      overallTitle: dashboardText.yourScore || 'Overall',
+      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Life Areas',
+      actionPrompt: dashboardText.doFirst || 'What you fit do today:'
     },
     team: {
-      overview: 'How Your Team Dey',
-      description: 'See how each part of your team dey perform. Weak areas dey affect the whole team.',
-      hint: 'Fix the weakest area first - e go make the whole team better.',
-      overallTitle: 'Team Score',
-      areasTitle: 'Your 5 Team Areas',
-      actionPrompt: 'What the team fit do:'
+      overview: dashboardText.howYouDey || 'How Your Team Dey',
+      description: dashboardText.whatAkofaSee || 'See how each part of your team dey perform. Weak areas dey affect the whole team.',
+      hint: dashboardText.smallChanges || 'Fix the weakest area first - e go make the whole team better.',
+      overallTitle: dashboardText.yourScore || 'Team Score',
+      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Team Areas',
+      actionPrompt: dashboardText.doFirst || 'What the team fit do:'
     },
     business: {
-      overview: 'How Your Business Dey',
-      description: 'See how each part of your business dey perform. One weak area fit hold everything back.',
-      hint: 'Strengthen the weakest area first - e go unlock growth for the whole business.',
-      overallTitle: 'Business Score',
-      areasTitle: 'Your 5 Business Areas',
-      actionPrompt: 'What you fit do today:'
+      overview: dashboardText.howYouDey || 'How Your Business Dey',
+      description: dashboardText.whatAkofaSee || 'See how each part of your business dey perform. One weak area fit hold everything back.',
+      hint: dashboardText.smallChanges || 'Strengthen the weakest area first - e go unlock growth for the whole business.',
+      overallTitle: dashboardText.yourScore || 'Business Score',
+      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Business Areas',
+      actionPrompt: dashboardText.doFirst || 'What you fit do today:'
     },
     policy: {
-      overview: 'How The System Dey',
-      description: 'See how each part of the system dey perform. Weak areas dey cause problems.',
-      hint: 'Address the weakest area first - e go improve the whole system.',
+      overview: dashboardText.howYouDey || 'How The System Dey',
+      description: dashboardText.whatAkofaSee || 'See how each part of the system dey perform. Weak areas dey cause problems.',
+      hint: dashboardText.smallChanges || 'Address the weakest area first - e go improve the whole system.',
       overallTitle: 'System Score',
       areasTitle: 'Your 5 System Areas',
       actionPrompt: 'What to address:'

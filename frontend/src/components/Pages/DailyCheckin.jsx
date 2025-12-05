@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Flame, Calendar, TrendingUp, Brain, Users, Code, Heart, Eye, MessageSquare, Sparkles } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -12,6 +13,8 @@ const layerConfig = {
 };
 
 export default function DailyCheckin({ onComplete }) {
+  const { t, getSection } = useLanguage();
+  const streakText = getSection('streak');
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);

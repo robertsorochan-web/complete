@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Target, Trophy, Clock, Star, ChevronRight, CheckCircle, Play, Users, Flame } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -18,6 +19,8 @@ const layerColors = {
 };
 
 export default function ChallengesPage() {
+  const { t, getSection } = useLanguage();
+  const challengeText = getSection('challenges');
   const [activeTab, setActiveTab] = useState('available');
   const [challenges, setChallenges] = useState([]);
   const [myChallenges, setMyChallenges] = useState([]);

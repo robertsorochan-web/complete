@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Award, Settings, Bell, Shield, LogOut, Crown, Zap, Calendar, Target, Heart, Brain, Code, Users as UsersIcon, Eye, Check } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -19,6 +20,8 @@ const layerIcons = {
 };
 
 export default function ProfilePage({ user, onLogout }) {
+  const { t, getSection } = useLanguage();
+  const profileText = getSection('profile');
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');

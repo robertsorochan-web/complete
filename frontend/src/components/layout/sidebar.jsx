@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X, Home, ClipboardList, Search, Wrench, MessageCircle, LogOut, Briefcase, CheckSquare, TrendingUp, Users, Trophy, Calendar, User, HelpCircle } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { getNavItems, getPurposeConfig } from '../../config/purposeConfig';
+import { useLanguage } from '../../context/LanguageContext';
 
 const navIcons = {
   dashboard: Home,
@@ -20,6 +21,7 @@ const navIcons = {
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
+  const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const purpose = user?.purpose || 'personal';
   const navItems = getNavItems(purpose);
@@ -104,7 +106,7 @@ const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
               className="w-full flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl transition text-sm"
             >
               <LogOut className="w-4 h-4" />
-              Logout
+              {t('logout', 'profile')}
             </button>
           )}
         </div>

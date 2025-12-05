@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCurrentUser, logout, updateUserAssessment, getUserAssessment } from './services/auth';
 import { initGA, trackPageView } from './utils/analytics';
+import { LanguageProvider } from './context/LanguageContext';
 import HomePage from './components/Pages/HomePage';
 import SignupForm from './components/Auth/SignupForm';
 import LoginForm from './components/Auth/LoginForm';
@@ -25,7 +26,7 @@ import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import AccessibilitySettings from './components/ui/AccessibilitySettings';
 import './styles/globals.css';
 
-export default function App() {
+function AppContent() {
   const [user, setUser] = useState(null);
   const [authPage, setAuthPage] = useState('home');
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -242,5 +243,13 @@ export default function App() {
       />
       <AccessibilitySettings />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
