@@ -26,7 +26,8 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const { t, getSection } = useLanguage();
-  const dashboardText = getSection('dashboard');
+  const dashText = getSection('dashboard');
+  const commonText = getSection('common');
   const [showWarning, setShowWarning] = useState(true);
   const [hasAgreed, setHasAgreed] = useState(() => {
     return localStorage.getItem('akofa_user_agreement') === 'true';
@@ -39,9 +40,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
         <CriticalWarningBanner />
         <div className="bg-slate-800 rounded-xl p-8 text-center">
           <div className="text-5xl mb-4">🔒</div>
-          <h2 className="text-2xl font-bold mb-4">Agreement Required</h2>
+          <h2 className="text-2xl font-bold mb-4">{dashText.agreementRequired || 'Agreement Required'}</h2>
           <p className="text-gray-300 mb-6">
-            Before viewing your results, please acknowledge the framework limitations.
+            {dashText.acknowledgeFramework || 'Before viewing your results, please acknowledge the framework limitations.'}
           </p>
           <EthicalGuardrails />
           <div className="mt-6">
@@ -54,7 +55,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             }}
             className="mt-6 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition"
           >
-            I Understand - Show My Results
+            {dashText.iUnderstandShowResults || 'I Understand - Show My Results'}
           </button>
         </div>
       </div>
@@ -83,36 +84,36 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
   const contextLabels = {
     personal: {
-      overview: dashboardText.howYouDey || 'How Your Life Dey',
-      description: dashboardText.whatAkofaSee || 'See how each part of your life dey do. The area wey weak dey pull everything down.',
-      hint: dashboardText.smallChanges || 'Focus on the area with lowest score first - when e improve, other areas go follow.',
-      overallTitle: dashboardText.yourScore || 'Overall',
-      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Life Areas',
-      actionPrompt: dashboardText.doFirst || 'What you fit do today:'
+      overview: dashText.personalOverview || 'How Your Life Dey',
+      description: dashText.personalDescription || 'See how each part of your life dey do. The area wey weak dey pull everything down.',
+      hint: dashText.personalHint || 'Focus on the area with lowest score first - when e improve, other areas go follow.',
+      overallTitle: dashText.overallScore || 'Overall',
+      areasTitle: dashText.personalAreasTitle || 'Your 5 Life Areas',
+      actionPrompt: dashText.doFirst || 'What you fit do today:'
     },
     team: {
-      overview: dashboardText.howYouDey || 'How Your Team Dey',
-      description: dashboardText.whatAkofaSee || 'See how each part of your team dey perform. Weak areas dey affect the whole team.',
-      hint: dashboardText.smallChanges || 'Fix the weakest area first - e go make the whole team better.',
-      overallTitle: dashboardText.yourScore || 'Team Score',
-      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Team Areas',
-      actionPrompt: dashboardText.doFirst || 'What the team fit do:'
+      overview: dashText.teamOverview || 'How Your Team Dey',
+      description: dashText.teamDescription || 'See how each part of your team dey perform. Weak areas dey affect the whole team.',
+      hint: dashText.teamHint || 'Fix the weakest area first - e go make the whole team better.',
+      overallTitle: dashText.teamScore || 'Team Score',
+      areasTitle: dashText.teamAreasTitle || 'Your 5 Team Areas',
+      actionPrompt: dashText.teamActionPrompt || 'What the team fit do:'
     },
     business: {
-      overview: dashboardText.howYouDey || 'How Your Business Dey',
-      description: dashboardText.whatAkofaSee || 'See how each part of your business dey perform. One weak area fit hold everything back.',
-      hint: dashboardText.smallChanges || 'Strengthen the weakest area first - e go unlock growth for the whole business.',
-      overallTitle: dashboardText.yourScore || 'Business Score',
-      areasTitle: t('areasTitle', 'dashboard') || 'Your 5 Business Areas',
-      actionPrompt: dashboardText.doFirst || 'What you fit do today:'
+      overview: dashText.businessOverview || 'How Your Business Dey',
+      description: dashText.businessDescription || 'See how each part of your business dey perform. One weak area fit hold everything back.',
+      hint: dashText.businessHint || 'Strengthen the weakest area first - e go unlock growth for the whole business.',
+      overallTitle: dashText.businessScore || 'Business Score',
+      areasTitle: dashText.businessAreasTitle || 'Your 5 Business Areas',
+      actionPrompt: dashText.doFirst || 'What you fit do today:'
     },
     policy: {
-      overview: dashboardText.howYouDey || 'How The System Dey',
-      description: dashboardText.whatAkofaSee || 'See how each part of the system dey perform. Weak areas dey cause problems.',
-      hint: dashboardText.smallChanges || 'Address the weakest area first - e go improve the whole system.',
-      overallTitle: 'System Score',
-      areasTitle: 'Your 5 System Areas',
-      actionPrompt: 'What to address:'
+      overview: dashText.policyOverview || 'How The System Dey',
+      description: dashText.policyDescription || 'See how each part of the system dey perform. Weak areas dey cause problems.',
+      hint: dashText.policyHint || 'Address the weakest area first - e go improve the whole system.',
+      overallTitle: dashText.systemScore || 'System Score',
+      areasTitle: dashText.policyAreasTitle || 'Your 5 System Areas',
+      actionPrompt: dashText.policyActionPrompt || 'What to address:'
     }
   };
 
@@ -160,7 +161,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             <TrendingUp className="w-5 h-5 text-green-400" />
             <span className="text-4xl font-bold text-green-400">{highestLayer}/10</span>
           </div>
-          <div className="text-lg text-gray-300">Your Strength</div>
+          <div className="text-lg text-gray-300">{dashText.strength || 'Your Strength'}</div>
           <div className="text-sm text-green-400/70 mt-2">{strength}</div>
         </div>
         <div className="bg-red-900/20 rounded-xl p-6 text-center border border-red-500/30">
@@ -169,7 +170,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             <TrendingDown className="w-5 h-5 text-red-400" />
             <span className="text-4xl font-bold text-red-400">{lowestLayer}/10</span>
           </div>
-          <div className="text-lg text-gray-300">Needs Work</div>
+          <div className="text-lg text-gray-300">{dashText.needsWork || 'Needs Work'}</div>
           <div className="text-sm text-red-400/70 mt-2">{bottleneck}</div>
         </div>
       </div>
@@ -181,11 +182,11 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             <Target className="w-5 h-5 text-purple-400" />
           </div>
           <div>
-            <div className="font-semibold text-white mb-1">What Akↄfa See</div>
+            <div className="font-semibold text-white mb-1">{dashText.whatAkofaSee || 'What akↄfa See'}</div>
             <p className="text-gray-300 text-sm">
-              Your <span className="text-green-400 font-medium">{strength}</span> dey strong ({highestLayer}/10), 
-              but your <span className="text-red-400 font-medium">{bottleneck}</span> ({lowestLayer}/10) dey hold everything back. 
-              When you fix <span className="text-red-400">{bottleneck}</span>, other areas go improve too.
+              {dashText.insightStrong || 'Your'} <span className="text-green-400 font-medium">{strength}</span> {dashText.deyStrong || 'dey strong'} ({highestLayer}/10), 
+              {dashText.butYour || 'but your'} <span className="text-red-400 font-medium">{bottleneck}</span> ({lowestLayer}/10) {dashText.deyHoldBack || 'dey hold everything back'}. 
+              {dashText.whenYouFix || 'When you fix'} <span className="text-red-400">{bottleneck}</span>, {dashText.otherAreasImprove || 'other areas go improve too'}.
             </p>
           </div>
         </div>
@@ -197,7 +198,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
           <div className="flex items-start gap-3">
             <div className="text-2xl">🇬🇭</div>
             <div>
-              <div className="font-medium text-amber-400 mb-1">Ghanaian Wisdom:</div>
+              <div className="font-medium text-amber-400 mb-1">{dashText.ghanaianWisdom || 'Ghanaian Wisdom'}:</div>
               <p className="text-white italic">"{proverb.english}"</p>
               <p className="text-amber-200/70 text-sm mt-1">{proverb.twi}</p>
               <p className="text-gray-400 text-sm mt-2">{proverb.meaning}</p>
@@ -214,7 +215,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
               <Lightbulb className="w-5 h-5 text-green-400" />
             </div>
             <div>
-              <div className="font-semibold text-green-400 mb-1">Wetin You Fit Do Today:</div>
+              <div className="font-semibold text-green-400 mb-1">{dashText.actionableTipTitle || 'Wetin You Fit Do Today'}:</div>
               <p className="text-gray-200">{actionTip}</p>
             </div>
           </div>
@@ -230,10 +231,10 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       {/* Real Example */}
       {example && (
         <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-          <div className="font-semibold text-purple-400 mb-2">📖 Real Example:</div>
+          <div className="font-semibold text-purple-400 mb-2">📖 {dashText.realExample || 'Real Example'}:</div>
           <p className="text-gray-300 text-sm mb-2">{example.scenario}</p>
-          <p className="text-gray-400 text-sm mb-2"><span className="text-red-400">Problem:</span> {example.problem}</p>
-          <p className="text-gray-400 text-sm"><span className="text-green-400">Solution:</span> {example.solution}</p>
+          <p className="text-gray-400 text-sm mb-2"><span className="text-red-400">{dashText.problem || 'Problem'}:</span> {example.problem}</p>
+          <p className="text-gray-400 text-sm"><span className="text-green-400">{dashText.solution || 'Solution'}:</span> {example.solution}</p>
         </div>
       )}
 
@@ -241,7 +242,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       <div className="bg-blue-900/20 rounded-lg p-3 border border-blue-500/20">
         <p className="text-sm text-blue-100 flex items-center gap-2">
           <Zap className="w-4 h-4 text-yellow-400" />
-          <span><span className="font-semibold">Quick tip:</span> {labels.hint}</span>
+          <span><span className="font-semibold">{dashText.quickTip || 'Quick tip'}:</span> {labels.hint}</span>
         </p>
       </div>
 
@@ -287,9 +288,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       <div className="flex items-center justify-between bg-slate-800/60 rounded-lg p-3 border border-slate-700">
         <div className="flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-400" />
-          <span className="text-xs text-gray-400">Results are estimates, not facts</span>
+          <span className="text-xs text-gray-400">{dashText.resultsAreEstimates || 'Results are estimates, not facts'}</span>
         </div>
-        <ConfidenceIndicator confidence={stabilityMetrics.confidence} label="Data" />
+        <ConfidenceIndicator confidence={stabilityMetrics.confidence} label={dashText.dataLabel || 'Data'} />
       </div>
 
       {/* Daily Reminder */}
@@ -299,8 +300,8 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             <Calendar className="w-5 h-5 text-green-400" />
           </div>
           <div className="flex-1">
-            <div className="font-medium text-white">Check yourself every day</div>
-            <p className="text-sm text-gray-400">Small small changes dey add up. Update your scores as you progress.</p>
+            <div className="font-medium text-white">{dashText.checkDaily || 'Check yourself every day'}</div>
+            <p className="text-sm text-gray-400">{dashText.smallChanges || 'Small small changes dey add up. Update your scores as you progress.'}</p>
           </div>
         </div>
       </div>
@@ -346,8 +347,8 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
               <Calculator className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-white">Business Tools</h3>
-              <p className="text-sm text-gray-400">Free tools to help your business grow</p>
+              <h3 className="text-xl font-bold text-white">{dashText.businessTools || 'Business Tools'}</h3>
+              <p className="text-sm text-gray-400">{dashText.businessToolsDesc || 'Free tools to help your business grow'}</p>
             </div>
           </div>
           

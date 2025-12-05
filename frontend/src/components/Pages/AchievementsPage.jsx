@@ -32,19 +32,21 @@ const CATEGORY_ICONS = {
   special: '✨'
 };
 
-const CATEGORY_NAMES = {
-  streak: 'Streak',
-  checkins: 'Check-ins',
-  levels: 'Levels',
-  challenges: 'Challenges',
-  social: 'Social',
-  layers: 'Layers',
-  stackscore: 'StackScore',
-  special: 'Special'
-};
-
 export default function AchievementsPage() {
-  const { t, language } = useLanguage();
+  const { t, getSection } = useLanguage();
+  const achievementsText = getSection('achievementsPage') || {};
+  const commonText = getSection('common') || {};
+  
+  const CATEGORY_NAMES = {
+    streak: achievementsText.categoryStreak || 'Streak',
+    checkins: achievementsText.categoryCheckins || 'Check-ins',
+    levels: achievementsText.categoryLevels || 'Levels',
+    challenges: achievementsText.categoryChallenges || 'Challenges',
+    social: achievementsText.categorySocial || 'Social',
+    layers: achievementsText.categoryLayers || 'Layers',
+    stackscore: achievementsText.categoryStackscore || 'StackScore',
+    special: achievementsText.categorySpecial || 'Special'
+  };
   const [achievements, setAchievements] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -118,7 +120,7 @@ export default function AchievementsPage() {
           <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">🎉</span>
             <h3 className="font-bold text-lg">
-              {t('newAchievements', 'New Achievements Unlocked!')}
+              {achievementsText.newAchievements || 'New Achievements Unlocked!'}
             </h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -132,7 +134,7 @@ export default function AchievementsPage() {
             onClick={() => setRecentUnlocks([])}
             className="mt-2 text-sm opacity-80 hover:opacity-100"
           >
-            {t('dismiss', 'Dismiss')}
+            {achievementsText.dismiss || 'Dismiss'}
           </button>
         </div>
       )}
@@ -140,25 +142,25 @@ export default function AchievementsPage() {
       {stats && (
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
-            {t('achievementProgress', 'Achievement Progress')}
+            {achievementsText.achievementProgress || 'Achievement Progress'}
           </h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div className="text-center">
               <div className="text-3xl font-bold text-indigo-600">{stats.totalEarned}</div>
-              <div className="text-sm text-gray-500">{t('earned', 'Earned')}</div>
+              <div className="text-sm text-gray-500">{achievementsText.earned || 'Earned'}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-gray-600">{stats.totalAvailable}</div>
-              <div className="text-sm text-gray-500">{t('total', 'Total')}</div>
+              <div className="text-sm text-gray-500">{achievementsText.totalLabel || 'Total'}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600">{stats.percentComplete}%</div>
-              <div className="text-sm text-gray-500">{t('complete', 'Complete')}</div>
+              <div className="text-sm text-gray-500">{achievementsText.complete || 'Complete'}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-amber-600">{stats.totalPoints.toLocaleString()}</div>
-              <div className="text-sm text-gray-500">{t('xpEarned', 'XP Earned')}</div>
+              <div className="text-sm text-gray-500">{achievementsText.xpEarned || 'XP Earned'}</div>
             </div>
           </div>
 
@@ -190,7 +192,7 @@ export default function AchievementsPage() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            {cat === 'all' ? t('allCategories', 'All') : (
+            {cat === 'all' ? (achievementsText.allCategories || 'All') : (
               <span>{CATEGORY_ICONS[cat]} {CATEGORY_NAMES[cat]}</span>
             )}
           </button>
@@ -199,7 +201,7 @@ export default function AchievementsPage() {
 
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800">
-          {selectedCategory === 'all' ? t('allAchievements', 'All Achievements') : CATEGORY_NAMES[selectedCategory]}
+          {selectedCategory === 'all' ? (achievementsText.allAchievements || 'All Achievements') : CATEGORY_NAMES[selectedCategory]}
           <span className="ml-2 text-sm font-normal text-gray-500">
             ({filteredAchievements.filter(a => a.earned).length}/{filteredAchievements.length})
           </span>
@@ -211,7 +213,7 @@ export default function AchievementsPage() {
             onChange={(e) => setShowEarnedOnly(e.target.checked)}
             className="rounded text-indigo-600 focus:ring-indigo-500"
           />
-          {t('showEarnedOnly', 'Show earned only')}
+          {achievementsText.showEarnedOnly || 'Show earned only'}
         </label>
       </div>
 
@@ -282,7 +284,7 @@ export default function AchievementsPage() {
       {filteredAchievements.length === 0 && (
         <div className="text-center py-12 text-gray-500">
           <span className="text-4xl mb-4 block">🏆</span>
-          <p>{t('noAchievementsInCategory', 'No achievements in this category yet')}</p>
+          <p>{achievementsText.noAchievementsInCategory || 'No achievements in this category yet'}</p>
         </div>
       )}
 

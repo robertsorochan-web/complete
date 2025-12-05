@@ -116,7 +116,7 @@ export default function ProfilePage({ user, onLogout }) {
           </div>
 
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-2xl font-bold text-white">{profile?.name || 'User'}</h1>
+            <h1 className="text-2xl font-bold text-white">{profile?.name || profileText.defaultUser || 'User'}</h1>
             <p className="text-gray-400">{profile?.email}</p>
             <div className="flex items-center gap-2 mt-2 justify-center md:justify-start">
               <span className={`px-3 py-1 rounded-full bg-gradient-to-r ${tier.color} text-white text-sm font-medium flex items-center gap-1`}>

@@ -303,7 +303,7 @@ export default function CommunityPage() {
       {post.isFeatured && (
         <div className="flex items-center gap-2 text-yellow-400 text-sm mb-3">
           <Star className="w-4 h-4" />
-          <span className="font-medium">Featured Post</span>
+          <span className="font-medium">{communityText.featuredPost || 'Featured Post'}</span>
         </div>
       )}
       
@@ -331,19 +331,19 @@ export default function CommunityPage() {
                     className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-600 flex items-center gap-2"
                   >
                     <Bookmark className={`w-4 h-4 ${savedPosts.includes(post.id) ? 'fill-purple-400 text-purple-400' : ''}`} />
-                    {savedPosts.includes(post.id) ? 'Saved' : 'Save'}
+                    {savedPosts.includes(post.id) ? (communityText.saved || 'Saved') : (communityText.save || 'Save')}
                   </button>
                   <button
                     className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-600 flex items-center gap-2"
                   >
                     <Share2 className="w-4 h-4" />
-                    Share
+                    {communityText.shareAction || 'Share'}
                   </button>
                   <button
                     className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-slate-600 flex items-center gap-2"
                   >
                     <Flag className="w-4 h-4" />
-                    Report
+                    {communityText.report || 'Report'}
                   </button>
                 </div>
               )}
@@ -447,7 +447,7 @@ export default function CommunityPage() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search posts..."
+                    placeholder={communityText.searchPosts || 'Search posts...'}
                     className="w-full pl-10 pr-4 py-2 bg-slate-800 rounded-lg text-white placeholder-gray-500 border border-slate-700 focus:border-purple-500 focus:outline-none"
                   />
                 </div>
@@ -456,7 +456,7 @@ export default function CommunityPage() {
                   className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg text-gray-400 hover:text-white transition border border-slate-700"
                 >
                   <Filter className="w-4 h-4" />
-                  Filters
+                  {communityText.filters || 'Filters'}
                   <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
                 </button>
               </div>
@@ -465,12 +465,12 @@ export default function CommunityPage() {
               {showFilters && (
                 <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 space-y-4">
                   <div>
-                    <p className="text-sm text-gray-400 mb-2">Sort by:</p>
+                    <p className="text-sm text-gray-400 mb-2">{communityText.sortBy || 'Sort by:'}</p>
                     <div className="flex flex-wrap gap-2">
                       {[
-                        { id: 'recent', label: 'Recent', icon: Clock },
-                        { id: 'top', label: 'Top', icon: TrendingUp },
-                        { id: 'featured', label: 'Featured', icon: Star }
+                        { id: 'recent', label: communityText.sortRecent || 'Recent', icon: Clock },
+                        { id: 'top', label: communityText.sortTop || 'Top', icon: TrendingUp },
+                        { id: 'featured', label: communityText.sortFeatured || 'Featured', icon: Star }
                       ].map(filter => {
                         const Icon = filter.icon;
                         return (
@@ -492,7 +492,7 @@ export default function CommunityPage() {
                   </div>
                   
                   <div>
-                    <p className="text-sm text-gray-400 mb-2">Filter by layer:</p>
+                    <p className="text-sm text-gray-400 mb-2">{communityText.filterByLayer || 'Filter by layer:'}</p>
                     <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() => setSelectedLayer('')}
@@ -500,7 +500,7 @@ export default function CommunityPage() {
                           !selectedLayer ? 'bg-purple-500 text-white' : 'bg-slate-700 text-gray-400 hover:bg-slate-600'
                         }`}
                       >
-                        All
+                        {communityText.allLayers || 'All'}
                       </button>
                       {Object.entries(layerNames).map(([key, name]) => (
                         <button
@@ -524,7 +524,7 @@ export default function CommunityPage() {
               <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
                 <div className="flex items-center gap-2 mb-3">
                   <Hash className="w-5 h-5 text-purple-400" />
-                  <span className="font-medium text-white">Trending Topics</span>
+                  <span className="font-medium text-white">{communityText.trendingTopics || 'Trending Topics'}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {trendingHashtags.map(hashtag => (
@@ -547,7 +547,7 @@ export default function CommunityPage() {
                     onClick={() => setSelectedHashtag(null)}
                     className="mt-2 text-sm text-purple-400 hover:text-purple-300"
                   >
-                    Clear filter
+                    {communityText.clearFilter || 'Clear filter'}
                   </button>
                 )}
               </div>
@@ -567,7 +567,7 @@ export default function CommunityPage() {
                   <textarea
                     value={newInsight.text}
                     onChange={(e) => setNewInsight(prev => ({ ...prev, text: e.target.value }))}
-                    placeholder="Share your progress, tip, or win! Use #hashtags to join the conversation..."
+                    placeholder={communityText.sharePlaceholder || 'Share your progress, tip, or win! Use #hashtags to join the conversation...'}
                     className="w-full p-3 bg-slate-700 rounded-lg text-white placeholder-gray-500 border border-slate-600 focus:border-purple-500 focus:outline-none mb-4"
                     rows={4}
                   />
@@ -582,7 +582,7 @@ export default function CommunityPage() {
                       ))}
                     </select>
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm">Improvement:</span>
+                      <span className="text-gray-400 text-sm">{communityText.improvement || 'Improvement:'}</span>
                       <input
                         type="number"
                         value={newInsight.improvement}
@@ -598,7 +598,7 @@ export default function CommunityPage() {
                       className="ml-auto px-4 py-2 bg-purple-500 text-white rounded-lg flex items-center gap-2 hover:bg-purple-600 transition-colors"
                     >
                       <Send className="w-4 h-4" />
-                      Post
+                      {communityText.post || 'Post'}
                     </button>
                   </div>
                 </div>
@@ -609,7 +609,7 @@ export default function CommunityPage() {
                 <div className="space-y-3">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Star className="w-5 h-5 text-yellow-400" />
-                    Featured
+                    {communityText.featuredLabel || 'Featured'}
                   </h3>
                   {filterPosts(featuredPosts).slice(0, 2).map(post => renderPost(post))}
                 </div>
@@ -621,7 +621,7 @@ export default function CommunityPage() {
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     {feedFilter === 'recent' && <Clock className="w-5 h-5 text-blue-400" />}
                     {feedFilter === 'top' && <TrendingUp className="w-5 h-5 text-green-400" />}
-                    {feedFilter === 'recent' ? 'Recent Posts' : 'Top Posts'}
+                    {feedFilter === 'recent' ? (communityText.recentPostsLabel || 'Recent Posts') : (communityText.topPostsLabel || 'Top Posts')}
                   </h3>
                 )}
                 {filterPosts([...insights, ...(feedFilter === 'featured' ? featuredPosts : [])]).map(post => renderPost(post))}
@@ -629,8 +629,8 @@ export default function CommunityPage() {
                 {filterPosts([...insights]).length === 0 && !loading && (
                   <div className="text-center py-12 text-gray-500">
                     {selectedHashtag 
-                      ? `No posts found with #${selectedHashtag}` 
-                      : 'No posts found. Be the first to share!'}
+                      ? (communityText.noPostsWithHashtag || `No posts found with #${selectedHashtag}`)
+                      : (communityText.noPostsYet || 'No posts found. Be the first to share!')}
                   </div>
                 )}
               </div>
@@ -654,21 +654,21 @@ export default function CommunityPage() {
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-gray-500">
                             <Users className="w-4 h-4 inline mr-1" />
-                            {group.memberCount} members
+                            {group.memberCount} {communityText.members || 'members'}
                           </span>
                           {group.isMember ? (
                             <button
                               onClick={() => handleLeaveGroup(group.id)}
                               className="px-4 py-1.5 bg-slate-700 text-gray-300 rounded-lg text-sm hover:bg-slate-600 transition-colors"
                             >
-                              Leave
+                              {communityText.leave || 'Leave'}
                             </button>
                           ) : (
                             <button
                               onClick={() => handleJoinGroup(group.id)}
                               className="px-4 py-1.5 bg-purple-500 text-white rounded-lg text-sm hover:bg-purple-600 transition-colors"
                             >
-                              Join
+                              {communityText.join || 'Join'}
                             </button>
                           )}
                         </div>
@@ -678,7 +678,7 @@ export default function CommunityPage() {
                 );
               }) : (
                 <div className="col-span-2 text-center py-12 text-gray-500">
-                  No groups available yet. Check back soon!
+                  {communityText.noGroupsYet || 'No groups available yet. Check back soon!'}
                 </div>
               )}
             </div>
@@ -707,15 +707,15 @@ export default function CommunityPage() {
                     </button>
                     <button className="flex items-center gap-1 text-gray-400 hover:text-green-400 transition-colors ml-auto">
                       <Share2 className="w-5 h-5" />
-                      Share
+                      {communityText.shareAction || 'Share'}
                     </button>
                   </div>
                 </div>
               )) : (
                 <div className="text-center py-12 text-gray-500">
                   <Trophy className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-white mb-2">No Success Stories Yet</h3>
-                  <p>Keep working on your stack and share your journey!</p>
+                  <h3 className="text-xl font-semibold text-white mb-2">{communityText.noStoriesYet || 'No Success Stories Yet'}</h3>
+                  <p>{communityText.keepWorkingOnStack || 'Keep working on your stack and share your journey!'}</p>
                 </div>
               )}
             </div>
@@ -729,18 +729,18 @@ export default function CommunityPage() {
                   <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center mx-auto mb-4">
                     <Users className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Your Accountability Partner</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">{communityText.yourPartner || 'Your Accountability Partner'}</h3>
                   <p className="text-2xl text-purple-400 font-medium mb-2">{partner.partner.name}</p>
                   <p className="text-gray-400 mb-4 flex items-center justify-center gap-2">
                     <Flame className="w-5 h-5 text-orange-500" />
-                    {partner.partner.streak} day streak
+                    {partner.partner.streak} {communityText.dayStreak || 'day streak'}
                   </p>
                   <p className="text-sm text-gray-500 mb-6">
-                    Matched since {new Date(partner.partner.matchedAt).toLocaleDateString()}
+                    {communityText.matchedSince || 'Matched since'} {new Date(partner.partner.matchedAt).toLocaleDateString()}
                   </p>
                   <button className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition flex items-center gap-2 mx-auto">
                     <MessageCircle className="w-5 h-5" />
-                    Send Message
+                    {communityText.sendMessage || 'Send Message'}
                   </button>
                 </div>
               ) : (
@@ -748,32 +748,32 @@ export default function CommunityPage() {
                   <div className="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center mx-auto mb-4">
                     <UserPlus className="w-10 h-10 text-gray-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Find an Accountability Partner</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">{communityText.findPartner || 'Find an Accountability Partner'}</h3>
                   <p className="text-gray-400 mb-6 max-w-md mx-auto">
-                    Get matched with someone on a similar journey. Support each other, share progress, and stay accountable.
+                    {communityText.findPartnerDesc || 'Get matched with someone on a similar journey. Support each other, share progress, and stay accountable.'}
                   </p>
                   <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mb-6">
                     <div className="bg-slate-700 rounded-lg p-3 text-center">
                       <Users className="w-6 h-6 text-purple-400 mx-auto mb-1" />
                       <p className="text-white font-bold">2x</p>
-                      <p className="text-xs text-gray-400">More likely to succeed</p>
+                      <p className="text-xs text-gray-400">{communityText.moreLikelySucceed || 'More likely to succeed'}</p>
                     </div>
                     <div className="bg-slate-700 rounded-lg p-3 text-center">
                       <Flame className="w-6 h-6 text-orange-400 mx-auto mb-1" />
                       <p className="text-white font-bold">65%</p>
-                      <p className="text-xs text-gray-400">Higher completion</p>
+                      <p className="text-xs text-gray-400">{communityText.higherCompletion || 'Higher completion'}</p>
                     </div>
                     <div className="bg-slate-700 rounded-lg p-3 text-center">
                       <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-1" />
                       <p className="text-white font-bold">3x</p>
-                      <p className="text-xs text-gray-400">Faster progress</p>
+                      <p className="text-xs text-gray-400">{communityText.fasterProgress || 'Faster progress'}</p>
                     </div>
                   </div>
                   <button
                     onClick={handleRequestPartner}
                     className="px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
                   >
-                    Find My Partner
+                    {communityText.findMyPartner || 'Find My Partner'}
                   </button>
                 </div>
               )}

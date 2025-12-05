@@ -25,7 +25,8 @@ const navIcons = {
 };
 
 const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
-  const { t } = useLanguage();
+  const { t, getSection } = useLanguage();
+  const sidebarText = getSection('sidebar') || {};
   const [mobileOpen, setMobileOpen] = useState(false);
   const purpose = user?.purpose || 'personal';
   const navItems = getNavItems(purpose);
@@ -116,7 +117,7 @@ const Sidebar = ({ currentPage, setCurrentPage, user, onLogout }) => {
         </div>
 
         <footer className="mt-6 text-xs text-gray-500 text-center">
-          <div>Free — Akↄfa Fixit</div>
+          <div>{sidebarText.free || 'Free'} — Akↄfa Fixit</div>
         </footer>
       </aside>
 

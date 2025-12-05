@@ -3,6 +3,7 @@ import { TrendingUp, Award, Trophy, Target, ChevronUp, Users, Star, Zap, Share2 
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import StackShareCard from '../ui/StackShareCard';
+import { useLanguage } from '../../context/LanguageContext';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -17,6 +18,10 @@ const tierColors = {
 };
 
 export default function StackScorePage() {
+  const { t, getSection } = useLanguage();
+  const stackScoreText = getSection('stackScorePage') || {};
+  const commonText = getSection('common') || {};
+  
   const [loading, setLoading] = useState(true);
   const [scoreData, setScoreData] = useState(null);
   const [history, setHistory] = useState([]);
@@ -129,13 +134,13 @@ export default function StackScorePage() {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
               <TrendingUp className="w-7 h-7 text-purple-400" />
-              Your StackScore
+              {stackScoreText.yourStackScore || 'Your StackScore'}
             </h2>
             <div className="flex items-center gap-2">
               {userRank && (
                 <div className="flex items-center gap-2 bg-slate-700/50 px-4 py-2 rounded-full">
                   <Trophy className="w-5 h-5 text-yellow-500" />
-                  <span className="text-white font-medium">Rank #{userRank}</span>
+                  <span className="text-white font-medium">{stackScoreText.rank || 'Rank'} #{userRank}</span>
                 </div>
               )}
               <button
@@ -143,7 +148,7 @@ export default function StackScorePage() {
                 className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full text-white font-medium transition-colors"
               >
                 <Share2 className="w-4 h-4" />
-                Share
+                {commonText.share || 'Share'}
               </button>
             </div>
           </div>
@@ -169,7 +174,7 @@ export default function StackScorePage() {
             <div className="flex-1 space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Consistency</span>
+                  <span className="text-gray-400">{stackScoreText.consistency || 'Consistency'}</span>
                   <span className="text-white font-medium">{scoreData?.breakdown?.consistency || 0}%</span>
                 </div>
                 <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -182,7 +187,7 @@ export default function StackScorePage() {
 
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Progress</span>
+                  <span className="text-gray-400">{stackScoreText.progress || 'Progress'}</span>
                   <span className="text-white font-medium">{scoreData?.breakdown?.progress || 0}%</span>
                 </div>
                 <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -195,7 +200,7 @@ export default function StackScorePage() {
 
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Balance</span>
+                  <span className="text-gray-400">{stackScoreText.balance || 'Balance'}</span>
                   <span className="text-white font-medium">{scoreData?.breakdown?.balance || 0}%</span>
                 </div>
                 <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -208,7 +213,7 @@ export default function StackScorePage() {
 
               <div className="flex items-center gap-2 text-sm text-yellow-400">
                 <Zap className="w-4 h-4" />
-                <span>AI Bonus: +{scoreData?.breakdown?.aiBonus || 0} points</span>
+                <span>{stackScoreText.aiBonus || 'AI Bonus'}: +{scoreData?.breakdown?.aiBonus || 0} {stackScoreText.points || 'points'}</span>
               </div>
             </div>
           </div>
@@ -217,8 +222,8 @@ export default function StackScorePage() {
           {scoreData?.nextTier && scoreData.nextTier.nextTier !== 'Max Tier' && (
             <div className="mt-6 bg-slate-800/50 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-400 text-sm">Next Tier: {scoreData.nextTier.nextTier}</span>
-                <span className="text-purple-400 text-sm font-medium">{scoreData.nextTier.pointsNeeded} points needed</span>
+                <span className="text-gray-400 text-sm">{stackScoreText.nextTier || 'Next Tier'}: {scoreData.nextTier.nextTier}</span>
+                <span className="text-purple-400 text-sm font-medium">{scoreData.nextTier.pointsNeeded} {stackScoreText.pointsNeeded || 'points needed'}</span>
               </div>
               <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
                 <div 
@@ -243,7 +248,7 @@ export default function StackScorePage() {
                 : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
             }`}
           >
-            {tab === 'score' ? 'History' : 'Leaderboard'}
+            {tab === 'score' ? (stackScoreText.history || 'History') : (stackScoreText.leaderboard || 'Leaderboard')}
           </button>
         ))}
       </div>
@@ -251,13 +256,13 @@ export default function StackScorePage() {
       {/* Tab Content */}
       {activeTab === 'score' && (
         <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700">
-          <h3 className="text-lg font-bold text-white mb-4">Score History</h3>
+          <h3 className="text-lg font-bold text-white mb-4">{stackScoreText.scoreHistory || 'Score History'}</h3>
           <div className="h-64">
             {history.length > 0 ? (
               <Line data={chartData} options={chartOptions} />
             ) : (
               <div className="flex items-center justify-center h-full text-gray-500">
-                Complete daily check-ins to see your score history
+                {stackScoreText.noHistory || 'Complete daily check-ins to see your score history'}
               </div>
             )}
           </div>
@@ -268,7 +273,7 @@ export default function StackScorePage() {
         <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <Users className="w-5 h-5 text-purple-400" />
-            Anonymous Leaderboard
+            {stackScoreText.anonymousLeaderboard || 'Anonymous Leaderboard'}
           </h3>
           <div className="space-y-2">
             {leaderboard.map((user, i) => (
@@ -288,9 +293,9 @@ export default function StackScorePage() {
                 </div>
                 <div className="flex-1">
                   <p className="text-white font-medium">
-                    {user.displayName} {user.isCurrentUser && '(You)'}
+                    {user.displayName} {user.isCurrentUser && `(${stackScoreText.you || 'You'})`}
                   </p>
-                  <p className="text-gray-400 text-sm">{user.streak} day streak</p>
+                  <p className="text-gray-400 text-sm">{user.streak} {stackScoreText.dayStreak || 'day streak'}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xl font-bold text-white">{user.score}</p>
@@ -306,7 +311,7 @@ export default function StackScorePage() {
       <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700">
         <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <Award className="w-5 h-5 text-yellow-400" />
-          Tier Guide
+          {stackScoreText.tierGuide || 'Tier Guide'}
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[

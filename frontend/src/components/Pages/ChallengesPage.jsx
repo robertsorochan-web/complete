@@ -240,7 +240,7 @@ export default function ChallengesPage() {
             
             {challenge.tasks && !isMyChallenge && (
               <div className="mb-3 p-3 bg-slate-900/50 rounded-lg">
-                <p className="text-xs text-gray-500 mb-2">Daily Tasks:</p>
+                <p className="text-xs text-gray-500 mb-2">{challengeText.dailyTasks || 'Daily Tasks:'}</p>
                 <ul className="space-y-1">
                   {challenge.tasks.slice(0, 3).map((task, i) => (
                     <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
@@ -255,16 +255,16 @@ export default function ChallengesPage() {
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
               <span className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                {challenge.duration} days
+                {challenge.duration} {challengeText.days || 'days'}
               </span>
               <span className="flex items-center gap-1">
                 <Star className="w-4 h-4 text-yellow-500" />
-                {challenge.points} pts
+                {challenge.points} {challengeText.points || 'pts'}
               </span>
               {!isMyChallenge && (
                 <span className="flex items-center gap-1">
                   <Users className="w-4 h-4" />
-                  {challenge.completions || Math.floor(Math.random() * 500) + 100} completed
+                  {challenge.completions || Math.floor(Math.random() * 500) + 100} {challengeText.completions || 'completed'}
                 </span>
               )}
             </div>
@@ -275,18 +275,18 @@ export default function ChallengesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-green-400">
                       <CheckCircle className="w-5 h-5" />
-                      <span className="font-medium">Completed!</span>
+                      <span className="font-medium">{challengeText.completed || 'Completed!'}</span>
                     </div>
                     <button className="flex items-center gap-1 text-purple-400 text-sm hover:text-purple-300">
                       <Share2 className="w-4 h-4" />
-                      Share
+                      {commonText.share || 'Share'}
                     </button>
                   </div>
                 ) : (
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-gray-400 text-sm">Progress</span>
-                      <span className="text-white font-medium">{challenge.progress}/{challenge.duration} days</span>
+                      <span className="text-gray-400 text-sm">{challengeText.progress || 'Progress'}</span>
+                      <span className="text-white font-medium">{challenge.progress}/{challenge.duration} {challengeText.days || 'days'}</span>
                     </div>
                     <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-3">
                       <div 
@@ -299,7 +299,7 @@ export default function ChallengesPage() {
                       className="w-full py-2 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors flex items-center justify-center gap-2"
                     >
                       <CheckCircle className="w-4 h-4" />
-                      Mark Today Complete
+                      {challengeText.markTodayComplete || 'Mark Today Complete'}
                     </button>
                   </div>
                 )}
@@ -309,7 +309,7 @@ export default function ChallengesPage() {
                 {challenge.isParticipating ? (
                   <span className="text-purple-400 text-sm flex items-center gap-1">
                     <Play className="w-4 h-4" />
-                    In Progress
+                    {challengeText.inProgress || 'In Progress'}
                   </span>
                 ) : (
                   <button
@@ -317,7 +317,7 @@ export default function ChallengesPage() {
                     className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
                   >
                     <Play className="w-4 h-4" />
-                    Start Challenge
+                    {challengeText.startChallenge || 'Start Challenge'}
                   </button>
                 )}
               </div>
@@ -350,23 +350,23 @@ export default function ChallengesPage() {
             <div className="bg-slate-700 rounded-lg p-3 text-center">
               <Clock className="w-5 h-5 text-blue-400 mx-auto mb-1" />
               <p className="text-white font-bold">{challenge.duration}</p>
-              <p className="text-xs text-gray-400">Days</p>
+              <p className="text-xs text-gray-400">{challengeText.daysLabel || 'Days'}</p>
             </div>
             <div className="bg-slate-700 rounded-lg p-3 text-center">
               <Star className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
               <p className="text-white font-bold">{challenge.points}</p>
-              <p className="text-xs text-gray-400">Points</p>
+              <p className="text-xs text-gray-400">{challengeText.pointsLabel || 'Points'}</p>
             </div>
             <div className="bg-slate-700 rounded-lg p-3 text-center">
               <Award className="w-5 h-5 text-purple-400 mx-auto mb-1" />
               <p className="text-white font-bold capitalize">{challenge.difficulty}</p>
-              <p className="text-xs text-gray-400">Level</p>
+              <p className="text-xs text-gray-400">{challengeText.levelLabel || 'Level'}</p>
             </div>
           </div>
 
           {challenge.tasks && (
             <div className="mb-4">
-              <h4 className="text-white font-semibold mb-2">Daily Tasks:</h4>
+              <h4 className="text-white font-semibold mb-2">{challengeText.dailyTasks || 'Daily Tasks:'}</h4>
               <ul className="space-y-2">
                 {challenge.tasks.map((task, i) => (
                   <li key={i} className="flex items-center gap-3 bg-slate-700/50 p-3 rounded-lg">
@@ -383,12 +383,12 @@ export default function ChallengesPage() {
           <div className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg p-4 mb-4 border border-purple-500/30">
             <div className="flex items-center gap-2 mb-2">
               <Gift className="w-5 h-5 text-purple-400" />
-              <span className="font-semibold text-white">Completion Rewards</span>
+              <span className="font-semibold text-white">{challengeText.completionRewards || 'Completion Rewards'}</span>
             </div>
             <ul className="text-sm text-gray-300 space-y-1">
-              <li>• {challenge.points} XP points</li>
-              <li>• Challenge completion badge</li>
-              <li>• Progress toward next level</li>
+              <li>• {challenge.points} {challengeText.xpPoints || 'XP points'}</li>
+              <li>• {challengeText.completionBadge || 'Challenge completion badge'}</li>
+              <li>• {challengeText.progressNextLevel || 'Progress toward next level'}</li>
             </ul>
           </div>
 
@@ -404,7 +404,7 @@ export default function ChallengesPage() {
               className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"
             >
               <Play className="w-5 h-5" />
-              Start Now
+              {challengeText.startNow || 'Start Now'}
             </button>
           </div>
         </div>
@@ -431,19 +431,19 @@ export default function ChallengesPage() {
         <div className="grid grid-cols-4 gap-4 text-center">
           <div>
             <p className="text-2xl font-bold text-white">{communityStats.totalChallenges}</p>
-            <p className="text-xs text-gray-400">Challenges</p>
+            <p className="text-xs text-gray-400">{challengeText.challengesLabel || 'Challenges'}</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-purple-400">{communityStats.activeChallengers.toLocaleString()}</p>
-            <p className="text-xs text-gray-400">Active Users</p>
+            <p className="text-xs text-gray-400">{challengeText.activeUsers || 'Active Users'}</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-green-400">{communityStats.completedToday}</p>
-            <p className="text-xs text-gray-400">Completed Today</p>
+            <p className="text-xs text-gray-400">{challengeText.completedToday || 'Completed Today'}</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-orange-400">{communityStats.topStreak}</p>
-            <p className="text-xs text-gray-400">Top Streak</p>
+            <p className="text-xs text-gray-400">{challengeText.topStreak || 'Top Streak'}</p>
           </div>
         </div>
       </div>
@@ -454,22 +454,22 @@ export default function ChallengesPage() {
           <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
             <Flame className="w-6 h-6 text-orange-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-white">{userStats.streak}</p>
-            <p className="text-xs text-gray-400">Day Streak</p>
+            <p className="text-xs text-gray-400">{challengeText.dayStreak || 'Day Streak'}</p>
           </div>
           <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
             <Play className="w-6 h-6 text-blue-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-white">{userStats.active}</p>
-            <p className="text-xs text-gray-400">Active</p>
+            <p className="text-xs text-gray-400">{challengeText.active || 'Active'}</p>
           </div>
           <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
             <CheckCircle className="w-6 h-6 text-green-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-white">{userStats.completed}</p>
-            <p className="text-xs text-gray-400">Completed</p>
+            <p className="text-xs text-gray-400">{challengeText.completedLabel || 'Completed'}</p>
           </div>
           <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
             <Star className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-white">{userStats.points}</p>
-            <p className="text-xs text-gray-400">XP</p>
+            <p className="text-xs text-gray-400">{challengeText.xpPoints || 'XP'}</p>
           </div>
         </div>
       )}
@@ -507,7 +507,7 @@ export default function ChallengesPage() {
           }`}
         >
           <Trophy className="w-4 h-4" />
-          Hall of Fame
+          {challengeText.hallOfFame || 'Hall of Fame'}
         </button>
         <button
           onClick={() => setActiveTab('certificates')}
@@ -518,7 +518,7 @@ export default function ChallengesPage() {
           }`}
         >
           <Award className="w-4 h-4" />
-          Certificates
+          {challengeText.certificates || 'Certificates'}
         </button>
       </div>
 
@@ -530,18 +530,18 @@ export default function ChallengesPage() {
             className="flex items-center gap-2 text-gray-400 hover:text-white transition"
           >
             <Filter className="w-4 h-4" />
-            <span className="text-sm">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+            <span className="text-sm">{showFilters ? (challengeText.hideFilters || 'Hide Filters') : (challengeText.showFilters || 'Show Filters')}</span>
           </button>
           
           {showFilters && (
             <div className="space-y-3 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
               <div>
-                <p className="text-sm text-gray-400 mb-2">Filter by Layer:</p>
+                <p className="text-sm text-gray-400 mb-2">{challengeText.filterByLayer || 'Filter by Layer:'}</p>
                 {renderLayerFilter()}
               </div>
               
               <div>
-                <p className="text-sm text-gray-400 mb-2">Filter by Difficulty:</p>
+                <p className="text-sm text-gray-400 mb-2">{challengeText.filterByDifficulty || 'Filter by Difficulty:'}</p>
                 <div className="flex gap-2">
                   {['easy', 'medium', 'hard'].map(diff => (
                     <button
@@ -571,7 +571,7 @@ export default function ChallengesPage() {
             className="px-6 py-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg hover:opacity-90 transition flex items-center gap-2"
           >
             <Zap className="w-4 h-4" />
-            Create Your Own Challenge
+            {challengeText.createYourOwn || 'Create Your Own Challenge'}
           </button>
         </div>
       )}
@@ -580,31 +580,31 @@ export default function ChallengesPage() {
       {showCreateForm && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
           <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Create New Challenge</h3>
+            <h3 className="text-xl font-bold text-white mb-4">{challengeText.createNewChallenge || 'Create New Challenge'}</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Challenge Title</label>
+                <label className="block text-sm text-gray-400 mb-1">{challengeText.challengeTitle || 'Challenge Title'}</label>
                 <input
                   type="text"
                   value={newChallenge.title}
                   onChange={(e) => setNewChallenge({...newChallenge, title: e.target.value})}
                   className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
-                  placeholder="e.g., 30-Day Gratitude Practice"
+                  placeholder={challengeText.challengeTitlePlaceholder || "e.g., 30-Day Gratitude Practice"}
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Description</label>
+                <label className="block text-sm text-gray-400 mb-1">{challengeText.description || 'Description'}</label>
                 <textarea
                   value={newChallenge.description}
                   onChange={(e) => setNewChallenge({...newChallenge, description: e.target.value})}
                   className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
                   rows={3}
-                  placeholder="What is this challenge about?"
+                  placeholder={challengeText.descriptionPlaceholder || "What is this challenge about?"}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Duration (days)</label>
+                  <label className="block text-sm text-gray-400 mb-1">{challengeText.durationDays || 'Duration (days)'}</label>
                   <input
                     type="number"
                     value={newChallenge.durationDays}
@@ -615,15 +615,15 @@ export default function ChallengesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Difficulty</label>
+                  <label className="block text-sm text-gray-400 mb-1">{challengeText.difficulty || 'Difficulty'}</label>
                   <select
                     value={newChallenge.difficulty}
                     onChange={(e) => setNewChallenge({...newChallenge, difficulty: e.target.value})}
                     className="w-full p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
                   >
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
+                    <option value="easy">{challengeText.easy || 'Easy'}</option>
+                    <option value="medium">{challengeText.medium || 'Medium'}</option>
+                    <option value="hard">{challengeText.hard || 'Hard'}</option>
                   </select>
                 </div>
               </div>
@@ -632,14 +632,14 @@ export default function ChallengesPage() {
                   onClick={() => setShowCreateForm(false)}
                   className="flex-1 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition"
                 >
-                  Cancel
+                  {commonText.cancel || 'Cancel'}
                 </button>
                 <button
                   onClick={handleCreateChallenge}
                   disabled={!newChallenge.title || !newChallenge.description}
                   className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
                 >
-                  Create & Start
+                  {challengeText.createAndStart || 'Create & Start'}
                 </button>
               </div>
             </div>
@@ -668,7 +668,7 @@ export default function ChallengesPage() {
                   <div>
                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                       <Flame className="w-5 h-5 text-orange-500" />
-                      Active Challenges
+                      {challengeText.activeChallenges || 'Active Challenges'}
                     </h3>
                     <div className="grid gap-4">
                       {myChallenges.filter(c => c.status === 'active').map(c => renderChallengeCard(c, true))}
@@ -680,7 +680,7 @@ export default function ChallengesPage() {
                   <div className="mt-6">
                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                       <CheckCircle className="w-5 h-5 text-green-500" />
-                      Completed Challenges
+                      {challengeText.completedChallenges || 'Completed Challenges'}
                     </h3>
                     <div className="grid gap-4">
                       {myChallenges.filter(c => c.status === 'completed').map(c => renderChallengeCard(c, true))}
@@ -691,13 +691,13 @@ export default function ChallengesPage() {
             ) : (
               <div className="text-center py-12">
                 <Target className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No Active Challenges</h3>
-                <p className="text-gray-400 mb-4">Start a challenge from the marketplace to begin your journey!</p>
+                <h3 className="text-xl font-semibold text-white mb-2">{challengeText.noChallenges || 'No Active Challenges'}</h3>
+                <p className="text-gray-400 mb-4">{challengeText.noChallengesDesc || 'Start a challenge from the marketplace to begin your journey!'}</p>
                 <button
                   onClick={() => setActiveTab('marketplace')}
                   className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
                 >
-                  Browse Challenges
+                  {challengeText.browseChallenges || 'Browse Challenges'}
                 </button>
               </div>
             )
@@ -707,8 +707,8 @@ export default function ChallengesPage() {
             <div className="space-y-4">
               <div className="text-center mb-6">
                 <Trophy className="w-12 h-12 text-yellow-500 mx-auto mb-2" />
-                <h2 className="text-xl font-bold text-white">Challenge Champions</h2>
-                <p className="text-gray-400 text-sm">Top challenge completers in our community</p>
+                <h2 className="text-xl font-bold text-white">{challengeText.challengeChampions || 'Challenge Champions'}</h2>
+                <p className="text-gray-400 text-sm">{challengeText.topCompleters || 'Top challenge completers in our community'}</p>
               </div>
               {hallOfFame.length > 0 ? (
                 hallOfFame.map((user, i) => (
@@ -731,9 +731,9 @@ export default function ChallengesPage() {
                     </div>
                     <div className="flex-1">
                       <p className={`font-medium ${user.isCurrentUser ? 'text-purple-400' : 'text-white'}`}>
-                        {user.displayName} {user.isCurrentUser && '(You)'}
+                        {user.displayName} {user.isCurrentUser && `(${challengeText.you || 'You'})`}
                       </p>
-                      <p className="text-xs text-gray-500">{user.completedCount} challenges completed</p>
+                      <p className="text-xs text-gray-500">{user.completedCount} {challengeText.challengesCompleted || 'challenges completed'}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-yellow-400 font-bold">{user.totalPoints} pts</p>

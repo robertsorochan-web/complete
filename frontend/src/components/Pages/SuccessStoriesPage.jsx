@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Star, MapPin, TrendingUp, Quote, Filter, Share2 } from 'lucide-react';
 import { successStories } from '../../config/successStories';
+import { useLanguage } from '../../context/LanguageContext';
 
 const SuccessStoriesPage = ({ onBack }) => {
+  const { t, getSection } = useLanguage();
+  const storiesText = getSection('successStoriesPage') || {};
+  const commonText = getSection('common') || {};
+  
   const [filter, setFilter] = useState('all');
   const [selectedStory, setSelectedStory] = useState(null);
 
   const sectors = [
-    { id: 'all', label: 'All Stories', icon: '📚' },
-    { id: 'fishing', label: 'Fishing', icon: '🐟' },
-    { id: 'market', label: 'Market', icon: '🏪' },
-    { id: 'farming', label: 'Farming', icon: '🌾' },
-    { id: 'food', label: 'Food Service', icon: '🍲' },
-    { id: 'transport', label: 'Transport', icon: '🚗' },
-    { id: 'education', label: 'Education', icon: '📚' }
+    { id: 'all', label: storiesText.allStories || 'All Stories', icon: '📚' },
+    { id: 'fishing', label: storiesText.fishing || 'Fishing', icon: '🐟' },
+    { id: 'market', label: storiesText.market || 'Market', icon: '🏪' },
+    { id: 'farming', label: storiesText.farming || 'Farming', icon: '🌾' },
+    { id: 'food', label: storiesText.foodService || 'Food Service', icon: '🍲' },
+    { id: 'transport', label: storiesText.transport || 'Transport', icon: '🚗' },
+    { id: 'education', label: storiesText.education || 'Education', icon: '📚' }
   ];
 
   const filteredStories = filter === 'all' 
@@ -21,7 +26,7 @@ const SuccessStoriesPage = ({ onBack }) => {
     : successStories.filter(s => s.sector === filter);
 
   const shareStory = (story) => {
-    const text = `📖 Success Story: ${story.name}\n\n${story.problem}\n\n✅ Solution: ${story.action}\n\n📈 Result: ${story.result}\n\nLearn more at Akↄfa Fixit!`;
+    const text = `📖 ${storiesText.successStoryLabel || 'Success Story'}: ${story.name}\n\n${story.problem}\n\n✅ ${storiesText.solution || 'Solution'}: ${story.action}\n\n📈 ${storiesText.result || 'Result'}: ${story.result}\n\n${storiesText.learnMore || 'Learn more at'} Akↄfa Fixit!`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -34,7 +39,7 @@ const SuccessStoriesPage = ({ onBack }) => {
           className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back to Stories
+          {storiesText.backToStories || 'Back to Stories'}
         </button>
 
         <div className="max-w-2xl mx-auto">
@@ -58,25 +63,25 @@ const SuccessStoriesPage = ({ onBack }) => {
 
             <div className="p-6 space-y-6">
               <div className="bg-red-900/20 rounded-xl p-4 border border-red-500/30">
-                <div className="text-red-400 font-medium mb-2">😟 The Problem</div>
+                <div className="text-red-400 font-medium mb-2">😟 {storiesText.theProblem || 'The Problem'}</div>
                 <p className="text-gray-300">{selectedStory.problem}</p>
               </div>
 
               <div className="bg-yellow-900/20 rounded-xl p-4 border border-yellow-500/30">
-                <div className="text-yellow-400 font-medium mb-2">💡 What Akↄfa Revealed</div>
+                <div className="text-yellow-400 font-medium mb-2">💡 {storiesText.whatRevealed || 'What Akↄfa Revealed'}</div>
                 <p className="text-gray-300">{selectedStory.discovery}</p>
                 <div className="mt-3 text-sm text-yellow-400/70">
-                  Weak Area: {selectedStory.weakArea}
+                  {storiesText.weakArea || 'Weak Area'}: {selectedStory.weakArea}
                 </div>
               </div>
 
               <div className="bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
-                <div className="text-blue-400 font-medium mb-2">⚡ Action Taken</div>
+                <div className="text-blue-400 font-medium mb-2">⚡ {storiesText.actionTaken || 'Action Taken'}</div>
                 <p className="text-gray-300">{selectedStory.action}</p>
               </div>
 
               <div className="bg-green-900/20 rounded-xl p-4 border border-green-500/30">
-                <div className="text-green-400 font-medium mb-2">📈 The Result</div>
+                <div className="text-green-400 font-medium mb-2">📈 {storiesText.theResult || 'The Result'}</div>
                 <p className="text-gray-300 text-lg font-medium">{selectedStory.result}</p>
               </div>
 
@@ -91,9 +96,9 @@ const SuccessStoriesPage = ({ onBack }) => {
               <div className="bg-slate-700/50 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <TrendingUp className="w-5 h-5 text-green-400" />
-                  <span className="font-medium">Key Takeaway</span>
+                  <span className="font-medium">{storiesText.keyTakeaway || 'Key Takeaway'}</span>
                 </div>
-                <p className="text-gray-300">{selectedStory.lesson || 'Small changes in the right area can create big results.'}</p>
+                <p className="text-gray-300">{selectedStory.lesson || (storiesText.defaultLesson || 'Small changes in the right area can create big results.')}</p>
               </div>
             </div>
 
@@ -103,7 +108,7 @@ const SuccessStoriesPage = ({ onBack }) => {
                 className="w-full py-3 bg-green-600 hover:bg-green-700 rounded-xl font-medium flex items-center justify-center gap-2 transition"
               >
                 <Share2 className="w-5 h-5" />
-                Share This Story on WhatsApp
+                {storiesText.shareOnWhatsApp || 'Share This Story on WhatsApp'}
               </button>
             </div>
           </div>
@@ -120,14 +125,14 @@ const SuccessStoriesPage = ({ onBack }) => {
           className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back
+          {commonText.back || 'Back'}
         </button>
       )}
 
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">🇬🇭 Ghana Success Stories</h1>
-          <p className="text-gray-400">Real people, real problems, real solutions</p>
+          <h1 className="text-3xl font-bold mb-2">🇬🇭 {storiesText.title || 'Ghana Success Stories'}</h1>
+          <p className="text-gray-400">{storiesText.subtitle || 'Real people, real problems, real solutions'}</p>
         </div>
 
         <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
@@ -179,7 +184,7 @@ const SuccessStoriesPage = ({ onBack }) => {
 
         {filteredStories.length === 0 && (
           <div className="text-center py-12 text-gray-500">
-            <p>No stories found for this category yet.</p>
+            <p>{storiesText.noStoriesFound || 'No stories found for this category yet.'}</p>
           </div>
         )}
       </div>
