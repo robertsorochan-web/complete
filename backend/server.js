@@ -15,6 +15,7 @@ import questsRoutes from './routes/quests.js';
 import moodRoutes from './routes/mood.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import exportRoutes from './routes/export.js';
+import achievementsRoutes from './routes/achievements.js';
 import { authMiddleware } from './middleware/auth.js';
 
 dotenv.config();
@@ -82,6 +83,7 @@ app.use('/api/quests', authMiddleware, questsRoutes);
 app.use('/api/mood', authMiddleware, moodRoutes);
 app.use('/api/leaderboard', authMiddleware, leaderboardRoutes);
 app.use('/api/export', authMiddleware, exportRoutes);
+app.use('/api/achievements', authMiddleware, achievementsRoutes);
 
 app.post('/api/contact', async (req, res) => {
   try {

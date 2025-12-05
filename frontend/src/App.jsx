@@ -26,6 +26,7 @@ import LeaderboardPage from './components/Pages/LeaderboardPage';
 import MoodPage from './components/Pages/MoodPage';
 import ToolsPage from './components/Pages/ToolsPage';
 import LayerGuidePage from './components/Pages/LayerGuidePage';
+import AchievementsPage from './components/Pages/AchievementsPage';
 import WelcomeOverlay from './components/ui/WelcomeOverlay';
 import FloatingWhatsAppButton from './components/ui/FloatingWhatsAppButton';
 import AccessibilitySettings from './components/ui/AccessibilitySettings';
@@ -227,6 +228,7 @@ function AppContent() {
       case 'diagnosis': return <Diagnosis assessmentData={assessmentData} purpose={user?.purpose} />;
       case 'tools': return <ToolsPage />;
       case 'layerguide': return <LayerGuidePage />;
+      case 'achievements': return <AchievementsPage />;
       case 'profile': return <ProfilePage user={user} onLogout={handleLogout} />;
       case 'help': return <HelpPage />;
       default: return <Dashboard assessmentData={assessmentData} />;
