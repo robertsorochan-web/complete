@@ -7,6 +7,15 @@ Akↄfa Fixit is a problem-solving application designed to help users identify t
 - West African pidgin English for all user-facing text
 - No technical jargon - use everyday language
 - Akↄfa branding (with ↄ character) throughout
+- Minimized disclaimer warnings (small footer text instead of prominent banners)
+
+## Recent Changes (December 2025)
+- **Multilingual Support:** Added 6 languages - English, Pidgin, Twi, Ga, Yoruba, and Hausa with full translations
+- **Language Toggle:** Updated language selector with dropdown supporting all 6 languages
+- **Minimized Disclaimer:** Replaced prominent warning banner with small footer disclaimer text
+- **Tip of the Day:** New component showing daily tips across all 5 layers (Body & Health, Inner Beliefs, Values, Daily Life, Self-Awareness)
+- **Help/FAQ Page:** Comprehensive help center with searchable FAQ, getting started guide, and tips sections
+- **Navigation Updates:** Added Help page to sidebar navigation for all purposes (personal, team, business, policy)
 
 ## System Architecture
 The application follows a client-server architecture with a React + Vite frontend, an Express.js backend, and a PostgreSQL database.
@@ -17,7 +26,8 @@ The application follows a client-server architecture with a React + Vite fronten
 - **Simplified Metrics:** Assessment scores are displayed with emojis (😰😕😐🙂😊) for intuitive understanding.
 - **Actionable Steps:** Insights conclude with direct, actionable advice ("Do this first: [specific action]").
 - **Mobile-First Design:** Optimized for mobile devices (360-412px) with touch-friendly targets, bottom navigation, and PWA support.
-- **Accessibility:** Includes Text-to-Speech support for low literacy users and Twi translations.
+- **Accessibility:** Includes Text-to-Speech support for low literacy users.
+- **Multilingual:** Supports 6 West African languages (English, Pidgin, Twi, Ga, Yoruba, Hausa) with easy language switching.
 - **Gamification:** Incorporates a "StackScore" system (300-850 range) with tiers (Novice to Guru), streak tracking, and an anonymous leaderboard to encourage engagement.
 
 **Technical Implementations:**
