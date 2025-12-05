@@ -1,0 +1,137 @@
+10:30:35 AM: build-image version: 8ebab867ddcee083308c896d1c35cd5e9bbcfbe5 (noble)
+10:30:35 AM: buildbot version: 6f5f9443f6ed0ae0b6f7d33a8fbb9b39d22366c0
+10:30:36 AM: Fetching cached dependencies
+10:30:36 AM: Starting to download cache of 258.9MB (Last modified: 2025-12-05 16:12:10 +0000 UTC)
+10:30:36 AM: Finished downloading cache in 647ms
+10:30:36 AM: Starting to extract cache
+10:30:40 AM: Finished extracting cache in 3.283s
+10:30:40 AM: Finished fetching cache in 3.986s
+10:30:40 AM: Starting to prepare the repo for build
+10:30:40 AM: Preparing Git Reference refs/heads/main
+10:30:41 AM: Custom publish path detected. Proceeding with the specified path: 'frontend/dist'
+10:30:42 AM: Starting to install dependencies
+10:30:42 AM: Started restoring cached python cache
+10:30:42 AM: Finished restoring cached python cache
+10:30:42 AM: Started restoring cached ruby cache
+10:30:43 AM: Finished restoring cached ruby cache
+10:30:43 AM: Started restoring cached go cache
+10:30:43 AM: Finished restoring cached go cache
+10:30:44 AM: Started restoring cached Node.js version
+10:30:54 AM: Finished restoring cached Node.js version
+10:30:54 AM: v18.20.8 is already installed.
+10:30:55 AM: Now using node v18.20.8 (npm v10.8.2)
+10:30:55 AM: Enabling Node.js Corepack
+10:30:55 AM: Started restoring cached build plugins
+10:30:55 AM: Finished restoring cached build plugins
+10:30:55 AM: Started restoring cached corepack dependencies
+10:30:55 AM: Finished restoring cached corepack dependencies
+10:30:55 AM: No npm workspaces detected
+10:30:55 AM: Started restoring cached node modules
+10:30:55 AM: Finished restoring cached node modules
+10:30:55 AM: Installing npm packages using npm version 10.8.2
+10:30:57 AM: up to date in 1s
+10:30:57 AM: npm packages installed
+10:30:57 AM: Successfully installed dependencies
+10:30:57 AM: Starting build script
+10:30:58 AM: Detected 1 framework(s)
+10:30:58 AM: "vite" at version "4.5.14"
+10:30:58 AM: Section completed: initializing
+10:30:59 AM: ​
+10:30:59 AM: Netlify Build                                                 
+10:30:59 AM: ────────────────────────────────────────────────────────────────
+10:30:59 AM: ​
+10:30:59 AM: ❯ Version
+10:30:59 AM:   @netlify/build 35.5.2
+10:30:59 AM: ​
+10:30:59 AM: ❯ Flags
+10:30:59 AM:   accountId: 6932c569e8aec75b19540f25
+10:30:59 AM:   baseRelDir: true
+10:30:59 AM:   buildId: 693308aa67ffe3000775d723
+10:30:59 AM:   deployId: 693308aa67ffe3000775d725
+10:30:59 AM: ​
+10:30:59 AM: ❯ Current directory
+10:30:59 AM:   /opt/build/repo/frontend
+10:30:59 AM: ​
+10:30:59 AM: ❯ Config file
+10:30:59 AM:   /opt/build/repo/frontend/netlify.toml
+10:30:59 AM: ​
+10:30:59 AM: ❯ Context
+10:30:59 AM:   production
+10:30:59 AM: ​
+10:30:59 AM: ❯ Installing extensions
+10:30:59 AM:    - neon
+10:31:00 AM: ​
+10:31:00 AM: ❯ Loading extensions
+10:31:00 AM:    - neon
+10:31:01 AM: ​
+10:31:01 AM: build.command from netlify.toml                               
+10:31:01 AM: ────────────────────────────────────────────────────────────────
+10:31:01 AM: ​
+10:31:01 AM: $ npm run build
+10:31:01 AM: > akofa-fixit-frontend@1.0.0 build
+10:31:01 AM: > vite build
+10:31:02 AM: vite v4.5.14 building for production...
+10:31:02 AM: transforming...
+10:31:10 AM: Post processing done
+10:31:10 AM: Section completed: postprocessing
+10:31:11 AM: Site is live ✨
+10:31:10 AM: Starting post processing
+10:31:10 AM: Skipping form detection
+10:31:10 AM: Post processing - header rules
+10:31:10 AM: Post processing - redirect rules
+10:31:09 AM: ✓ 2451 modules transformed.
+10:31:09 AM: rendering chunks...
+10:31:09 AM: computing gzip size...
+10:31:10 AM: dist/index.html                     2.14 kB │ gzip:   0.87 kB
+10:31:10 AM: dist/assets/index-4f191c80.css     69.80 kB │ gzip:  11.44 kB
+10:31:10 AM: dist/assets/index-d3b6e3b9.js   1,474.20 kB │ gzip: 405.20 kB
+10:31:10 AM: 
+10:31:10 AM: (!) Some chunks are larger than 500 kBs after minification. Consider:
+10:31:10 AM: - Using dynamic import() to code-split the application
+10:31:10 AM: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+10:31:10 AM: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+10:31:10 AM: ✓ built in 7.94s
+10:31:10 AM: ​
+10:31:10 AM: (build.command completed in 8.4s)
+10:31:10 AM: ​
+10:31:10 AM: Deploy site                                                   
+10:31:10 AM: ────────────────────────────────────────────────────────────────
+10:31:10 AM: ​
+10:31:10 AM: Starting to deploy site from 'frontend/dist'
+10:31:10 AM: Calculating files to upload
+10:31:10 AM: 0 new file(s) to upload
+10:31:10 AM: 0 new function(s) to upload
+10:31:10 AM: Section completed: deploying
+10:31:10 AM: Site deploy was successfully initiated
+10:31:10 AM: ​
+10:31:10 AM: (Deploy site completed in 150ms)
+10:31:10 AM: ​
+10:31:10 AM: Netlify Build Complete                                        
+10:31:10 AM: ────────────────────────────────────────────────────────────────
+10:31:10 AM: ​
+10:31:10 AM: (Netlify Build completed in 10.9s)
+10:31:11 AM: Caching artifacts
+10:31:11 AM: Started saving node modules
+10:31:11 AM: Finished saving node modules
+10:31:11 AM: Started saving build plugins
+10:31:11 AM: Finished saving build plugins
+10:31:11 AM: Started saving bun cache
+10:31:11 AM: Finished saving bun cache
+10:31:11 AM: Started saving go cache
+10:31:11 AM: Finished saving go cache
+10:31:11 AM: Started saving python cache
+10:31:11 AM: Finished saving python cache
+10:31:11 AM: Started saving ruby cache
+10:31:11 AM: Finished saving ruby cache
+10:31:11 AM: Started saving corepack cache
+10:31:11 AM: Finished saving corepack cache
+10:31:11 AM: Started saving emacs cask dependencies
+10:31:11 AM: Finished saving emacs cask dependencies
+10:31:11 AM: Started saving maven dependencies
+10:31:11 AM: Finished saving maven dependencies
+10:31:11 AM: Started saving boot dependencies
+10:31:11 AM: Finished saving boot dependencies
+10:31:11 AM: Started saving rust rustup cache
+10:31:11 AM: Finished saving rust rustup cache
+10:31:11 AM: Build script success
+10:31:11 AM: Section completed: building
