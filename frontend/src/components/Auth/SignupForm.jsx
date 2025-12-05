@@ -1,51 +1,57 @@
 import React, { useState } from 'react';
 import { signup } from '../../services/auth';
 import { ChevronRight, Mail, Lock, User, AlertCircle, Check } from 'lucide-react';
-
-const purposes = [
-  { 
-    id: 'personal', 
-    label: 'My Life', 
-    icon: '🌟', 
-    desc: 'I wan make my life better', 
-    color: 'from-purple-500 to-pink-500',
-    examples: ['Sleep wahala', 'Work stress', 'Relationship problems', 'Money worries']
-  },
-  { 
-    id: 'team', 
-    label: 'My Team', 
-    icon: '👥', 
-    desc: 'I wan help my team work better', 
-    color: 'from-blue-500 to-cyan-500',
-    examples: ['Office wahala', 'People dey leave', 'Low morale', 'Communication problems']
-  },
-  { 
-    id: 'business', 
-    label: 'My Business', 
-    icon: '📈', 
-    desc: 'I wan grow my business', 
-    color: 'from-orange-500 to-yellow-500',
-    examples: ['Chop bar/shop', 'Market stall', 'Online business', 'Any hustle']
-  },
-  { 
-    id: 'policy', 
-    label: 'Community', 
-    icon: '🏛️', 
-    desc: 'I wan help my community', 
-    color: 'from-green-500 to-emerald-500',
-    examples: ['Church/mosque group', 'Village project', 'Youth group', 'School program']
-  },
-];
+import { useLanguage } from '../../context/LanguageContext';
 
 const validateEmail = (email) => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   if (!email) return { valid: false, message: '' };
   if (!emailRegex.test(email)) return { valid: false, message: 'Enter correct email address' };
-  if (!email.includes('.') || email.endsWith('.')) return { valid: false, message: 'Email must get proper ending' };
+  if (!email.includes('.') || email.endsWith('.')) return { valid: false, message: 'Email must have proper ending' };
   return { valid: true, message: '' };
 };
 
 const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
+  const { t, getSection } = useLanguage();
+  const authText = getSection('auth');
+  const commonText = getSection('common');
+  const welcomeText = getSection('welcome');
+
+  const purposes = [
+    { 
+      id: 'personal', 
+      label: welcomeText.personal || 'My Life', 
+      icon: '🌟', 
+      desc: welcomeText.personalDesc || 'I want to make my life better', 
+      color: 'from-purple-500 to-pink-500',
+      examples: ['Sleep issues', 'Work stress', 'Relationship', 'Money worries']
+    },
+    { 
+      id: 'team', 
+      label: welcomeText.team || 'My Team', 
+      icon: '👥', 
+      desc: welcomeText.teamDesc || 'I want to help my team work better', 
+      color: 'from-blue-500 to-cyan-500',
+      examples: ['Office issues', 'People leaving', 'Low morale', 'Communication']
+    },
+    { 
+      id: 'business', 
+      label: welcomeText.business || 'My Business', 
+      icon: '📈', 
+      desc: welcomeText.businessDesc || 'I want to grow my business', 
+      color: 'from-orange-500 to-yellow-500',
+      examples: ['Shop', 'Market stall', 'Online business', 'Any hustle']
+    },
+    { 
+      id: 'policy', 
+      label: welcomeText.community || 'Community', 
+      icon: '🏛️', 
+      desc: welcomeText.communityDesc || 'I want to help my community', 
+      color: 'from-green-500 to-emerald-500',
+      examples: ['Church/mosque', 'Village project', 'Youth group', 'School']
+    },
+  ];
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ name: '', email: '', password: '', purpose: 'personal' });
   const [error, setError] = useState('');
@@ -64,9 +70,9 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
     switch (field) {
       case 'name':
         if (!value.trim()) {
-          errors.name = 'Put your name';
+          errors.name = authText.enterName || 'Enter your name';
         } else if (value.trim().length < 2) {
-          errors.name = 'Name too short';
+          errors.name = authText.nameTooShort || 'Name too short';
         } else {
           delete errors.name;
         }
@@ -76,18 +82,18 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
         if (!emailCheck.valid && value) {
           errors.email = emailCheck.message;
         } else if (!value) {
-          errors.email = 'Put your email';
+          errors.email = authText.enterEmail || 'Enter your email';
         } else {
           delete errors.email;
         }
         break;
       case 'password':
         if (!value) {
-          errors.password = 'Create password';
+          errors.password = authText.createPassword || 'Create password';
         } else if (value.length < 6) {
-          errors.password = 'Password too short (6+ letters)';
+          errors.password = authText.passwordShort || 'Password too short (6+ letters)';
         } else if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
-          errors.password = 'Add letters and numbers';
+          errors.password = authText.passwordRequirements || 'Add letters and numbers';
         } else {
           delete errors.password;
         }
@@ -137,7 +143,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
       onSignupSuccess(user);
     } catch (err) {
       if (err.message.includes('already registered') || err.message.includes('already exists')) {
-        setFieldErrors({ ...fieldErrors, email: 'This email don register before. Try login.' });
+        setFieldErrors({ ...fieldErrors, email: authText.emailExists || 'This email is already registered. Try login.' });
       } else {
         setError(err.message);
       }
@@ -155,8 +161,8 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
           <div className="bg-slate-800 rounded-2xl p-8">
             <div className="text-center mb-8">
               <div className="text-4xl mb-4">✨</div>
-              <h1 className="text-3xl font-bold mb-2">Welcome to Akↄfa</h1>
-              <p className="text-gray-400">Wetin you wan improve?</p>
+              <h1 className="text-3xl font-bold mb-2">{commonText.welcome || 'Welcome'} Akↄfa</h1>
+              <p className="text-gray-400">{welcomeText.selectPurpose || 'What do you want to improve?'}</p>
             </div>
 
             <div className="space-y-3">
@@ -190,12 +196,12 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
             </div>
 
             <div className="mt-8 text-center text-sm text-gray-400">
-              You get account already?{' '}
+              {authText.haveAccount || 'Already have an account?'}{' '}
               <button
                 onClick={onSwitchToLogin}
                 className="text-purple-400 hover:text-purple-300 font-semibold transition"
               >
-                Login
+                {authText.login || 'Login'}
               </button>
             </div>
           </div>
@@ -207,7 +213,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               className="flex items-center gap-2 text-gray-400 hover:text-white transition mb-6"
             >
               <ChevronRight className="w-4 h-4 rotate-180" />
-              <span className="text-sm">Change choice</span>
+              <span className="text-sm">{commonText.back || 'Go back'}</span>
             </button>
 
             <div className="flex items-center gap-3 mb-6 p-3 bg-slate-700 rounded-xl">
@@ -215,16 +221,16 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                 {selectedPurpose.icon}
               </div>
               <div>
-                <div className="text-sm text-gray-400">Your focus</div>
+                <div className="text-sm text-gray-400">{authText.yourFocus || 'Your focus'}</div>
                 <div className="font-semibold">{selectedPurpose.label}</div>
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold mb-6">Create Your Account</h2>
+            <h2 className="text-2xl font-bold mb-6">{authText.createAccount || 'Create Your Account'}</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Your Name</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">{authText.name || 'Your Name'}</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
@@ -236,7 +242,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                       fieldErrors.name && touched.name ? 'border-red-500' : 
                       touched.name && !fieldErrors.name && formData.name ? 'border-green-500' : 'border-slate-600'
                     } focus:border-purple-500 outline-none transition`}
-                    placeholder="Wetin dem dey call you?"
+                    placeholder={authText.namePlaceholder || 'What is your name?'}
                   />
                   {touched.name && !fieldErrors.name && formData.name && (
                     <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
@@ -251,7 +257,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">{authText.email || 'Email'}</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
@@ -278,7 +284,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Password</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">{authText.password || 'Password'}</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
@@ -290,7 +296,7 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                       fieldErrors.password && touched.password ? 'border-red-500' : 
                       touched.password && !fieldErrors.password && formData.password ? 'border-green-500' : 'border-slate-600'
                     } focus:border-purple-500 outline-none transition`}
-                    placeholder="6+ letters and numbers"
+                    placeholder={authText.passwordPlaceholder || '6+ letters and numbers'}
                   />
                   {touched.password && !fieldErrors.password && formData.password && (
                     <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
@@ -319,21 +325,21 @@ const SignupForm = ({ onSignupSuccess, onSwitchToLogin }) => {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Creating...
+                    {commonText.loading || 'Creating...'}
                   </span>
                 ) : (
-                  'Start Now - Free'
+                  authText.startNow || 'Start Now - Free'
                 )}
               </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-gray-400">
-              You get account already?{' '}
+              {authText.haveAccount || 'Already have an account?'}{' '}
               <button
                 onClick={onSwitchToLogin}
                 className="text-purple-400 hover:text-purple-300 font-semibold transition"
               >
-                Login
+                {authText.login || 'Login'}
               </button>
             </div>
           </div>

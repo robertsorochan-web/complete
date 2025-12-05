@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../../services/auth';
 import { Mail, Lock, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const validateEmail = (email) => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -8,6 +9,10 @@ const validateEmail = (email) => {
 };
 
 const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
+  const { t, getSection } = useLanguage();
+  const authText = getSection('auth');
+  const commonText = getSection('common');
+  
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
@@ -26,7 +31,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
   const handleBlur = (field) => {
     setTouched({ ...touched, [field]: true });
     if (field === 'email' && formData.email && !validateEmail(formData.email)) {
-      setFieldErrors({ ...fieldErrors, email: 'Put correct email' });
+      setFieldErrors({ ...fieldErrors, email: authText.invalidEmail || 'Enter a valid email' });
     }
   };
 
@@ -36,13 +41,13 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
     setFieldErrors({});
 
     if (!formData.email || !formData.password) {
-      if (!formData.email) setFieldErrors(prev => ({ ...prev, email: 'Put your email' }));
-      if (!formData.password) setFieldErrors(prev => ({ ...prev, password: 'Put your password' }));
+      if (!formData.email) setFieldErrors(prev => ({ ...prev, email: authText.enterEmail || 'Enter your email' }));
+      if (!formData.password) setFieldErrors(prev => ({ ...prev, password: authText.enterPassword || 'Enter your password' }));
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setFieldErrors({ email: 'Put correct email address' });
+      setFieldErrors({ email: authText.invalidEmail || 'Enter a valid email address' });
       return;
     }
 
@@ -53,7 +58,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
       onLoginSuccess(user);
     } catch (err) {
       if (err.message.includes('Invalid credentials') || err.message.includes('not found')) {
-        setError('Email or password no correct. Try again.');
+        setError(authText.wrongCredentials || 'Email or password is incorrect. Try again.');
       } else {
         setError(err.message);
       }
@@ -69,13 +74,13 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
           <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Welcome Back!</h1>
-          <p className="text-gray-400">Good to see you again</p>
+          <h1 className="text-3xl font-bold mb-2">{commonText.welcome || 'Welcome Back'}!</h1>
+          <p className="text-gray-400">{authText.welcomeBack || 'Good to see you again'}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
+            <label className="block text-sm font-medium mb-2 text-gray-300">{authText.email || 'Email'}</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input
@@ -98,7 +103,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 text-gray-300">Password</label>
+            <label className="block text-sm font-medium mb-2 text-gray-300">{authText.password || 'Password'}</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input
@@ -108,7 +113,7 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
                 className={`w-full pl-10 pr-12 py-3 bg-slate-700 rounded-lg border ${
                   fieldErrors.password ? 'border-red-500' : 'border-slate-600'
                 } focus:border-purple-500 outline-none transition`}
-                placeholder="Your password"
+                placeholder={authText.yourPassword || 'Your password'}
               />
               <button
                 type="button"
@@ -141,21 +146,21 @@ const LoginForm = ({ onLoginSuccess, onSwitchToSignup }) => {
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Entering...
+                {commonText.loading || 'Loading...'}
               </span>
             ) : (
-              'Login'
+              authText.login || 'Login'
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-400">
-          You no get account?{' '}
+          {authText.noAccount || "Don't have an account?"}{' '}
           <button
             onClick={onSwitchToSignup}
             className="text-purple-400 hover:text-purple-300 font-semibold transition"
           >
-            Create Free Account
+            {authText.createAccount || 'Create Free Account'}
           </button>
         </div>
       </div>

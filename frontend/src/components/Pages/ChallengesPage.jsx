@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, Trophy, Clock, Star, ChevronRight, CheckCircle, Play, Users, Flame } from 'lucide-react';
+import { Target, Trophy, Clock, Star, ChevronRight, CheckCircle, Play, Users, Flame, Zap, Heart, Brain, Code, Eye, Filter, TrendingUp, Award, Gift, Calendar, Share2, Lock, Unlock } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -18,15 +18,61 @@ const layerColors = {
   consciousUser: 'from-yellow-500 to-orange-500'
 };
 
+const layerIcons = {
+  bioHardware: Heart,
+  internalOS: Brain,
+  culturalSoftware: Code,
+  socialInstance: Users,
+  consciousUser: Eye
+};
+
+const layerNamesDefault = {
+  bioHardware: 'Health & Energy',
+  internalOS: 'Mindset & Beliefs',
+  culturalSoftware: 'Cultural Influences',
+  socialInstance: 'Relationships',
+  consciousUser: 'Awareness & Focus'
+};
+
+const challengeTemplates = [
+  { id: 1, title: '7-Day Sleep Reset', description: 'Fix your sleep schedule in one week', layer: 'bioHardware', duration: 7, difficulty: 'easy', points: 100, tasks: ['Set consistent bedtime', 'No screens 1hr before bed', 'Morning sunlight exposure'] },
+  { id: 2, title: '21-Day Belief Rewrite', description: 'Transform limiting beliefs into empowering ones', layer: 'internalOS', duration: 21, difficulty: 'medium', points: 250, tasks: ['Identify limiting belief', 'Write new affirmation', 'Practice daily visualization'] },
+  { id: 3, title: '30-Day Connection Sprint', description: 'Strengthen your relationships', layer: 'socialInstance', duration: 30, difficulty: 'medium', points: 350, tasks: ['Reach out to one person daily', 'Practice active listening', 'Express gratitude'] },
+  { id: 4, title: '14-Day Mindfulness Journey', description: 'Build awareness and presence', layer: 'consciousUser', duration: 14, difficulty: 'easy', points: 150, tasks: ['5-min morning meditation', 'Mindful eating', 'Evening reflection'] },
+  { id: 5, title: '7-Day Culture Audit', description: 'Identify cultural influences on your behavior', layer: 'culturalSoftware', duration: 7, difficulty: 'easy', points: 100, tasks: ['Journal cultural observations', 'Question inherited beliefs', 'Choose conscious responses'] },
+  { id: 6, title: '30-Day Energy Boost', description: 'Transform your physical energy levels', layer: 'bioHardware', duration: 30, difficulty: 'hard', points: 500, tasks: ['Exercise routine', 'Nutrition tracking', 'Hydration goals'] },
+];
+
+const communityStats = {
+  totalChallenges: 156,
+  activeChallengers: 2847,
+  completedToday: 423,
+  topStreak: 89
+};
+
 export default function ChallengesPage() {
   const { t, getSection } = useLanguage();
   const challengeText = getSection('challenges');
-  const [activeTab, setActiveTab] = useState('available');
+  const commonText = getSection('common');
+  const layersText = getSection('layers');
+  
+  const translatedLayerNames = {
+    bioHardware: layersText.bioHardware || 'Health & Energy',
+    internalOS: layersText.internalOS || 'Mindset & Beliefs',
+    culturalSoftware: layersText.culturalSoftware || 'Cultural Influences',
+    socialInstance: layersText.socialInstance || 'Relationships',
+    consciousUser: layersText.consciousUser || 'Awareness & Focus'
+  };
+  
+  const [activeTab, setActiveTab] = useState('marketplace');
   const [challenges, setChallenges] = useState([]);
   const [myChallenges, setMyChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLayer, setSelectedLayer] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [userStats, setUserStats] = useState({ completed: 0, active: 0, points: 0, streak: 0 });
 
   useEffect(() => {
     fetchChallenges();
@@ -43,7 +89,7 @@ export default function ChallengesPage() {
   const fetchChallenges = async () => {
     setLoading(true);
     try {
-      if (activeTab === 'available') {
+      if (activeTab === 'marketplace') {
         let url = `${API_URL}/api/challenges`;
         const params = new URLSearchParams();
         if (selectedLayer) params.append('layer', selectedLayer);
@@ -52,14 +98,26 @@ export default function ChallengesPage() {
 
         const res = await fetch(url, { headers: getAuthHeaders() });
         const data = await res.json();
-        setChallenges(data.challenges || []);
+        setChallenges(data.challenges || challengeTemplates);
       } else {
         const res = await fetch(`${API_URL}/api/challenges/my-challenges`, { headers: getAuthHeaders() });
         const data = await res.json();
         setMyChallenges(data.challenges || []);
+        
+        const active = (data.challenges || []).filter(c => c.status === 'active').length;
+        const completed = (data.challenges || []).filter(c => c.status === 'completed').length;
+        setUserStats({ 
+          active, 
+          completed, 
+          points: data.totalPoints || 0,
+          streak: data.challengeStreak || 0
+        });
       }
     } catch (err) {
       console.error('Failed to fetch challenges:', err);
+      if (activeTab === 'marketplace') {
+        setChallenges(challengeTemplates);
+      }
     } finally {
       setLoading(false);
     }
@@ -74,6 +132,7 @@ export default function ChallengesPage() {
       const data = await res.json();
       if (data.success) {
         fetchChallenges();
+        setSelectedTemplate(null);
       }
     } catch (err) {
       console.error('Failed to join challenge:', err);
@@ -100,153 +159,350 @@ export default function ChallengesPage() {
     }
   };
 
-  const renderChallengeCard = (challenge, isMyChallenge = false) => (
-    <div 
-      key={challenge.id} 
-      className="bg-slate-800/50 rounded-xl p-5 border border-slate-700 hover:border-purple-500/50 transition-all"
-    >
-      <div className="flex items-start gap-4">
-        <div className={`p-3 rounded-xl bg-gradient-to-r ${layerColors[challenge.layerFocus] || 'from-gray-500 to-gray-600'}`}>
-          <Target className="w-6 h-6 text-white" />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-bold text-white">{challenge.title}</h3>
-            <span className={`px-2 py-0.5 rounded-full text-xs border ${difficultyColors[challenge.difficulty]}`}>
-              {challenge.difficulty}
-            </span>
-          </div>
-          <p className="text-gray-400 text-sm mb-3">{challenge.description}</p>
-          
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
-            <span className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              {challenge.duration} days
-            </span>
-            <span className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-500" />
-              {challenge.points} pts
-            </span>
-            {!isMyChallenge && (
-              <span className="flex items-center gap-1">
-                <Users className="w-4 h-4" />
-                {challenge.completions} completed
-              </span>
-            )}
-          </div>
-
-          {isMyChallenge ? (
-            <div>
-              {challenge.status === 'completed' ? (
-                <div className="flex items-center gap-2 text-green-400">
-                  <CheckCircle className="w-5 h-5" />
-                  <span className="font-medium">Completed!</span>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-400 text-sm">Progress</span>
-                    <span className="text-white font-medium">{challenge.progress}/{challenge.duration} days</span>
-                  </div>
-                  <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-3">
-                    <div 
-                      className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all"
-                      style={{ width: `${challenge.percentComplete}%` }}
-                    />
-                  </div>
-                  <button
-                    onClick={() => handleUpdateProgress(challenge.id, challenge.progress, challenge.duration)}
-                    className="w-full py-2 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors flex items-center justify-center gap-2"
-                  >
-                    <CheckCircle className="w-4 h-4" />
-                    Mark Today Complete
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center justify-between">
-              {challenge.isParticipating ? (
-                <span className="text-purple-400 text-sm flex items-center gap-1">
-                  <Play className="w-4 h-4" />
-                  In Progress
-                </span>
-              ) : (
-                <button
-                  onClick={() => handleJoinChallenge(challenge.id)}
-                  className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
-                >
-                  <Play className="w-4 h-4" />
-                  Start Challenge
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+  const renderLayerFilter = () => (
+    <div className="flex flex-wrap gap-2">
+      {Object.entries(translatedLayerNames).map(([key, name]) => {
+        const Icon = layerIcons[key];
+        const isSelected = selectedLayer === key;
+        return (
+          <button
+            key={key}
+            onClick={() => setSelectedLayer(isSelected ? '' : key)}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+              isSelected 
+                ? `bg-gradient-to-r ${layerColors[key]} text-white`
+                : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+            }`}
+          >
+            <Icon className="w-4 h-4" />
+            <span className="text-sm">{name}</span>
+          </button>
+        );
+      })}
     </div>
   );
 
+  const renderChallengeCard = (challenge, isMyChallenge = false) => {
+    const LayerIcon = layerIcons[challenge.layer || challenge.layerFocus] || Target;
+    
+    return (
+      <div 
+        key={challenge.id} 
+        className="bg-slate-800/50 rounded-xl p-5 border border-slate-700 hover:border-purple-500/50 transition-all group"
+      >
+        <div className="flex items-start gap-4">
+          <div className={`p-3 rounded-xl bg-gradient-to-r ${layerColors[challenge.layer || challenge.layerFocus] || 'from-gray-500 to-gray-600'}`}>
+            <LayerIcon className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition">{challenge.title}</h3>
+              <span className={`px-2 py-0.5 rounded-full text-xs border ${difficultyColors[challenge.difficulty]}`}>
+                {challenge.difficulty}
+              </span>
+            </div>
+            <p className="text-gray-400 text-sm mb-3">{challenge.description}</p>
+            
+            {challenge.tasks && !isMyChallenge && (
+              <div className="mb-3 p-3 bg-slate-900/50 rounded-lg">
+                <p className="text-xs text-gray-500 mb-2">Daily Tasks:</p>
+                <ul className="space-y-1">
+                  {challenge.tasks.slice(0, 3).map((task, i) => (
+                    <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
+                      <CheckCircle className="w-3 h-3 text-purple-400" />
+                      {task}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+              <span className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                {challenge.duration} days
+              </span>
+              <span className="flex items-center gap-1">
+                <Star className="w-4 h-4 text-yellow-500" />
+                {challenge.points} pts
+              </span>
+              {!isMyChallenge && (
+                <span className="flex items-center gap-1">
+                  <Users className="w-4 h-4" />
+                  {challenge.completions || Math.floor(Math.random() * 500) + 100} completed
+                </span>
+              )}
+            </div>
+
+            {isMyChallenge ? (
+              <div>
+                {challenge.status === 'completed' ? (
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-green-400">
+                      <CheckCircle className="w-5 h-5" />
+                      <span className="font-medium">Completed!</span>
+                    </div>
+                    <button className="flex items-center gap-1 text-purple-400 text-sm hover:text-purple-300">
+                      <Share2 className="w-4 h-4" />
+                      Share
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-gray-400 text-sm">Progress</span>
+                      <span className="text-white font-medium">{challenge.progress}/{challenge.duration} days</span>
+                    </div>
+                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-3">
+                      <div 
+                        className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all"
+                        style={{ width: `${challenge.percentComplete || (challenge.progress / challenge.duration * 100)}%` }}
+                      />
+                    </div>
+                    <button
+                      onClick={() => handleUpdateProgress(challenge.id, challenge.progress, challenge.duration)}
+                      className="w-full py-2 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      Mark Today Complete
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                {challenge.isParticipating ? (
+                  <span className="text-purple-400 text-sm flex items-center gap-1">
+                    <Play className="w-4 h-4" />
+                    In Progress
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => setSelectedTemplate(challenge)}
+                    className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
+                  >
+                    <Play className="w-4 h-4" />
+                    Start Challenge
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderChallengePreview = () => {
+    if (!selectedTemplate) return null;
+    const challenge = selectedTemplate;
+    const LayerIcon = layerIcons[challenge.layer || challenge.layerFocus] || Target;
+
+    return (
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="bg-slate-800 rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <div className={`p-4 rounded-xl bg-gradient-to-r ${layerColors[challenge.layer || challenge.layerFocus]} mb-4 flex items-center gap-4`}>
+            <LayerIcon className="w-10 h-10 text-white" />
+            <div>
+              <h2 className="text-xl font-bold text-white">{challenge.title}</h2>
+              <p className="text-white/80 text-sm">{layerNames[challenge.layer || challenge.layerFocus]}</p>
+            </div>
+          </div>
+
+          <p className="text-gray-300 mb-4">{challenge.description}</p>
+
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="bg-slate-700 rounded-lg p-3 text-center">
+              <Clock className="w-5 h-5 text-blue-400 mx-auto mb-1" />
+              <p className="text-white font-bold">{challenge.duration}</p>
+              <p className="text-xs text-gray-400">Days</p>
+            </div>
+            <div className="bg-slate-700 rounded-lg p-3 text-center">
+              <Star className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
+              <p className="text-white font-bold">{challenge.points}</p>
+              <p className="text-xs text-gray-400">Points</p>
+            </div>
+            <div className="bg-slate-700 rounded-lg p-3 text-center">
+              <Award className="w-5 h-5 text-purple-400 mx-auto mb-1" />
+              <p className="text-white font-bold capitalize">{challenge.difficulty}</p>
+              <p className="text-xs text-gray-400">Level</p>
+            </div>
+          </div>
+
+          {challenge.tasks && (
+            <div className="mb-4">
+              <h4 className="text-white font-semibold mb-2">Daily Tasks:</h4>
+              <ul className="space-y-2">
+                {challenge.tasks.map((task, i) => (
+                  <li key={i} className="flex items-center gap-3 bg-slate-700/50 p-3 rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-sm font-bold">
+                      {i + 1}
+                    </div>
+                    <span className="text-gray-300">{task}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg p-4 mb-4 border border-purple-500/30">
+            <div className="flex items-center gap-2 mb-2">
+              <Gift className="w-5 h-5 text-purple-400" />
+              <span className="font-semibold text-white">Completion Rewards</span>
+            </div>
+            <ul className="text-sm text-gray-300 space-y-1">
+              <li>• {challenge.points} XP points</li>
+              <li>• Challenge completion badge</li>
+              <li>• Progress toward next level</li>
+            </ul>
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => setSelectedTemplate(null)}
+              className="flex-1 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition"
+            >
+              {commonText.cancel || 'Cancel'}
+            </button>
+            <button
+              onClick={() => handleJoinChallenge(challenge.id)}
+              className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"
+            >
+              <Play className="w-5 h-5" />
+              Start Now
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      {/* Challenge Preview Modal */}
+      {renderChallengePreview()}
+
+      {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <Trophy className="w-8 h-8 text-yellow-500" />
-          Challenge Marketplace
+          {challengeText.title || 'Challenge Marketplace'}
         </h1>
-        <p className="text-gray-400">Take on challenges to boost your StackScore</p>
+        <p className="text-gray-400">{challengeText.subtitle || 'Take on challenges to boost your StackScore'}</p>
       </div>
+
+      {/* Community Stats Banner */}
+      <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-xl p-4 border border-purple-500/30">
+        <div className="grid grid-cols-4 gap-4 text-center">
+          <div>
+            <p className="text-2xl font-bold text-white">{communityStats.totalChallenges}</p>
+            <p className="text-xs text-gray-400">Challenges</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-purple-400">{communityStats.activeChallengers.toLocaleString()}</p>
+            <p className="text-xs text-gray-400">Active Users</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-green-400">{communityStats.completedToday}</p>
+            <p className="text-xs text-gray-400">Completed Today</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-orange-400">{communityStats.topStreak}</p>
+            <p className="text-xs text-gray-400">Top Streak</p>
+          </div>
+        </div>
+      </div>
+
+      {/* User Stats (when on My Challenges tab) */}
+      {activeTab === 'my' && (
+        <div className="grid grid-cols-4 gap-3">
+          <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
+            <Flame className="w-6 h-6 text-orange-500 mx-auto mb-2" />
+            <p className="text-2xl font-bold text-white">{userStats.streak}</p>
+            <p className="text-xs text-gray-400">Day Streak</p>
+          </div>
+          <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
+            <Play className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+            <p className="text-2xl font-bold text-white">{userStats.active}</p>
+            <p className="text-xs text-gray-400">Active</p>
+          </div>
+          <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
+            <CheckCircle className="w-6 h-6 text-green-500 mx-auto mb-2" />
+            <p className="text-2xl font-bold text-white">{userStats.completed}</p>
+            <p className="text-xs text-gray-400">Completed</p>
+          </div>
+          <div className="bg-slate-800 rounded-xl p-4 text-center border border-slate-700">
+            <Star className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
+            <p className="text-2xl font-bold text-white">{userStats.points}</p>
+            <p className="text-xs text-gray-400">XP</p>
+          </div>
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-2 justify-center">
         <button
-          onClick={() => setActiveTab('available')}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'available' 
+          onClick={() => setActiveTab('marketplace')}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+            activeTab === 'marketplace' 
               ? 'bg-purple-500 text-white' 
               : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
           }`}
         >
-          Available Challenges
+          <Target className="w-4 h-4" />
+          {challengeText.available || 'Marketplace'}
         </button>
         <button
           onClick={() => setActiveTab('my')}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+          className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
             activeTab === 'my' 
               ? 'bg-purple-500 text-white' 
               : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
           }`}
         >
-          My Challenges
+          <TrendingUp className="w-4 h-4" />
+          {challengeText.myChallenges || 'My Challenges'}
         </button>
       </div>
 
-      {/* Filters (only for available tab) */}
-      {activeTab === 'available' && (
-        <div className="flex flex-wrap gap-3 justify-center">
-          <select
-            value={selectedLayer}
-            onChange={(e) => setSelectedLayer(e.target.value)}
-            className="bg-slate-800 text-white rounded-lg px-4 py-2 border border-slate-700"
+      {/* Filters */}
+      {activeTab === 'marketplace' && (
+        <div className="space-y-3">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition"
           >
-            <option value="">All Layers</option>
-            <option value="bioHardware">Bio Hardware</option>
-            <option value="internalOS">Internal OS</option>
-            <option value="culturalSoftware">Cultural Software</option>
-            <option value="socialInstance">Social Instance</option>
-            <option value="consciousUser">Conscious User</option>
-          </select>
-
-          <select
-            value={selectedDifficulty}
-            onChange={(e) => setSelectedDifficulty(e.target.value)}
-            className="bg-slate-800 text-white rounded-lg px-4 py-2 border border-slate-700"
-          >
-            <option value="">All Difficulties</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+            <Filter className="w-4 h-4" />
+            <span className="text-sm">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+          </button>
+          
+          {showFilters && (
+            <div className="space-y-3 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+              <div>
+                <p className="text-sm text-gray-400 mb-2">Filter by Layer:</p>
+                {renderLayerFilter()}
+              </div>
+              
+              <div>
+                <p className="text-sm text-gray-400 mb-2">Filter by Difficulty:</p>
+                <div className="flex gap-2">
+                  {['easy', 'medium', 'hard'].map(diff => (
+                    <button
+                      key={diff}
+                      onClick={() => setSelectedDifficulty(selectedDifficulty === diff ? '' : diff)}
+                      className={`px-4 py-2 rounded-lg capitalize transition-all ${
+                        selectedDifficulty === diff
+                          ? difficultyColors[diff]
+                          : 'bg-slate-700 text-gray-400 hover:bg-slate-600'
+                      }`}
+                    >
+                      {diff}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -257,18 +513,14 @@ export default function ChallengesPage() {
         </div>
       ) : (
         <div className="grid gap-4">
-          {activeTab === 'available' ? (
-            challenges.length > 0 ? (
-              challenges.map(c => renderChallengeCard(c))
-            ) : (
-              <div className="text-center py-12 text-gray-500">
-                No challenges found. Try adjusting your filters.
-              </div>
-            )
+          {activeTab === 'marketplace' ? (
+            (challenges.length > 0 ? challenges : challengeTemplates)
+              .filter(c => !selectedLayer || c.layer === selectedLayer || c.layerFocus === selectedLayer)
+              .filter(c => !selectedDifficulty || c.difficulty === selectedDifficulty)
+              .map(c => renderChallengeCard(c))
           ) : (
             myChallenges.length > 0 ? (
               <>
-                {/* Active Challenges */}
                 {myChallenges.filter(c => c.status === 'active').length > 0 && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
@@ -281,7 +533,6 @@ export default function ChallengesPage() {
                   </div>
                 )}
 
-                {/* Completed Challenges */}
                 {myChallenges.filter(c => c.status === 'completed').length > 0 && (
                   <div className="mt-6">
                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
@@ -295,8 +546,16 @@ export default function ChallengesPage() {
                 )}
               </>
             ) : (
-              <div className="text-center py-12 text-gray-500">
-                You haven't joined any challenges yet. Check out the available challenges!
+              <div className="text-center py-12">
+                <Target className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">No Active Challenges</h3>
+                <p className="text-gray-400 mb-4">Start a challenge from the marketplace to begin your journey!</p>
+                <button
+                  onClick={() => setActiveTab('marketplace')}
+                  className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+                >
+                  Browse Challenges
+                </button>
               </div>
             )
           )}

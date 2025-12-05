@@ -1,60 +1,63 @@
 import React, { useState } from 'react';
 import { Briefcase, Fish, GraduationCap, Users, Heart, Building2, Sprout, ShoppingBag, ArrowRight, Sparkles } from 'lucide-react';
-
-const useCaseOptions = [
-  {
-    id: 'business',
-    title: 'My Small Business',
-    description: 'Chop bar, shop, trading, services',
-    icon: ShoppingBag,
-    color: 'from-orange-500 to-red-500',
-    examples: ['Chop bar', 'Market stall', 'Hair salon', 'Taxi driver']
-  },
-  {
-    id: 'farming',
-    title: 'My Farm / Fishing',
-    description: 'Farming, fishing, livestock',
-    icon: Fish,
-    color: 'from-blue-500 to-cyan-500',
-    examples: ['Fishing', 'Crop farming', 'Poultry', 'Livestock']
-  },
-  {
-    id: 'education',
-    title: 'My Education',
-    description: 'Student, teacher, learning',
-    icon: GraduationCap,
-    color: 'from-purple-500 to-pink-500',
-    examples: ['Student', 'Teacher', 'Skills training', 'Apprentice']
-  },
-  {
-    id: 'community',
-    title: 'My Community',
-    description: 'Church, association, village',
-    icon: Users,
-    color: 'from-green-500 to-emerald-500',
-    examples: ['Church group', 'Youth group', 'Village council', 'Association']
-  },
-  {
-    id: 'personal',
-    title: 'My Personal Life',
-    description: 'Health, family, relationships',
-    icon: Heart,
-    color: 'from-pink-500 to-rose-500',
-    examples: ['Health', 'Marriage', 'Family', 'Personal growth']
-  },
-  {
-    id: 'team',
-    title: 'My Team / Workplace',
-    description: 'Office, organization, company',
-    icon: Building2,
-    color: 'from-indigo-500 to-blue-500',
-    examples: ['Office team', 'NGO', 'Company', 'Department']
-  }
-];
+import { useLanguage } from '../../context/LanguageContext';
 
 const WelcomeOverlay = ({ onSelectUseCase, onSkip }) => {
+  const { t, getSection } = useLanguage();
+  const welcomeText = getSection('welcome');
   const [selectedCase, setSelectedCase] = useState(null);
   const [step, setStep] = useState(1);
+
+  const useCaseOptions = [
+    {
+      id: 'business',
+      title: welcomeText.business || 'My Small Business',
+      description: welcomeText.businessDesc || 'Chop bar, shop, trading, services',
+      icon: ShoppingBag,
+      color: 'from-orange-500 to-red-500',
+      examples: ['Chop bar', 'Market stall', 'Hair salon', 'Taxi driver']
+    },
+    {
+      id: 'farming',
+      title: welcomeText.farming || 'My Farm / Fishing',
+      description: welcomeText.farmingDesc || 'Farming, fishing, livestock',
+      icon: Fish,
+      color: 'from-blue-500 to-cyan-500',
+      examples: ['Fishing', 'Crop farming', 'Poultry', 'Livestock']
+    },
+    {
+      id: 'education',
+      title: welcomeText.education || 'My Education',
+      description: welcomeText.educationDesc || 'Student, teacher, learning',
+      icon: GraduationCap,
+      color: 'from-purple-500 to-pink-500',
+      examples: ['Student', 'Teacher', 'Skills training', 'Apprentice']
+    },
+    {
+      id: 'community',
+      title: welcomeText.community || 'My Community',
+      description: welcomeText.communityDesc || 'Church, association, village',
+      icon: Users,
+      color: 'from-green-500 to-emerald-500',
+      examples: ['Church group', 'Youth group', 'Village council', 'Association']
+    },
+    {
+      id: 'personal',
+      title: welcomeText.personal || 'My Personal Life',
+      description: welcomeText.personalDesc || 'Health, family, relationships',
+      icon: Heart,
+      color: 'from-pink-500 to-rose-500',
+      examples: ['Health', 'Marriage', 'Family', 'Personal growth']
+    },
+    {
+      id: 'team',
+      title: welcomeText.team || 'My Team / Workplace',
+      description: welcomeText.teamDesc || 'Office, organization, company',
+      icon: Building2,
+      color: 'from-indigo-500 to-blue-500',
+      examples: ['Office team', 'NGO', 'Company', 'Department']
+    }
+  ];
 
   const handleSelect = (useCase) => {
     setSelectedCase(useCase);
@@ -82,10 +85,10 @@ const WelcomeOverlay = ({ onSelectUseCase, onSkip }) => {
             <Sparkles className="w-8 h-8 text-purple-400" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Wetin you wan improve?
+            {welcomeText.selectPurpose || 'What do you want to improve?'}
           </h1>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Select your situation so Akↄfa fit give you advice wey fit your case
+            {t('subtitle', 'home').split('.')[0] + '.'}
           </p>
         </div>
 
@@ -148,7 +151,7 @@ const WelcomeOverlay = ({ onSelectUseCase, onSkip }) => {
                 : 'bg-slate-700 text-slate-400 cursor-not-allowed'
             }`}
           >
-            Continue
+            {welcomeText.continue || t('continue', 'common')}
             <ArrowRight className="w-5 h-5" />
           </button>
           
@@ -156,12 +159,12 @@ const WelcomeOverlay = ({ onSelectUseCase, onSkip }) => {
             onClick={onSkip}
             className="px-6 py-3 text-gray-400 hover:text-white transition text-sm"
           >
-            Skip for now
+            {welcomeText.skip || t('skip', 'common')}
           </button>
         </div>
 
         <p className="text-center text-gray-500 text-sm mt-6">
-          You fit change this later anytime
+          {welcomeText.changeAnytime || 'You can change this later anytime'}
         </p>
       </div>
     </div>

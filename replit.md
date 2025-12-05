@@ -10,8 +10,13 @@ Akↄfa Fixit is a problem-solving application designed to help users identify t
 - Minimized disclaimer warnings (small footer text instead of prominent banners)
 
 ## Recent Changes (December 2025)
-- **Multilingual Support:** Added 6 languages - English, Pidgin, Twi, Ga, Yoruba, and Hausa with full translations
-- **Language Toggle:** Updated language selector with dropdown supporting all 6 languages
+- **Ewe Language Support:** Added Ewe (Eʋegbe) as 7th language with comprehensive translations across all sections
+- **Multilingual Support:** Now supports 7 languages - English, Ewe, Pidgin, Twi, Ga, Yoruba, and Hausa
+- **Enhanced Daily Streaks:** Added milestone celebrations (7/14/30/60/100/365 days), monthly calendar view, shareable streak images with html2canvas
+- **Challenge Marketplace:** Enhanced with challenge templates, layer/difficulty filtering, progress tracking, community stats
+- **Community Wall:** Added hashtag support, trending topics, feed filtering (recent/top/featured), save/bookmark functionality
+- **Translation Infrastructure:** Added comprehensive translation keys for streak, challenges, and community sections
+- **Language Toggle:** Updated language selector with dropdown supporting all 7 languages
 - **Minimized Disclaimer:** Replaced prominent warning banner with small footer disclaimer text
 - **Tip of the Day:** New component showing daily tips across all 5 layers (Body & Health, Inner Beliefs, Values, Daily Life, Self-Awareness)
 - **Help/FAQ Page:** Comprehensive help center with searchable FAQ, getting started guide, and tips sections
