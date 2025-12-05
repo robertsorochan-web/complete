@@ -18,6 +18,22 @@ const VALID_ACTION_TYPES = [
   'friend_challenge_win'
 ];
 
+const XP_VALUES = {
+  checkin: 10,
+  full_checkin: 25,
+  mood_log: 5,
+  reflection: 15,
+  community_post: 20,
+  share_insight: 15,
+  challenge_start: 5,
+  challenge_complete: 50,
+  quest_complete: 100,
+  first_assessment: 30,
+  streak_day: 10,
+  streak_week: 50,
+  friend_challenge_win: 25
+};
+
 export default function useXP() {
   const [levelUpData, setLevelUpData] = useState(null);
   const [isAwarding, setIsAwarding] = useState(false);
