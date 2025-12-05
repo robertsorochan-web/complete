@@ -1,14 +1,14 @@
-const CACHE_NAME = 'akofa-cache-v1';
+const CACHE_NAME = 'akofa-cache-v2';
 const OFFLINE_URL = '/offline.html';
 
 const STATIC_ASSETS = [
   '/',
-  '/index.html',
+  '/offline.html',
   '/favicon.png',
   '/manifest.json'
 ];
 
-const DYNAMIC_CACHE = 'akofa-dynamic-v1';
+const DYNAMIC_CACHE = 'akofa-dynamic-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -35,18 +35,25 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
+  
   const url = new URL(event.request.url);
+  
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
 
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(networkFirst(event.request));
     return;
   }
 
-  if (event.request.destination === 'image' || 
-      url.pathname.endsWith('.js') || 
-      url.pathname.endsWith('.css')) {
-    event.respondWith(cacheFirst(event.request));
+  if (url.pathname.startsWith('/assets/')) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  if (url.pathname === '/' || url.pathname === '/index.html') {
+    event.respondWith(networkFirst(event.request));
     return;
   }
 
@@ -66,28 +73,17 @@ async function networkFirst(request) {
     if (cachedResponse) {
       return cachedResponse;
     }
+    
+    if (request.destination === 'document') {
+      return caches.match('/offline.html');
+    }
+    
     return new Response(JSON.stringify({ 
-      error: 'You dey offline. Try again when you get internet.' 
+      error: 'You are offline. Try again when you have internet.' 
     }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' }
     });
-  }
-}
-
-async function cacheFirst(request) {
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-  
-  try {
-    const networkResponse = await fetch(request);
-    const cache = await caches.open(DYNAMIC_CACHE);
-    cache.put(request, networkResponse.clone());
-    return networkResponse;
-  } catch (error) {
-    return new Response('Asset not available offline', { status: 503 });
   }
 }
 
@@ -113,9 +109,9 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('push', (event) => {
   const data = event.data ? event.data.json() : {};
-  const title = data.title || 'Akↄfa Fixit';
+  const title = data.title || 'Akofa Fixit';
   const options = {
-    body: data.body || 'You get new tip!',
+    body: data.body || 'You have a new tip!',
     icon: '/favicon.png',
     badge: '/favicon.png',
     vibrate: [100, 50, 100],
