@@ -1,0 +1,62 @@
+9:58:19 AM: build-image version: 8ebab867ddcee083308c896d1c35cd5e9bbcfbe5 (noble)
+9:58:19 AM: buildbot version: 6f5f9443f6ed0ae0b6f7d33a8fbb9b39d22366c0
+9:58:19 AM: Fetching cached dependencies
+9:58:19 AM: Starting to download cache of 237.3MB (Last modified: 2025-12-05 15:34:10 +0000 UTC)
+9:58:20 AM: Finished downloading cache in 537ms
+9:58:20 AM: Starting to extract cache
+9:58:23 AM: Finished extracting cache in 3.548s
+9:58:23 AM: Finished fetching cache in 4.146s
+9:58:23 AM: Starting to prepare the repo for build
+9:58:23 AM: Preparing Git Reference refs/heads/main
+9:58:24 AM: Custom publish path detected. Proceeding with the specified path: 'frontend/dist'
+9:58:25 AM: Starting to install dependencies
+9:58:25 AM: Started restoring cached python cache
+9:58:25 AM: Finished restoring cached python cache
+9:58:25 AM: Started restoring cached ruby cache
+9:58:26 AM: Finished restoring cached ruby cache
+9:58:26 AM: Started restoring cached go cache
+9:58:27 AM: Finished restoring cached go cache
+9:58:27 AM: Started restoring cached Node.js version
+9:58:30 AM: Finished restoring cached Node.js version
+9:58:30 AM: Downloading and installing node v22.21.1...
+9:58:30 AM: Downloading https://nodejs.org/dist/v22.21.1/node-v22.21.1-linux-x64.tar.xz...
+9:58:31 AM: Computing checksum with sha256sum
+9:58:31 AM: Checksums matched!
+9:58:33 AM: Enabling Node.js Corepack
+9:58:33 AM: Started restoring cached build plugins
+9:58:33 AM: Finished restoring cached build plugins
+9:58:33 AM: Started restoring cached corepack dependencies
+9:58:33 AM: Finished restoring cached corepack dependencies
+9:58:33 AM: No npm workspaces detected
+9:58:33 AM: Started restoring cached node modules
+9:58:33 AM: Finished restoring cached node modules
+9:58:33 AM: Installing npm packages using npm version 10.9.4
+9:58:34 AM: up to date in 345ms
+9:58:34 AM: npm packages installed
+9:58:34 AM: Successfully installed dependencies
+9:58:34 AM: Starting build script
+9:58:35 AM: Detected 1 framework(s)
+9:58:35 AM: "vite" at version "4.5.14"
+9:58:35 AM: Section completed: initializing
+9:58:36 AM: ​
+9:58:36 AM: Netlify Build                                                 
+9:58:36 AM: ────────────────────────────────────────────────────────────────
+9:58:36 AM: ​
+9:58:36 AM: ❯ Version
+9:58:36 AM:   @netlify/build 35.5.2
+9:58:36 AM: ​
+9:58:36 AM: ❯ Flags
+9:58:36 AM:   accountId: 6932c569e8aec75b19540f25
+9:58:36 AM:   baseRelDir: true
+9:58:36 AM:   buildId: 6933011a4028111b6bb2b0ab
+9:58:36 AM:   deployId: 6933011a4028111b6bb2b0ad
+9:58:36 AM:   packagePath: frontend
+9:58:36 AM: ​
+9:58:36 AM: ❯ Current directory
+9:58:36 AM:   /opt/build/repo/frontend
+9:58:36 AM: ​
+9:58:36 AM: ❯ Config file
+9:58:36 AM:   No config file was defined: using default values.
+9:58:36 AM: ​
+9:58:36 AM: ❯ Context
+9:58:36 AM:   production
