@@ -1,14 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Zap, TrendingUp, Clock, Check, X, Tag, Send, BarChart2 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import useXP from '../../hooks/useXP';
+import LevelUpCelebration from './LevelUpCelebration';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const moodEmojis = ['😔', '😕', '😐', '🙂', '😊'];
 const energyEmojis = ['😴', '🥱', '😌', '💪', '⚡'];
 
-const commonTags = ['Work', 'Exercise', 'Social', 'Rest', 'Stress', 'Food', 'Sleep', 'Weather', 'Family'];
-
 export default function MoodTracker({ compact = false, onMoodLogged }) {
+  const { t, getSection } = useLanguage();
+  const moodText = getSection('moodPage');
+  const commonText = getSection('common');
+  const { awardXP, levelUpData, dismissLevelUp } = useXP();
+  
+  const commonTags = [
+    moodText.work || 'Work', 
+    moodText.exercise || 'Exercise', 
+    moodText.social || 'Social', 
+    moodText.rest || 'Rest', 
+    moodText.stress || 'Stress', 
+    moodText.food || 'Food', 
+    moodText.sleep || 'Sleep', 
+    moodText.weather || 'Weather', 
+    moodText.family || 'Family'
+  ];
+
   const [moodScore, setMoodScore] = useState(3);
   const [energyScore, setEnergyScore] = useState(3);
   const [notes, setNotes] = useState('');
@@ -70,6 +88,9 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
         setShowForm(false);
         setNotes('');
         setSelectedTags([]);
+        
+        await awardXP('mood_log');
+        
         if (onMoodLogged) onMoodLogged();
       }
     } catch (err) {
@@ -98,9 +119,9 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Heart className="w-5 h-5 text-pink-400" />
-            <span className="font-medium text-white">Quick Mood Log</span>
+            <span className="font-medium text-white">{moodText.quickMoodLog || 'Quick Mood Log'}</span>
           </div>
-          <span className="text-xs text-gray-400">{todayLogs.length} logs today</span>
+          <span className="text-xs text-gray-400">{todayLogs.length} {moodText.logsToday || 'logs today'}</span>
         </div>
         
         <div className="flex gap-2">
@@ -125,7 +146,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
         {showForm && (
           <div className="mt-4 space-y-3">
             <div>
-              <p className="text-sm text-gray-400 mb-2">Energy Level</p>
+              <p className="text-sm text-gray-400 mb-2">{moodText.energyLevel || 'Energy Level'}</p>
               <div className="flex gap-2">
                 {energyEmojis.map((emoji, i) => (
                   <button
@@ -149,7 +170,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
                 className="flex-1 py-2 bg-slate-700 text-gray-400 rounded-lg hover:bg-slate-600 transition flex items-center justify-center gap-1"
               >
                 <X className="w-4 h-4" />
-                Cancel
+                {commonText.cancel || 'Cancel'}
               </button>
               <button
                 onClick={handleLogMood}
@@ -161,7 +182,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
                 ) : (
                   <>
                     <Check className="w-4 h-4" />
-                    Log
+                    {moodText.logMood || 'Log'}
                   </>
                 )}
               </button>
@@ -178,14 +199,14 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Heart className="w-5 h-5 text-pink-400" />
-            <h3 className="font-bold text-white">Mood & Energy Tracker</h3>
+            <h3 className="font-bold text-white">{moodText.title || 'Mood & Energy Tracker'}</h3>
           </div>
           <button
             onClick={handleShowAnalytics}
             className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition"
           >
             <BarChart2 className="w-4 h-4" />
-            Analytics
+            {moodText.analytics || 'Analytics'}
           </button>
         </div>
       </div>
@@ -197,7 +218,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
               onClick={() => setShowAnalytics(false)}
               className="text-sm text-purple-400 hover:text-purple-300"
             >
-              Back to logging
+              {moodText.backToLogging || 'Back to logging'}
             </button>
 
             <div className="grid grid-cols-2 gap-4">
@@ -214,7 +235,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
 
             {analytics.insights?.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-white">Insights</p>
+                <p className="text-sm font-medium text-white">{moodText.insights || 'Insights'}</p>
                 {analytics.insights.map((insight, i) => (
                   <div 
                     key={i}
@@ -232,13 +253,13 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
 
             {analytics.moodEnergyCorrelation && (
               <div className="bg-slate-700/50 rounded-lg p-3">
-                <p className="text-sm text-gray-400">Mood-Energy Correlation</p>
+                <p className="text-sm text-gray-400">{moodText.moodEnergyCorrelation || 'Mood-Energy Correlation'}</p>
                 <p className="text-white font-bold">
                   {analytics.moodEnergyCorrelation > 0.5 
-                    ? 'Strong positive correlation' 
+                    ? (moodText.strongPositive || 'Strong positive correlation')
                     : analytics.moodEnergyCorrelation > 0 
-                      ? 'Moderate positive correlation'
-                      : 'Low correlation'}
+                      ? (moodText.moderatePositive || 'Moderate positive correlation')
+                      : (moodText.lowCorrelation || 'Low correlation')}
                 </p>
               </div>
             )}
@@ -246,7 +267,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-sm text-gray-400 mb-3">How are you feeling?</p>
+              <p className="text-sm text-gray-400 mb-3">{moodText.howFeeling || 'How are you feeling?'}</p>
               <div className="flex gap-3 justify-center">
                 {moodEmojis.map((emoji, i) => (
                   <button
@@ -265,7 +286,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
             </div>
 
             <div className="mb-6">
-              <p className="text-sm text-gray-400 mb-3">Energy level</p>
+              <p className="text-sm text-gray-400 mb-3">{moodText.energyLevel || 'Energy level'}</p>
               <div className="flex gap-3 justify-center">
                 {energyEmojis.map((emoji, i) => (
                   <button
@@ -284,7 +305,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
             </div>
 
             <div className="mb-4">
-              <p className="text-sm text-gray-400 mb-2">Tags (optional)</p>
+              <p className="text-sm text-gray-400 mb-2">{moodText.tagsOptional || 'Tags (optional)'}</p>
               <div className="flex flex-wrap gap-2">
                 {commonTags.map(tag => (
                   <button
@@ -306,7 +327,7 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add a note (optional)..."
+                placeholder={moodText.addNote || "Add a note (optional)..."}
                 className="w-full p-3 bg-slate-700 rounded-lg text-white placeholder-gray-500 border border-slate-600 focus:border-purple-500 focus:outline-none"
                 rows={2}
               />
@@ -322,14 +343,14 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
               ) : (
                 <>
                   <Send className="w-5 h-5" />
-                  Log Mood
+                  {moodText.logMood || 'Log Mood'}
                 </>
               )}
             </button>
 
             {todayLogs.length > 0 && (
               <div className="mt-6">
-                <p className="text-sm text-gray-400 mb-3">Today's logs ({todayLogs.length})</p>
+                <p className="text-sm text-gray-400 mb-3">{moodText.todaysLogs || "Today's logs"} ({todayLogs.length})</p>
                 <div className="space-y-2">
                   {todayLogs.slice(0, 5).map(log => (
                     <div key={log.id} className="flex items-center gap-3 p-2 bg-slate-700/50 rounded-lg">
@@ -353,6 +374,14 @@ export default function MoodTracker({ compact = false, onMoodLogged }) {
           </>
         )}
       </div>
+      
+      {levelUpData && (
+        <LevelUpCelebration
+          newLevel={levelUpData.newLevel}
+          unlockedFeatures={levelUpData.unlockedFeatures}
+          onClose={dismissLevelUp}
+        />
+      )}
     </div>
   );
 }

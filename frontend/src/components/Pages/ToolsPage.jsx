@@ -1,36 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Wrench, Wind, BookOpen, HelpCircle, Timer, Brain, Target, RefreshCw, Play, Pause, RotateCcw, ChevronRight, Check, Lightbulb, Shuffle } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const journalPrompts = [
-  { category: 'Self-Reflection', prompts: [
+  { category: 'selfReflection', prompts: [
     "What pattern did you notice in your thoughts today?",
     "What cultural belief influenced a decision you made recently?",
     "What assumption about yourself did you challenge today?",
     "What would you tell your younger self about what you learned today?",
     "What are you holding onto that no longer serves you?"
   ]},
-  { category: 'Gratitude', prompts: [
+  { category: 'gratitude', prompts: [
     "What are three things you're grateful for right now?",
     "Who made a positive difference in your life recently?",
     "What challenge taught you something valuable?",
     "What small moment brought you joy today?",
     "What ability or skill are you thankful to have?"
   ]},
-  { category: 'Growth', prompts: [
+  { category: 'growth', prompts: [
     "What is one thing you could improve tomorrow?",
     "What fear is holding you back from your potential?",
     "What new perspective did you gain recently?",
     "How have you grown in the last month?",
     "What habit would transform your life if you started it?"
   ]},
-  { category: 'Relationships', prompts: [
+  { category: 'relationships', prompts: [
     "How did your interactions with others affect you today?",
     "What relationship needs more attention?",
     "Who inspires you and why?",
     "What boundary do you need to set or maintain?",
     "How can you show more appreciation to someone important?"
   ]},
-  { category: 'Purpose', prompts: [
+  { category: 'purpose', prompts: [
     "What gives your life meaning?",
     "What legacy do you want to leave?",
     "What would you do if you knew you couldn't fail?",
@@ -40,18 +41,18 @@ const journalPrompts = [
 ];
 
 const decisionMatrix = {
-  title: "Decision Helper",
-  description: "Break down complex decisions into manageable parts",
   steps: [
-    { step: 1, title: "Define the Decision", question: "What exactly are you trying to decide?" },
-    { step: 2, title: "List Your Options", question: "What are all the possible choices you have?" },
-    { step: 3, title: "Consider Consequences", question: "What happens if you choose each option? (Best case, worst case, likely case)" },
-    { step: 4, title: "Check Your Values", question: "Which option aligns best with your values and goals?" },
-    { step: 5, title: "Trust Your Gut", question: "When you imagine each choice, how does your body feel?" }
+    { step: 1, titleKey: "defineDecision", questionKey: "whatDeciding" },
+    { step: 2, titleKey: "listOptions", questionKey: "whatOptions" },
+    { step: 3, titleKey: "considerConsequences", questionKey: "whatHappens" },
+    { step: 4, titleKey: "checkValues", questionKey: "whichAligns" },
+    { step: 5, titleKey: "trustGut", questionKey: "howFeels" }
   ]
 };
 
 export default function ToolsPage() {
+  const { t, getSection } = useLanguage();
+  const toolsText = getSection('toolsPage');
   const [activeTool, setActiveTool] = useState('breathing');
   
   return (
@@ -59,9 +60,9 @@ export default function ToolsPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <Wrench className="w-8 h-8 text-cyan-500" />
-          Stack Tools
+          {toolsText.title || 'Stack Tools'}
         </h1>
-        <p className="text-gray-400">Practical tools to help you grow and thrive</p>
+        <p className="text-gray-400">{toolsText.subtitle || 'Practical tools to help you grow and thrive'}</p>
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
@@ -74,7 +75,7 @@ export default function ToolsPage() {
           }`}
         >
           <Wind className="w-4 h-4" />
-          Breathing
+          {toolsText.breathing || 'Breathing'}
         </button>
         <button
           onClick={() => setActiveTool('journal')}
@@ -85,7 +86,7 @@ export default function ToolsPage() {
           }`}
         >
           <BookOpen className="w-4 h-4" />
-          Journal Prompts
+          {toolsText.journalPrompts || 'Journal Prompts'}
         </button>
         <button
           onClick={() => setActiveTool('decision')}
@@ -96,7 +97,7 @@ export default function ToolsPage() {
           }`}
         >
           <Target className="w-4 h-4" />
-          Decision Helper
+          {toolsText.decisionHelper || 'Decision Helper'}
         </button>
         <button
           onClick={() => setActiveTool('focus')}
@@ -107,7 +108,7 @@ export default function ToolsPage() {
           }`}
         >
           <Timer className="w-4 h-4" />
-          Focus Timer
+          {toolsText.focusTimer || 'Focus Timer'}
         </button>
       </div>
 
@@ -122,6 +123,10 @@ export default function ToolsPage() {
 }
 
 function BreathingTimer() {
+  const { getSection } = useLanguage();
+  const toolsText = getSection('toolsPage');
+  const commonText = getSection('common');
+  
   const [isActive, setIsActive] = useState(false);
   const [phase, setPhase] = useState('inhale');
   const [seconds, setSeconds] = useState(4);
@@ -129,10 +134,10 @@ function BreathingTimer() {
   const [selectedPattern, setSelectedPattern] = useState('relaxed');
 
   const patterns = {
-    relaxed: { inhale: 4, hold: 4, exhale: 4, name: 'Relaxed (4-4-4)' },
-    calm: { inhale: 4, hold: 7, exhale: 8, name: 'Calming (4-7-8)' },
-    energize: { inhale: 6, hold: 2, exhale: 4, name: 'Energizing (6-2-4)' },
-    box: { inhale: 4, hold: 4, exhale: 4, holdEmpty: 4, name: 'Box Breathing (4-4-4-4)' }
+    relaxed: { inhale: 4, hold: 4, exhale: 4, name: toolsText.relaxed || 'Relaxed (4-4-4)' },
+    calm: { inhale: 4, hold: 7, exhale: 8, name: toolsText.calming || 'Calming (4-7-8)' },
+    energize: { inhale: 6, hold: 2, exhale: 4, name: toolsText.energizing || 'Energizing (6-2-4)' },
+    box: { inhale: 4, hold: 4, exhale: 4, holdEmpty: 4, name: toolsText.boxBreathing || 'Box Breathing (4-4-4-4)' }
   };
 
   const currentPattern = patterns[selectedPattern];
@@ -181,11 +186,11 @@ function BreathingTimer() {
 
   const getPhaseInstruction = () => {
     switch(phase) {
-      case 'inhale': return 'Breathe In';
-      case 'hold': return 'Hold';
-      case 'exhale': return 'Breathe Out';
-      case 'holdEmpty': return 'Hold Empty';
-      default: return 'Breathe In';
+      case 'inhale': return toolsText.breatheIn || 'Breathe In';
+      case 'hold': return toolsText.hold || 'Hold';
+      case 'exhale': return toolsText.breatheOut || 'Breathe Out';
+      case 'holdEmpty': return toolsText.holdEmpty || 'Hold Empty';
+      default: return toolsText.breatheIn || 'Breathe In';
     }
   };
 
@@ -199,8 +204,8 @@ function BreathingTimer() {
     <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
       <div className="text-center mb-6">
         <Wind className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-        <h2 className="text-xl font-bold text-white">Breathing Exercise</h2>
-        <p className="text-gray-400 text-sm">Calm your mind with guided breathing</p>
+        <h2 className="text-xl font-bold text-white">{toolsText.breathingExercise || 'Breathing Exercise'}</h2>
+        <p className="text-gray-400 text-sm">{toolsText.calmYourMind || 'Calm your mind with guided breathing'}</p>
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-8">
@@ -232,7 +237,7 @@ function BreathingTimer() {
           </div>
         </div>
 
-        <p className="text-gray-400 mb-4">Cycles completed: {cycles}</p>
+        <p className="text-gray-400 mb-4">{toolsText.cyclesCompleted || 'Cycles completed'}: {cycles}</p>
 
         <div className="flex gap-3">
           <button
@@ -244,14 +249,14 @@ function BreathingTimer() {
             }`}
           >
             {isActive ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-            {isActive ? 'Pause' : 'Start'}
+            {isActive ? (commonText.pause || 'Pause') : (commonText.start || 'Start')}
           </button>
           <button
             onClick={reset}
             className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition flex items-center gap-2"
           >
             <RotateCcw className="w-5 h-5" />
-            Reset
+            {toolsText.reset || 'Reset'}
           </button>
         </div>
       </div>
@@ -260,10 +265,18 @@ function BreathingTimer() {
 }
 
 function JournalPrompts() {
+  const { getSection } = useLanguage();
+  const toolsText = getSection('toolsPage');
+  const commonText = getSection('common');
+  
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [currentPrompt, setCurrentPrompt] = useState(0);
   const [journalEntry, setJournalEntry] = useState('');
   const [savedEntries, setSavedEntries] = useState([]);
+
+  const getCategoryName = (categoryKey) => {
+    return toolsText[categoryKey] || categoryKey;
+  };
 
   const shufflePrompt = () => {
     const prompts = journalPrompts[selectedCategory].prompts;
@@ -289,8 +302,8 @@ function JournalPrompts() {
     <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
       <div className="text-center mb-6">
         <BookOpen className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-        <h2 className="text-xl font-bold text-white">Journal Prompts</h2>
-        <p className="text-gray-400 text-sm">Reflect and grow with guided journaling</p>
+        <h2 className="text-xl font-bold text-white">{toolsText.journalPrompts || 'Journal Prompts'}</h2>
+        <p className="text-gray-400 text-sm">{toolsText.reflectAndGrow || 'Reflect and grow with guided journaling'}</p>
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-6">
@@ -304,7 +317,7 @@ function JournalPrompts() {
                 : 'bg-slate-700 text-gray-400 hover:bg-slate-600'
             }`}
           >
-            {cat.category}
+            {getCategoryName(cat.category)}
           </button>
         ))}
       </div>
@@ -317,7 +330,7 @@ function JournalPrompts() {
             className="text-gray-400 hover:text-white transition flex items-center gap-1 text-sm"
           >
             <Shuffle className="w-4 h-4" />
-            New Prompt
+            {toolsText.newPrompt || 'New Prompt'}
           </button>
         </div>
         <p className="text-white text-lg font-medium">
@@ -328,7 +341,7 @@ function JournalPrompts() {
       <textarea
         value={journalEntry}
         onChange={(e) => setJournalEntry(e.target.value)}
-        placeholder="Write your thoughts here..."
+        placeholder={toolsText.writeThoughts || "Write your thoughts here..."}
         className="w-full p-4 bg-slate-700 rounded-lg text-white placeholder-gray-500 border border-slate-600 focus:border-purple-500 focus:outline-none min-h-[150px] mb-4"
       />
 
@@ -338,12 +351,12 @@ function JournalPrompts() {
         className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-2"
       >
         <Check className="w-5 h-5" />
-        Save Entry
+        {toolsText.saveEntry || 'Save Entry'}
       </button>
 
       {savedEntries.length > 0 && (
         <div className="mt-6">
-          <h3 className="text-white font-medium mb-3">Recent Entries</h3>
+          <h3 className="text-white font-medium mb-3">{toolsText.recentEntries || 'Recent Entries'}</h3>
           <div className="space-y-3 max-h-60 overflow-y-auto">
             {savedEntries.map((entry, i) => (
               <div key={i} className="bg-slate-700/50 rounded-lg p-3">
@@ -360,6 +373,10 @@ function JournalPrompts() {
 }
 
 function DecisionHelper() {
+  const { getSection } = useLanguage();
+  const toolsText = getSection('toolsPage');
+  const commonText = getSection('common');
+  
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [options, setOptions] = useState(['', '']);
@@ -384,8 +401,8 @@ function DecisionHelper() {
     <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
       <div className="text-center mb-6">
         <Target className="w-8 h-8 text-green-400 mx-auto mb-2" />
-        <h2 className="text-xl font-bold text-white">{decisionMatrix.title}</h2>
-        <p className="text-gray-400 text-sm">{decisionMatrix.description}</p>
+        <h2 className="text-xl font-bold text-white">{toolsText.decisionHelper || 'Decision Helper'}</h2>
+        <p className="text-gray-400 text-sm">{toolsText.breakDownDecisions || 'Break down complex decisions into manageable parts'}</p>
       </div>
 
       <div className="flex justify-center mb-6">
@@ -408,9 +425,9 @@ function DecisionHelper() {
       {!isComplete ? (
         <div className="bg-slate-700/50 rounded-xl p-6">
           <h3 className="text-lg font-bold text-white mb-2">
-            Step {currentStep + 1}: {decisionMatrix.steps[currentStep].title}
+            {commonText.step || 'Step'} {currentStep + 1}: {toolsText[decisionMatrix.steps[currentStep].titleKey] || decisionMatrix.steps[currentStep].titleKey}
           </h3>
-          <p className="text-gray-400 mb-4">{decisionMatrix.steps[currentStep].question}</p>
+          <p className="text-gray-400 mb-4">{toolsText[decisionMatrix.steps[currentStep].questionKey] || decisionMatrix.steps[currentStep].questionKey}</p>
 
           {currentStep === 1 ? (
             <div className="space-y-3 mb-4">
@@ -420,7 +437,7 @@ function DecisionHelper() {
                     type="text"
                     value={opt}
                     onChange={(e) => handleOptionChange(i, e.target.value)}
-                    placeholder={`Option ${i + 1}`}
+                    placeholder={`${commonText.option || 'Option'} ${i + 1}`}
                     className="flex-1 p-3 bg-slate-700 rounded-lg text-white border border-slate-600 focus:border-purple-500 focus:outline-none"
                   />
                 </div>
@@ -429,14 +446,14 @@ function DecisionHelper() {
                 onClick={handleAddOption}
                 className="text-purple-400 text-sm hover:text-purple-300"
               >
-                + Add another option
+                {toolsText.addOption || '+ Add another option'}
               </button>
             </div>
           ) : (
             <textarea
               value={answers[currentStep] || ''}
               onChange={(e) => handleAnswer(e.target.value)}
-              placeholder="Type your answer..."
+              placeholder={toolsText.typeAnswer || "Type your answer..."}
               className="w-full p-4 bg-slate-700 rounded-lg text-white placeholder-gray-500 border border-slate-600 focus:border-purple-500 focus:outline-none min-h-[120px] mb-4"
             />
           )}
@@ -447,14 +464,14 @@ function DecisionHelper() {
                 onClick={() => setCurrentStep(currentStep - 1)}
                 className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition"
               >
-                Back
+                {commonText.back || 'Back'}
               </button>
             )}
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               className="flex-1 py-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white rounded-lg font-medium hover:opacity-90 transition flex items-center justify-center gap-2"
             >
-              {currentStep < decisionMatrix.steps.length - 1 ? 'Next Step' : 'Complete'}
+              {currentStep < decisionMatrix.steps.length - 1 ? (toolsText.nextStep || 'Next Step') : (toolsText.complete || 'Complete')}
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
@@ -462,14 +479,14 @@ function DecisionHelper() {
       ) : (
         <div className="bg-gradient-to-r from-green-900/30 to-cyan-900/30 rounded-xl p-6 border border-green-500/30 text-center">
           <Check className="w-12 h-12 text-green-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">Decision Framework Complete!</h3>
-          <p className="text-gray-400 mb-4">You've worked through all the steps. Take a moment to reflect on what you've discovered.</p>
+          <h3 className="text-xl font-bold text-white mb-2">{toolsText.frameworkComplete || 'Decision Framework Complete!'}</h3>
+          <p className="text-gray-400 mb-4">{toolsText.reflectDiscovered || "You've worked through all the steps. Take a moment to reflect on what you've discovered."}</p>
           <button
             onClick={() => { setCurrentStep(0); setAnswers({}); setOptions(['', '']); }}
             className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition flex items-center gap-2 mx-auto"
           >
             <RotateCcw className="w-5 h-5" />
-            Start New Decision
+            {toolsText.startNewDecision || 'Start New Decision'}
           </button>
         </div>
       )}
@@ -478,6 +495,10 @@ function DecisionHelper() {
 }
 
 function FocusTimer() {
+  const { getSection } = useLanguage();
+  const toolsText = getSection('toolsPage');
+  const commonText = getSection('common');
+  
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
@@ -485,9 +506,9 @@ function FocusTimer() {
   const [sessions, setSessions] = useState(0);
 
   const presets = {
-    focus: { minutes: 25, label: 'Focus (25 min)' },
-    short: { minutes: 5, label: 'Short Break (5 min)' },
-    long: { minutes: 15, label: 'Long Break (15 min)' }
+    focus: { minutes: 25, label: toolsText.focus25 || 'Focus (25 min)' },
+    short: { minutes: 5, label: toolsText.shortBreak || 'Short Break (5 min)' },
+    long: { minutes: 15, label: toolsText.longBreak || 'Long Break (15 min)' }
   };
 
   useEffect(() => {
@@ -540,8 +561,8 @@ function FocusTimer() {
     <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
       <div className="text-center mb-6">
         <Timer className="w-8 h-8 text-orange-400 mx-auto mb-2" />
-        <h2 className="text-xl font-bold text-white">Focus Timer</h2>
-        <p className="text-gray-400 text-sm">Boost productivity with timed focus sessions</p>
+        <h2 className="text-xl font-bold text-white">{toolsText.focusTimerTitle || 'Focus Timer'}</h2>
+        <p className="text-gray-400 text-sm">{toolsText.boostProductivity || 'Boost productivity with timed focus sessions'}</p>
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-8">
@@ -574,13 +595,13 @@ function FocusTimer() {
             <div className="text-center">
               <p className="text-4xl font-bold text-white font-mono">{formatTime(minutes, seconds)}</p>
               <p className={`text-sm font-medium ${mode === 'focus' ? 'text-orange-400' : 'text-green-400'}`}>
-                {mode === 'focus' ? 'Focus Time' : 'Break Time'}
+                {mode === 'focus' ? (toolsText.focusTime || 'Focus Time') : (toolsText.breakTime || 'Break Time')}
               </p>
             </div>
           </div>
         </div>
 
-        <p className="text-gray-400 mb-4">Sessions completed: {sessions}</p>
+        <p className="text-gray-400 mb-4">{toolsText.sessionsCompleted || 'Sessions completed'}: {sessions}</p>
 
         <div className="flex gap-3">
           <button
@@ -592,14 +613,14 @@ function FocusTimer() {
             }`}
           >
             {isActive ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-            {isActive ? 'Pause' : 'Start'}
+            {isActive ? (commonText.pause || 'Pause') : (commonText.start || 'Start')}
           </button>
           <button
             onClick={reset}
             className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition flex items-center gap-2"
           >
             <RotateCcw className="w-5 h-5" />
-            Reset
+            {toolsText.reset || 'Reset'}
           </button>
         </div>
       </div>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Zap, Trophy, ChevronUp, Gift, Sparkles } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function LevelDisplay({ compact = false, showXPBar = true }) {
+  const { t, getSection } = useLanguage();
+  const levelsText = getSection('levelsPage');
+  const commonText = getSection('common');
+  
   const [levelData, setLevelData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showUnlocks, setShowUnlocks] = useState(false);
@@ -51,7 +56,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
           <span className="text-xs font-bold text-white">{levelData.currentLevel}</span>
         </div>
         <div className="hidden sm:block">
-          <p className="text-xs text-gray-400">Level {levelData.currentLevel}</p>
+          <p className="text-xs text-gray-400">{levelsText.level || 'Level'} {levelData.currentLevel}</p>
           <p className="text-xs text-purple-400">{levelData.totalXP} XP</p>
         </div>
       </div>
@@ -66,7 +71,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
             <span className="text-xl font-bold text-white">{levelData.currentLevel}</span>
           </div>
           <div>
-            <h3 className="font-bold text-white">Level {levelData.currentLevel}</h3>
+            <h3 className="font-bold text-white">{levelsText.level || 'Level'} {levelData.currentLevel}</h3>
             <div className="flex items-center gap-1 text-purple-400">
               <Zap className="w-4 h-4" />
               <span className="text-sm">{levelData.totalXP} XP</span>
@@ -80,7 +85,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
             className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition"
           >
             <Gift className="w-4 h-4" />
-            <span className="hidden sm:inline">Unlocks</span>
+            <span className="hidden sm:inline">{levelsText.unlocks || 'Unlocks'}</span>
           </button>
         )}
       </div>
@@ -88,7 +93,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
       {showXPBar && (
         <div className="mb-3">
           <div className="flex justify-between text-xs mb-1">
-            <span className="text-gray-400">Progress to Level {levelData.currentLevel + 1}</span>
+            <span className="text-gray-400">{(levelsText.progressToLevel || 'Progress to Level {level}').replace('{level}', levelData.currentLevel + 1)}</span>
             <span className="text-purple-400">{levelData.progressPercent}%</span>
           </div>
           <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -98,7 +103,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
             />
           </div>
           <p className="text-xs text-gray-500 mt-1">
-            {levelData.xpToNextLevel} XP to next level
+            {(levelsText.xpToNextLevel || '{xp} XP to next level').replace('{xp}', levelData.xpToNextLevel)}
           </p>
         </div>
       )}
@@ -108,7 +113,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="w-4 h-4 text-purple-400" />
             <span className="text-sm font-medium text-white">
-              Next unlock at Level {levelData.nextUnlock.level}
+              {(levelsText.nextUnlockAt || 'Next unlock at Level {level}').replace('{level}', levelData.nextUnlock.level)}
             </span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -136,7 +141,7 @@ export default function LevelDisplay({ compact = false, showXPBar = true }) {
           ))}
           {levelData.unlockedFeatures.length > 4 && (
             <span className="px-2 py-0.5 bg-slate-700 text-gray-400 rounded text-xs">
-              +{levelData.unlockedFeatures.length - 4} more
+              +{levelData.unlockedFeatures.length - 4} {levelsText.more || 'more'}
             </span>
           )}
         </div>

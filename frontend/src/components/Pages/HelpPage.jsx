@@ -1,141 +1,93 @@
 import React, { useState } from 'react';
 import { HelpCircle, Search, ChevronDown, ChevronUp, MessageCircle, Book, Lightbulb, Shield, Users, Target, Mail, ExternalLink } from 'lucide-react';
-import { t, getCurrentLanguage } from '../../config/i18n';
-
-const faqs = [
-  {
-    category: 'Getting Started',
-    icon: Lightbulb,
-    color: 'from-yellow-500 to-orange-500',
-    questions: [
-      {
-        q: 'What is Akofa Fixit?',
-        a: 'Akofa Fixit is a personal and business assessment tool that helps you identify what areas of your life or business need the most attention. By rating 5 key areas, you get insights into your root problems and actionable steps to fix them.'
-      },
-      {
-        q: 'How does the assessment work?',
-        a: 'You rate 5 core areas (Body/Resources, Mind/Beliefs, Values/Culture, People/Network, and Awareness) on a scale of 1-10. Akofa then analyzes your scores to identify your strengths and the areas that need the most work, giving you personalized recommendations.'
-      },
-      {
-        q: 'Is Akofa free to use?',
-        a: 'Yes! The basic assessment and daily check-ins are completely free. We may add premium features in the future, but the core functionality will always be accessible to everyone.'
-      },
-      {
-        q: 'How long does the assessment take?',
-        a: 'The initial assessment takes about 2 minutes. Daily check-ins take about 1 minute. We designed it to be quick so you can track your progress without taking too much time.'
-      }
-    ]
-  },
-  {
-    category: 'Using Akofa',
-    icon: Target,
-    color: 'from-purple-500 to-pink-500',
-    questions: [
-      {
-        q: 'What are the 5 areas/layers?',
-        a: 'The 5 layers are: 1) Bio Hardware/Resources - your physical health, energy, and resources. 2) Internal OS/Beliefs - your mindset and mental models. 3) Cultural Software/Values - your values and cultural influences. 4) Social Instance/Network - your relationships and support system. 5) Conscious User/Awareness - your self-awareness and presence.'
-      },
-      {
-        q: 'How often should I check in?',
-        a: 'We recommend daily check-ins for the best results. This helps you track patterns over time and notice what affects your scores. Even if you miss a day, the streak system will encourage you to keep going.'
-      },
-      {
-        q: 'What is the Stack Score?',
-        a: 'Your Stack Score is the overall measure of how balanced and healthy your 5 areas are. It is calculated from your individual layer scores and gives you a quick view of your overall wellbeing.'
-      },
-      {
-        q: 'Can I use Akofa for my business or team?',
-        a: 'Yes! You can select different purposes (Personal, Team, Business) when you start. Each purpose adapts the questions and recommendations to fit your context.'
-      }
-    ]
-  },
-  {
-    category: 'Streaks & Challenges',
-    icon: Target,
-    color: 'from-green-500 to-emerald-500',
-    questions: [
-      {
-        q: 'How do streaks work?',
-        a: 'When you complete your daily check-in, you add to your streak. If you miss a day, the streak resets. Longer streaks unlock achievements and show your commitment to growth.'
-      },
-      {
-        q: 'What are challenges?',
-        a: 'Challenges are structured programs that help you improve specific areas. They range from 7 to 30 days and focus on one layer. Complete challenges to earn points and achievements.'
-      },
-      {
-        q: 'Can I do multiple challenges at once?',
-        a: 'Yes, you can join multiple challenges. However, we recommend focusing on one at a time for better results. Quality over quantity!'
-      }
-    ]
-  },
-  {
-    category: 'Community',
-    icon: Users,
-    color: 'from-blue-500 to-cyan-500',
-    questions: [
-      {
-        q: 'Is my data private?',
-        a: 'Yes! Your assessment data is private by default. Only you can see your scores. When you share insights or stories, you control what information is visible to others.'
-      },
-      {
-        q: 'What is an accountability partner?',
-        a: 'An accountability partner is another Akofa user who you can connect with for mutual support. You can see each other\'s streaks and encourage each other on your journey.'
-      },
-      {
-        q: 'How do I join groups?',
-        a: 'Go to the Community page and click on the Groups tab. You can browse available groups based on your interests and join any that resonate with you.'
-      }
-    ]
-  },
-  {
-    category: 'Account & Settings',
-    icon: Shield,
-    color: 'from-red-500 to-pink-500',
-    questions: [
-      {
-        q: 'How do I change my language?',
-        a: 'Click the globe icon in the navigation bar and select your preferred language. We support English, Pidgin, Twi, Ga, Yoruba, and Hausa.'
-      },
-      {
-        q: 'Can I delete my account?',
-        a: 'Yes, you can delete your account from the Profile settings. Note that this will permanently delete all your data including check-in history, achievements, and community posts.'
-      },
-      {
-        q: 'How do I export my data?',
-        a: 'Go to your Profile page and click on Export Data. You can download your assessment history, check-ins, and other data as a JSON file.'
-      }
-    ]
-  }
-];
-
-const guides = [
-  {
-    title: 'Getting the Most from Daily Check-ins',
-    description: 'Learn how to use daily check-ins effectively to track your progress and identify patterns.',
-    icon: '📊'
-  },
-  {
-    title: 'Understanding Your Stack Score',
-    description: 'A deep dive into what your Stack Score means and how to improve it over time.',
-    icon: '📈'
-  },
-  {
-    title: 'Choosing the Right Challenges',
-    description: 'How to select challenges that align with your goals and maximize your growth.',
-    icon: '🎯'
-  },
-  {
-    title: 'Building Consistency with Streaks',
-    description: 'Tips and strategies for maintaining your check-in streak even when life gets busy.',
-    icon: '🔥'
-  }
-];
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function HelpPage() {
+  const { t, getSection } = useLanguage();
+  const helpText = getSection('helpPage');
+  const commonText = getSection('common');
+  
+  const faqs = [
+    {
+      category: helpText.gettingStarted || 'Getting Started',
+      icon: Lightbulb,
+      color: 'from-yellow-500 to-orange-500',
+      questions: [
+        { q: helpText.faqWhatIs || 'What is Akofa Fixit?', a: helpText.faqWhatIsAnswer || '' },
+        { q: helpText.faqHowWorks || 'How does the assessment work?', a: helpText.faqHowWorksAnswer || '' },
+        { q: helpText.faqIsFree || 'Is Akofa free to use?', a: helpText.faqIsFreeAnswer || '' },
+        { q: helpText.faqHowLong || 'How long does the assessment take?', a: helpText.faqHowLongAnswer || '' }
+      ]
+    },
+    {
+      category: helpText.usingAkofa || 'Using Akofa',
+      icon: Target,
+      color: 'from-purple-500 to-pink-500',
+      questions: [
+        { q: helpText.faqLayers || 'What are the 5 areas/layers?', a: helpText.faqLayersAnswer || '' },
+        { q: helpText.faqHowOften || 'How often should I check in?', a: helpText.faqHowOftenAnswer || '' },
+        { q: helpText.faqStackScore || 'What is the Stack Score?', a: helpText.faqStackScoreAnswer || '' },
+        { q: helpText.faqBusiness || 'Can I use Akofa for my business or team?', a: helpText.faqBusinessAnswer || '' }
+      ]
+    },
+    {
+      category: helpText.streaksAndChallenges || 'Streaks & Challenges',
+      icon: Target,
+      color: 'from-green-500 to-emerald-500',
+      questions: [
+        { q: helpText.faqStreaksWork || 'How do streaks work?', a: helpText.faqStreaksWorkAnswer || '' },
+        { q: helpText.faqWhatChallenges || 'What are challenges?', a: helpText.faqWhatChallengesAnswer || '' },
+        { q: helpText.faqMultipleChallenges || 'Can I do multiple challenges at once?', a: helpText.faqMultipleChallengesAnswer || '' }
+      ]
+    },
+    {
+      category: helpText.communityCategory || 'Community',
+      icon: Users,
+      color: 'from-blue-500 to-cyan-500',
+      questions: [
+        { q: helpText.faqPrivate || 'Is my data private?', a: helpText.faqPrivateAnswer || '' },
+        { q: helpText.faqPartner || 'What is an accountability partner?', a: helpText.faqPartnerAnswer || '' },
+        { q: helpText.faqGroups || 'How do I join groups?', a: helpText.faqGroupsAnswer || '' }
+      ]
+    },
+    {
+      category: helpText.accountSettings || 'Account & Settings',
+      icon: Shield,
+      color: 'from-red-500 to-pink-500',
+      questions: [
+        { q: helpText.faqLanguage || 'How do I change my language?', a: helpText.faqLanguageAnswer || '' },
+        { q: helpText.faqDelete || 'Can I delete my account?', a: helpText.faqDeleteAnswer || '' },
+        { q: helpText.faqExport || 'How do I export my data?', a: helpText.faqExportAnswer || '' }
+      ]
+    }
+  ];
+
+  const guides = [
+    {
+      title: helpText.guideCheckIns || 'Getting the Most from Daily Check-ins',
+      description: helpText.guideCheckInsDesc || 'Learn how to use daily check-ins effectively to track your progress and identify patterns.',
+      icon: '📊'
+    },
+    {
+      title: helpText.guideStackScore || 'Understanding Your Stack Score',
+      description: helpText.guideStackScoreDesc || 'A deep dive into what your Stack Score means and how to improve it over time.',
+      icon: '📈'
+    },
+    {
+      title: helpText.guideChallenges || 'Choosing the Right Challenges',
+      description: helpText.guideChallengesDesc || 'How to select challenges that align with your goals and maximize your growth.',
+      icon: '🎯'
+    },
+    {
+      title: helpText.guideStreaks || 'Building Consistency with Streaks',
+      description: helpText.guideStreaksDesc || 'Tips and strategies for maintaining your check-in streak even when life gets busy.',
+      icon: '🔥'
+    }
+  ];
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategory, setExpandedCategory] = useState(0);
   const [expandedQuestions, setExpandedQuestions] = useState({});
-  const lang = getCurrentLanguage();
 
   const toggleQuestion = (categoryIndex, questionIndex) => {
     const key = `${categoryIndex}-${questionIndex}`;
@@ -158,9 +110,9 @@ export default function HelpPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <HelpCircle className="w-8 h-8 text-purple-400" />
-          Help Center
+          {helpText.title || 'Help Center'}
         </h1>
-        <p className="text-gray-400">Find answers to common questions and learn how to use Akofa</p>
+        <p className="text-gray-400">{helpText.subtitle || 'Find answers to common questions and learn how to use Akofa'}</p>
       </div>
 
       <div className="relative">
@@ -169,7 +121,7 @@ export default function HelpPage() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for help..."
+          placeholder={helpText.searchPlaceholder || "Search for help..."}
           className="w-full pl-12 pr-4 py-4 bg-slate-800 rounded-xl border border-slate-700 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
         />
       </div>
@@ -194,7 +146,7 @@ export default function HelpPage() {
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Book className="w-5 h-5 text-purple-400" />
-          Frequently Asked Questions
+          {helpText.faq || 'Frequently Asked Questions'}
         </h2>
 
         {filteredFaqs.map((category, categoryIndex) => {
@@ -210,7 +162,7 @@ export default function HelpPage() {
                     <Icon className="w-5 h-5 text-white" />
                   </div>
                   <span className="font-semibold text-white">{category.category}</span>
-                  <span className="text-gray-500 text-sm">({category.questions.length} questions)</span>
+                  <span className="text-gray-500 text-sm">({category.questions.length} {helpText.questions || 'questions'})</span>
                 </div>
                 {expandedCategory === categoryIndex ? (
                   <ChevronUp className="w-5 h-5 text-gray-400" />
@@ -254,16 +206,16 @@ export default function HelpPage() {
 
         {searchQuery && filteredFaqs.length === 0 && (
           <div className="text-center py-12 text-gray-500">
-            No results found for "{searchQuery}". Try a different search term.
+            {(helpText.noResults || 'No results found for "{query}". Try a different search term.').replace('{query}', searchQuery)}
           </div>
         )}
       </div>
 
       <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-xl p-8 border border-purple-500/30 text-center">
         <MessageCircle className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-white mb-2">Still have questions?</h3>
+        <h3 className="text-xl font-bold text-white mb-2">{helpText.stillHaveQuestions || 'Still have questions?'}</h3>
         <p className="text-gray-400 mb-6">
-          Cannot find what you are looking for? We are here to help!
+          {helpText.cantFind || 'Cannot find what you are looking for? We are here to help!'}
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <a
@@ -271,17 +223,17 @@ export default function HelpPage() {
             className="flex items-center gap-2 px-6 py-3 bg-purple-500 hover:bg-purple-600 rounded-xl text-white font-medium transition-colors"
           >
             <Mail className="w-5 h-5" />
-            Email Support
+            {helpText.emailSupport || 'Email Support'}
           </a>
           <button className="flex items-center gap-2 px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl text-white font-medium transition-colors">
             <MessageCircle className="w-5 h-5" />
-            Chat with Us
+            {helpText.chatWithUs || 'Chat with Us'}
           </button>
         </div>
       </div>
 
       <div className="text-center text-xs text-gray-500 py-4">
-        {t('footer.disclaimer', lang)}
+        {t('disclaimer', 'footer')}
       </div>
     </div>
   );

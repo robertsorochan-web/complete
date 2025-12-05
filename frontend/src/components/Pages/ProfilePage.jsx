@@ -22,7 +22,10 @@ const layerIcons = {
 
 export default function ProfilePage({ user, onLogout }) {
   const { t, getSection } = useLanguage();
-  const profileText = getSection('profile');
+  const profileText = getSection('profilePage');
+  const exportText = getSection('exportPage');
+  const commonText = getSection('common');
+  
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
@@ -91,9 +94,15 @@ export default function ProfilePage({ user, onLogout }) {
   const tier = tierInfo[profile?.tier] || tierInfo.free;
   const TierIcon = tier.icon;
 
+  const tabLabels = {
+    overview: profileText.overview || 'Overview',
+    badges: profileText.badges || 'Badges',
+    export: profileText.exportData || 'Export',
+    settings: profileText.settings || 'Settings'
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Profile Header */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-6 border border-slate-700 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
         
@@ -115,7 +124,7 @@ export default function ProfilePage({ user, onLogout }) {
                 {tier.name}
               </span>
               <span className="text-gray-500 text-sm">
-                Member since {new Date(profile?.memberSince).toLocaleDateString()}
+                {profileText.memberSince || 'Member since'} {new Date(profile?.memberSince).toLocaleDateString()}
               </span>
             </div>
           </div>
@@ -127,27 +136,25 @@ export default function ProfilePage({ user, onLogout }) {
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 text-center">
           <p className="text-3xl font-bold text-orange-400">{profile?.currentStreak || 0}</p>
-          <p className="text-gray-400 text-sm">Current Streak</p>
+          <p className="text-gray-400 text-sm">{profileText.currentStreak || 'Current Streak'}</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 text-center">
           <p className="text-3xl font-bold text-purple-400">{profile?.totalCheckins || 0}</p>
-          <p className="text-gray-400 text-sm">Total Check-ins</p>
+          <p className="text-gray-400 text-sm">{profileText.totalCheckins || 'Total Check-ins'}</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 text-center">
           <p className="text-3xl font-bold text-green-400">{profile?.completedChallenges || 0}</p>
-          <p className="text-gray-400 text-sm">Challenges Done</p>
+          <p className="text-gray-400 text-sm">{profileText.challengesDone || 'Challenges Done'}</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 text-center">
           <p className="text-3xl font-bold text-blue-400">{profile?.groupsJoined || 0}</p>
-          <p className="text-gray-400 text-sm">Groups Joined</p>
+          <p className="text-gray-400 text-sm">{profileText.groupsJoined || 'Groups Joined'}</p>
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         {['overview', 'badges', 'export', 'settings'].map(tab => (
           <button
@@ -159,27 +166,25 @@ export default function ProfilePage({ user, onLogout }) {
                 : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
             }`}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {tabLabels[tab]}
           </button>
         ))}
       </div>
 
-      {/* Tab Content */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
-          {/* AI Usage */}
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <Zap className="w-5 h-5 text-yellow-400" />
-                AI Insights Usage
+                {profileText.aiInsightsUsage || 'AI Insights Usage'}
               </h3>
-              <span className="text-gray-400 text-sm">Resets monthly</span>
+              <span className="text-gray-400 text-sm">{profileText.resetsMonthly || 'Resets monthly'}</span>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex-1">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Used this month</span>
+                  <span className="text-gray-400">{profileText.usedThisMonth || 'Used this month'}</span>
                   <span className="text-white">
                     {profile?.aiInsightsUsed || 0} / {profile?.aiInsightsLimit === Infinity ? '∞' : profile?.aiInsightsLimit}
                   </span>
@@ -197,26 +202,25 @@ export default function ProfilePage({ user, onLogout }) {
               </div>
               {profile?.tier === 'free' && (
                 <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg text-sm font-medium">
-                  Upgrade
+                  {profileText.upgrade || 'Upgrade'}
                 </button>
               )}
             </div>
           </div>
 
-          {/* Tier Features */}
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Crown className="w-5 h-5 text-yellow-400" />
-              Your Plan Features
+              {profileText.yourPlanFeatures || 'Your Plan Features'}
             </h3>
             <div className="grid md:grid-cols-2 gap-3">
               {[
-                { label: 'AI Insights', value: profile?.tierFeatures?.aiInsights === Infinity ? 'Unlimited' : `${profile?.tierFeatures?.aiInsights}/month` },
-                { label: 'Daily Check-in Layers', value: profile?.tierFeatures?.dailyCheckinLayers },
-                { label: 'Community Access', value: profile?.tierFeatures?.communityAccess },
-                { label: 'Data Export', value: profile?.tierFeatures?.dataExport ? 'Yes' : 'No' },
-                { label: 'Custom Notifications', value: profile?.tierFeatures?.customNotifications ? 'Yes' : 'No' },
-                { label: 'Challenges', value: profile?.tierFeatures?.challenges === Infinity ? 'Unlimited' : profile?.tierFeatures?.challenges }
+                { label: profileText.aiInsights || 'AI Insights', value: profile?.tierFeatures?.aiInsights === Infinity ? (profileText.unlimited || 'Unlimited') : `${profile?.tierFeatures?.aiInsights}/${profileText.month || 'month'}` },
+                { label: profileText.dailyCheckinLayers || 'Daily Check-in Layers', value: profile?.tierFeatures?.dailyCheckinLayers },
+                { label: profileText.communityAccess || 'Community Access', value: profile?.tierFeatures?.communityAccess },
+                { label: profileText.dataExportLabel || 'Data Export', value: profile?.tierFeatures?.dataExport ? (commonText.yes || 'Yes') : (commonText.no || 'No') },
+                { label: profileText.customNotifications || 'Custom Notifications', value: profile?.tierFeatures?.customNotifications ? (commonText.yes || 'Yes') : (commonText.no || 'No') },
+                { label: profileText.challengesLabel || 'Challenges', value: profile?.tierFeatures?.challenges === Infinity ? (profileText.unlimited || 'Unlimited') : profile?.tierFeatures?.challenges }
               ].map((feature, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
                   <span className="text-gray-400">{feature.label}</span>
@@ -232,7 +236,7 @@ export default function ProfilePage({ user, onLogout }) {
         <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <Award className="w-5 h-5 text-yellow-400" />
-            Your Badges ({profile?.badges?.length || 0})
+            {profileText.yourBadges || 'Your Badges'} ({profile?.badges?.length || 0})
           </h3>
           {profile?.badges?.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -252,7 +256,7 @@ export default function ProfilePage({ user, onLogout }) {
           ) : (
             <div className="text-center py-12 text-gray-500">
               <Award className="w-16 h-16 mx-auto mb-4 opacity-30" />
-              <p>No badges earned yet. Keep going!</p>
+              <p>{profileText.noBadgesYet || 'No badges earned yet. Keep going!'}</p>
             </div>
           )}
         </div>
@@ -263,9 +267,9 @@ export default function ProfilePage({ user, onLogout }) {
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Download className="w-5 h-5 text-cyan-400" />
-              Export Your Data
+              {exportText.title || 'Export Your Data'}
             </h3>
-            <p className="text-gray-400 mb-6">Download your personal data in various formats. This includes your check-ins, assessments, mood entries, and progress history.</p>
+            <p className="text-gray-400 mb-6">{exportText.description || 'Download your personal data in various formats. This includes your check-ins, assessments, mood entries, and progress history.'}</p>
             
             <div className="grid md:grid-cols-2 gap-4">
               <button
@@ -279,8 +283,8 @@ export default function ProfilePage({ user, onLogout }) {
                   <FileJson className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-white font-medium">Full Export (JSON)</p>
-                  <p className="text-gray-400 text-sm">All data in JSON format</p>
+                  <p className="text-white font-medium">{exportText.fullExportJSON || 'Full Export (JSON)'}</p>
+                  <p className="text-gray-400 text-sm">{exportText.allDataJSON || 'All data in JSON format'}</p>
                 </div>
               </button>
 
@@ -295,8 +299,8 @@ export default function ProfilePage({ user, onLogout }) {
                   <FileText className="w-6 h-6 text-green-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-white font-medium">Check-ins (CSV)</p>
-                  <p className="text-gray-400 text-sm">Daily check-in history</p>
+                  <p className="text-white font-medium">{exportText.checkinsCSV || 'Check-ins (CSV)'}</p>
+                  <p className="text-gray-400 text-sm">{exportText.dailyCheckinHistory || 'Daily check-in history'}</p>
                 </div>
               </button>
 
@@ -311,8 +315,8 @@ export default function ProfilePage({ user, onLogout }) {
                   <FileText className="w-6 h-6 text-purple-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-white font-medium">Mood History (CSV)</p>
-                  <p className="text-gray-400 text-sm">Mood and energy logs</p>
+                  <p className="text-white font-medium">{exportText.moodHistoryCSV || 'Mood History (CSV)'}</p>
+                  <p className="text-gray-400 text-sm">{exportText.moodEnergyLogs || 'Mood and energy logs'}</p>
                 </div>
               </button>
 
@@ -327,8 +331,8 @@ export default function ProfilePage({ user, onLogout }) {
                   <FileText className="w-6 h-6 text-yellow-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-white font-medium">Assessments (CSV)</p>
-                  <p className="text-gray-400 text-sm">StackScore assessments</p>
+                  <p className="text-white font-medium">{exportText.assessmentsCSV || 'Assessments (CSV)'}</p>
+                  <p className="text-gray-400 text-sm">{exportText.stackScoreAssessments || 'StackScore assessments'}</p>
                 </div>
               </button>
             </div>
@@ -337,21 +341,21 @@ export default function ProfilePage({ user, onLogout }) {
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Shield className="w-5 h-5 text-green-400" />
-              Data Privacy
+              {exportText.dataPrivacy || 'Data Privacy'}
             </h3>
-            <p className="text-gray-400 mb-4">Your data belongs to you. We never sell or share your personal information.</p>
+            <p className="text-gray-400 mb-4">{exportText.privacyNote || 'Your data belongs to you. We never sell or share your personal information.'}</p>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-400" />
-                All exports are encrypted during transfer
+                {exportText.encryptedTransfer || 'All exports are encrypted during transfer'}
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-400" />
-                Data is stored securely on our servers
+                {exportText.secureStorage || 'Data is stored securely on our servers'}
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-400" />
-                You can request data deletion anytime
+                {exportText.deletionRequest || 'You can request data deletion anytime'}
               </li>
             </ul>
           </div>
@@ -360,17 +364,16 @@ export default function ProfilePage({ user, onLogout }) {
 
       {activeTab === 'settings' && notifications && (
         <div className="space-y-6">
-          {/* Notification Settings */}
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Bell className="w-5 h-5 text-purple-400" />
-              Notification Preferences
+              {profileText.notificationPrefs || 'Notification Preferences'}
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
                 <div>
-                  <p className="text-white font-medium">Push Notifications</p>
-                  <p className="text-gray-400 text-sm">Receive daily reminder notifications</p>
+                  <p className="text-white font-medium">{profileText.pushNotifications || 'Push Notifications'}</p>
+                  <p className="text-gray-400 text-sm">{profileText.pushDescription || 'Receive daily reminder notifications'}</p>
                 </div>
                 <button
                   onClick={() => updateNotifications({ pushEnabled: !notifications.pushEnabled })}
@@ -386,8 +389,8 @@ export default function ProfilePage({ user, onLogout }) {
 
               <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
                 <div>
-                  <p className="text-white font-medium">Email Notifications</p>
-                  <p className="text-gray-400 text-sm">Receive weekly progress reports</p>
+                  <p className="text-white font-medium">{profileText.emailNotifications || 'Email Notifications'}</p>
+                  <p className="text-gray-400 text-sm">{profileText.emailDescription || 'Receive weekly progress reports'}</p>
                 </div>
                 <button
                   onClick={() => updateNotifications({ emailEnabled: !notifications.emailEnabled })}
@@ -403,8 +406,8 @@ export default function ProfilePage({ user, onLogout }) {
 
               <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
                 <div>
-                  <p className="text-white font-medium">Daily Reminder Time</p>
-                  <p className="text-gray-400 text-sm">When to send check-in reminder</p>
+                  <p className="text-white font-medium">{profileText.dailyReminderTime || 'Daily Reminder Time'}</p>
+                  <p className="text-gray-400 text-sm">{profileText.reminderTimeDescription || 'When to send check-in reminder'}</p>
                 </div>
                 <input
                   type="time"
@@ -416,18 +419,17 @@ export default function ProfilePage({ user, onLogout }) {
             </div>
           </div>
 
-          {/* Account Actions */}
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Settings className="w-5 h-5 text-gray-400" />
-              Account
+              {profileText.account || 'Account'}
             </h3>
             <button
               onClick={onLogout}
               className="w-full py-3 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors flex items-center justify-center gap-2"
             >
               <LogOut className="w-5 h-5" />
-              Sign Out
+              {profileText.signOut || 'Sign Out'}
             </button>
           </div>
         </div>

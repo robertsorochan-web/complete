@@ -5,6 +5,22 @@ const router = express.Router();
 
 const LEVEL_THRESHOLDS = Array.from({ length: 100 }, (_, i) => Math.floor(100 * Math.pow(1.15, i)));
 
+const ALLOWED_XP_ACTIONS = {
+  checkin: { xp: 25, description: 'Daily check-in', cooldownMinutes: 60 },
+  full_checkin: { xp: 35, description: 'Full daily check-in', cooldownMinutes: 60 },
+  mood_log: { xp: 10, description: 'Mood log', cooldownMinutes: 5 },
+  reflection: { xp: 15, description: 'Reflection response', cooldownMinutes: 60 },
+  community_post: { xp: 20, description: 'Community post', cooldownMinutes: 10 },
+  share_insight: { xp: 20, description: 'Shared insight', cooldownMinutes: 10 },
+  challenge_start: { xp: 50, description: 'Started challenge', cooldownMinutes: 60 },
+  challenge_complete: { xp: 100, description: 'Completed challenge', cooldownMinutes: 0 },
+  quest_complete: { xp: 25, description: 'Completed quest', cooldownMinutes: 0 },
+  first_assessment: { xp: 50, description: 'First assessment', cooldownMinutes: 0 },
+  streak_day: { xp: 5, description: 'Daily streak bonus', cooldownMinutes: 1440 },
+  streak_week: { xp: 75, description: 'Weekly streak bonus', cooldownMinutes: 10080 },
+  friend_challenge_win: { xp: 100, description: 'Won friend challenge', cooldownMinutes: 0 }
+};
+
 const calculateLevel = (totalXP) => {
   let level = 1;
   let xpNeeded = 0;
@@ -77,10 +93,33 @@ router.get('/status', async (req, res) => {
 
 router.post('/award', async (req, res) => {
   try {
-    const { amount, actionType, description } = req.body;
+    const { actionType } = req.body;
     
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ error: 'Invalid XP amount' });
+    const actionConfig = ALLOWED_XP_ACTIONS[actionType];
+    if (!actionConfig) {
+      return res.status(400).json({ error: 'Invalid action type' });
+    }
+
+    const amount = actionConfig.xp;
+    const description = actionConfig.description;
+
+    if (actionConfig.cooldownMinutes > 0) {
+      const cooldownCheck = await query(
+        `SELECT created_at FROM xp_transactions 
+         WHERE user_id = $1 AND action_type = $2 
+         AND created_at > NOW() - INTERVAL '${actionConfig.cooldownMinutes} minutes'
+         ORDER BY created_at DESC LIMIT 1`,
+        [req.userId, actionType]
+      );
+      
+      if (cooldownCheck.rows.length > 0) {
+        return res.json({
+          success: false,
+          error: 'Action on cooldown',
+          xpAwarded: 0,
+          cooldownRemaining: actionConfig.cooldownMinutes
+        });
+      }
     }
 
     await query(

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Lightbulb, ChevronLeft, ChevronRight, Heart, Share2, RefreshCw } from 'lucide-react';
-import { t, getCurrentLanguage } from '../../config/i18n';
+import { useLanguage } from '../../context/LanguageContext';
 
 const tips = [
   {
@@ -134,10 +134,13 @@ const layerColors = {
 };
 
 const TipOfTheDay = ({ compact = false }) => {
+  const { t, getSection } = useLanguage();
+  const tipsText = getSection('tips');
+  const commonText = getSection('common');
+  
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const [savedTips, setSavedTips] = useState([]);
   const [showSaved, setShowSaved] = useState(false);
-  const lang = getCurrentLanguage();
 
   useEffect(() => {
     const today = new Date().toDateString();
@@ -194,7 +197,7 @@ const TipOfTheDay = ({ compact = false }) => {
   };
 
   const handleShare = () => {
-    const text = `Today's tip: ${currentTip.tip}\n\nAction: ${currentTip.actionable}\n\n- Akofa Fixit`;
+    const text = `${tipsText.title || "Tip of the Day"}: ${currentTip.tip}\n\nAction: ${currentTip.actionable}\n\n- Akofa Fixit`;
     if (navigator.share) {
       navigator.share({ text });
     } else {
@@ -213,7 +216,7 @@ const TipOfTheDay = ({ compact = false }) => {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <Lightbulb className="w-4 h-4 text-amber-400" />
-              <span className="text-amber-400 text-sm font-medium">{t('tips.title', lang)}</span>
+              <span className="text-amber-400 text-sm font-medium">{tipsText.title || 'Tip of the Day'}</span>
             </div>
             <p className="text-white text-sm">{currentTip.tip}</p>
           </div>
@@ -228,7 +231,7 @@ const TipOfTheDay = ({ compact = false }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Lightbulb className="w-5 h-5 text-amber-400" />
-            <h3 className="font-bold text-white">{t('tips.title', lang)}</h3>
+            <h3 className="font-bold text-white">{tipsText.title || 'Tip of the Day'}</h3>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -237,7 +240,7 @@ const TipOfTheDay = ({ compact = false }) => {
                 showSaved ? 'bg-amber-500 text-white' : 'bg-slate-700 text-gray-400 hover:text-white'
               }`}
             >
-              Saved ({savedTips.length})
+              {commonText.saved || 'Saved'} ({savedTips.length})
             </button>
           </div>
         </div>
@@ -287,12 +290,14 @@ const TipOfTheDay = ({ compact = false }) => {
                 <button
                   onClick={handlePrevious}
                   className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                  title={tipsText.previousTip || 'Previous tip'}
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={handleNext}
                   className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                  title={tipsText.nextTip || 'Next tip'}
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -311,14 +316,14 @@ const TipOfTheDay = ({ compact = false }) => {
                   className={`p-2 rounded-lg transition-colors ${
                     isSaved ? 'bg-pink-500/20 text-pink-400' : 'bg-slate-700 hover:bg-slate-600 text-gray-400'
                   }`}
-                  title={isSaved ? 'Unsave' : 'Save tip'}
+                  title={isSaved ? 'Unsave' : (tipsText.saveTip || 'Save tip')}
                 >
                   <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
                 </button>
                 <button
                   onClick={handleShare}
                   className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
-                  title="Share tip"
+                  title={tipsText.shareTip || 'Share tip'}
                 >
                   <Share2 className="w-5 h-5" />
                 </button>

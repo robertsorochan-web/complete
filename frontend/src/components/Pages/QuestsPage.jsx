@@ -4,15 +4,25 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const difficultyColors = {
-  easy: 'bg-green-500/20 text-green-400 border-green-500/30',
-  medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  hard: 'bg-red-500/20 text-red-400 border-red-500/30'
-};
-
 export default function QuestsPage() {
-  const { getSection } = useLanguage();
+  const { t, getSection } = useLanguage();
+  const questsText = getSection('questsPage');
   const commonText = getSection('common');
+  
+  const difficultyColors = {
+    easy: 'bg-green-500/20 text-green-400 border-green-500/30',
+    medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    hard: 'bg-red-500/20 text-red-400 border-red-500/30'
+  };
+
+  const getDifficultyLabel = (difficulty) => {
+    const labels = {
+      easy: questsText.easy || 'easy',
+      medium: questsText.medium || 'medium',
+      hard: questsText.hard || 'hard'
+    };
+    return labels[difficulty] || difficulty;
+  };
   
   const [quests, setQuests] = useState({ daily: [], weekly: [], monthly: [] });
   const [stats, setStats] = useState({ totalQuestsCompleted: 0, totalXPFromQuests: 0, activeDaysThisMonth: 0 });
@@ -67,7 +77,8 @@ export default function QuestsPage() {
         fetchQuests();
         fetchStats();
         if (data.xpAwarded > 0) {
-          alert(`Quest completed! You earned ${data.xpAwarded} XP!`);
+          const message = (questsText.questComplete || 'Quest completed! You earned {xp} XP!').replace('{xp}', data.xpAwarded);
+          alert(message);
         }
       }
     } catch (err) {
@@ -103,7 +114,7 @@ export default function QuestsPage() {
                 {quest.title}
               </h3>
               <span className={`px-2 py-0.5 rounded-full text-xs border ${difficultyColors[quest.difficulty]}`}>
-                {quest.difficulty}
+                {getDifficultyLabel(quest.difficulty)}
               </span>
             </div>
             
@@ -112,7 +123,7 @@ export default function QuestsPage() {
             {!isCompleted && (
               <div className="mb-3">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Progress</span>
+                  <span className="text-gray-400">{questsText.progress || 'Progress'}</span>
                   <span className="text-white">{quest.progress}/{quest.targetCount}</span>
                 </div>
                 <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -133,7 +144,7 @@ export default function QuestsPage() {
               {isCompleted ? (
                 <span className="text-green-400 text-sm flex items-center gap-1">
                   <CheckCircle className="w-4 h-4" />
-                  Completed
+                  {commonText.completed || 'Completed'}
                 </span>
               ) : (
                 quest.progress >= quest.targetCount - 1 && (
@@ -141,7 +152,7 @@ export default function QuestsPage() {
                     onClick={() => handleClaimQuest(quest.id)}
                     className="px-4 py-1.5 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-lg text-sm font-medium hover:opacity-90 transition"
                   >
-                    Claim Reward
+                    {questsText.claimReward || 'Claim Reward'}
                   </button>
                 )
               )}
@@ -153,9 +164,9 @@ export default function QuestsPage() {
   };
 
   const tabs = [
-    { id: 'daily', label: 'Daily', icon: Clock, count: quests.daily?.length || 0 },
-    { id: 'weekly', label: 'Weekly', icon: Calendar, count: quests.weekly?.length || 0 },
-    { id: 'monthly', label: 'Monthly', icon: Trophy, count: quests.monthly?.length || 0 }
+    { id: 'daily', label: questsText.daily || 'Daily', icon: Clock, count: quests.daily?.length || 0 },
+    { id: 'weekly', label: questsText.weekly || 'Weekly', icon: Calendar, count: quests.weekly?.length || 0 },
+    { id: 'monthly', label: questsText.monthly || 'Monthly', icon: Trophy, count: quests.monthly?.length || 0 }
   ];
 
   const activeQuests = quests[activeTab] || [];
@@ -174,26 +185,26 @@ export default function QuestsPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <Target className="w-8 h-8 text-purple-500" />
-          Daily Quests
+          {questsText.title || 'Daily Quests'}
         </h1>
-        <p className="text-gray-400">Complete quests to earn XP and level up</p>
+        <p className="text-gray-400">{questsText.subtitle || 'Complete quests to earn XP and level up'}</p>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700">
           <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
           <p className="text-2xl font-bold text-white">{stats.totalQuestsCompleted}</p>
-          <p className="text-xs text-gray-400">Quests Completed</p>
+          <p className="text-xs text-gray-400">{questsText.questsCompleted || 'Quests Completed'}</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700">
           <Zap className="w-6 h-6 text-purple-400 mx-auto mb-2" />
           <p className="text-2xl font-bold text-white">{stats.totalXPFromQuests}</p>
-          <p className="text-xs text-gray-400">XP Earned</p>
+          <p className="text-xs text-gray-400">{questsText.xpEarned || 'XP Earned'}</p>
         </div>
         <div className="bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700">
           <Flame className="w-6 h-6 text-orange-400 mx-auto mb-2" />
           <p className="text-2xl font-bold text-white">{stats.activeDaysThisMonth}</p>
-          <p className="text-xs text-gray-400">Active Days</p>
+          <p className="text-xs text-gray-400">{questsText.activeDays || 'Active Days'}</p>
         </div>
       </div>
 
@@ -225,11 +236,11 @@ export default function QuestsPage() {
           <div className="flex items-center gap-2">
             <Gift className="w-5 h-5 text-purple-400" />
             <span className="font-medium text-white">
-              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Progress
+              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} {questsText.progress || 'Progress'}
             </span>
           </div>
           <span className="text-purple-400">
-            {completedCount}/{activeQuests.length} completed
+            {completedCount}/{activeQuests.length} {questsText.completed || 'completed'}
           </span>
         </div>
         <div className="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -246,7 +257,7 @@ export default function QuestsPage() {
         ) : (
           <div className="text-center py-12 text-gray-500">
             <Target className="w-16 h-16 mx-auto mb-4 opacity-30" />
-            <p>No {activeTab} quests available</p>
+            <p>{(questsText.noQuests || 'No {type} quests available').replace('{type}', activeTab)}</p>
           </div>
         )}
       </div>

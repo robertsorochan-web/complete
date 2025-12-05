@@ -4,16 +4,18 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const layerConfig = {
-  bio_hardware: { name: 'Health & Energy', icon: Heart, color: 'from-red-500 to-pink-500' },
-  internal_os: { name: 'Mindset', icon: Brain, color: 'from-blue-500 to-cyan-500' },
-  cultural_software: { name: 'Culture', icon: Code, color: 'from-purple-500 to-violet-500' },
-  social_instance: { name: 'Relationships', icon: Users, color: 'from-green-500 to-emerald-500' },
-  conscious_user: { name: 'Awareness', icon: Eye, color: 'from-yellow-500 to-orange-500' }
-};
-
 export default function LeaderboardPage() {
-  const { getSection } = useLanguage();
+  const { t, getSection } = useLanguage();
+  const leaderboardText = getSection('leaderboardPage');
+  const commonText = getSection('common');
+  
+  const layerConfig = {
+    bio_hardware: { name: leaderboardText.healthEnergy || 'Health & Energy', icon: Heart, color: 'from-red-500 to-pink-500' },
+    internal_os: { name: leaderboardText.mindset || 'Mindset', icon: Brain, color: 'from-blue-500 to-cyan-500' },
+    cultural_software: { name: leaderboardText.culture || 'Culture', icon: Code, color: 'from-purple-500 to-violet-500' },
+    social_instance: { name: leaderboardText.relationshipsLabel || 'Relationships', icon: Users, color: 'from-green-500 to-emerald-500' },
+    conscious_user: { name: leaderboardText.awareness || 'Awareness', icon: Eye, color: 'from-yellow-500 to-orange-500' }
+  };
   
   const [activeTab, setActiveTab] = useState('streaks');
   const [selectedLayer, setSelectedLayer] = useState('bio_hardware');
@@ -95,10 +97,10 @@ export default function LeaderboardPage() {
         <div className="flex-1">
           <p className={`font-medium ${isCurrentUser ? 'text-purple-400' : 'text-white'}`}>
             {user.displayName}
-            {isCurrentUser && <span className="text-xs ml-2">(You)</span>}
+            {isCurrentUser && <span className="text-xs ml-2">{leaderboardText.you || '(You)'}</span>}
           </p>
           {user.level && (
-            <p className="text-xs text-gray-500">Level {user.level}</p>
+            <p className="text-xs text-gray-500">{leaderboardText.level || 'Level'} {user.level}</p>
           )}
         </div>
         
@@ -106,19 +108,19 @@ export default function LeaderboardPage() {
           {activeTab === 'streaks' && (
             <div className="flex items-center gap-2 text-orange-400">
               <Flame className="w-4 h-4" />
-              <span className="font-bold">{user.currentStreak} days</span>
+              <span className="font-bold">{user.currentStreak} {leaderboardText.days || 'days'}</span>
             </div>
           )}
           {activeTab === 'weekly' && (
             <div className="flex items-center gap-2 text-blue-400">
               <Target className="w-4 h-4" />
-              <span className="font-bold">{user.weeklyCheckins} check-ins</span>
+              <span className="font-bold">{user.weeklyCheckins} {leaderboardText.checkInsLabel || 'check-ins'}</span>
             </div>
           )}
           {activeTab === 'challenges' && (
             <div className="flex items-center gap-2 text-green-400">
               <Trophy className="w-4 h-4" />
-              <span className="font-bold">{user.totalPoints} pts</span>
+              <span className="font-bold">{user.totalPoints} {leaderboardText.pts || 'pts'}</span>
             </div>
           )}
           {activeTab === 'layers' && (
@@ -133,10 +135,10 @@ export default function LeaderboardPage() {
   };
 
   const tabs = [
-    { id: 'streaks', label: 'Streaks', icon: Flame },
-    { id: 'weekly', label: 'This Week', icon: Target },
-    { id: 'challenges', label: 'Challenges', icon: Trophy },
-    { id: 'layers', label: 'By Layer', icon: Star }
+    { id: 'streaks', label: leaderboardText.streaks || 'Streaks', icon: Flame },
+    { id: 'weekly', label: leaderboardText.thisWeek || 'This Week', icon: Target },
+    { id: 'challenges', label: leaderboardText.challenges || 'Challenges', icon: Trophy },
+    { id: 'layers', label: leaderboardText.byLayer || 'By Layer', icon: Star }
   ];
 
   return (
@@ -144,37 +146,37 @@ export default function LeaderboardPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <Trophy className="w-8 h-8 text-yellow-500" />
-          Leaderboards
+          {leaderboardText.title || 'Leaderboards'}
         </h1>
-        <p className="text-gray-400">See how you compare with the community</p>
+        <p className="text-gray-400">{leaderboardText.subtitle || 'See how you compare with the community'}</p>
       </div>
 
       {comparison && (
         <div className="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 rounded-xl p-6 border border-purple-500/30">
           <h3 className="font-bold text-white mb-4 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-green-400" />
-            You vs Community Average
+            {leaderboardText.youVsCommunity || 'You vs Community Average'}
           </h3>
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <p className="text-sm text-gray-400 mb-1">Streak</p>
+              <p className="text-sm text-gray-400 mb-1">{leaderboardText.streak || 'Streak'}</p>
               <p className="text-2xl font-bold text-white">{comparison.you?.currentStreak || 0}</p>
               <p className={`text-sm ${parseFloat(comparison.comparison?.streakVsAvg) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                {parseFloat(comparison.comparison?.streakVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.streakVsAvg} vs avg
+                {parseFloat(comparison.comparison?.streakVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.streakVsAvg} {leaderboardText.vsAvg || 'vs avg'}
               </p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-400 mb-1">Check-ins</p>
+              <p className="text-sm text-gray-400 mb-1">{leaderboardText.checkIns || 'Check-ins'}</p>
               <p className="text-2xl font-bold text-white">{comparison.you?.totalCheckins || 0}</p>
               <p className={`text-sm ${parseFloat(comparison.comparison?.checkinsVsAvg) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                {parseFloat(comparison.comparison?.checkinsVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.checkinsVsAvg} vs avg
+                {parseFloat(comparison.comparison?.checkinsVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.checkinsVsAvg} {leaderboardText.vsAvg || 'vs avg'}
               </p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-400 mb-1">XP</p>
+              <p className="text-sm text-gray-400 mb-1">{leaderboardText.xp || 'XP'}</p>
               <p className="text-2xl font-bold text-white">{comparison.you?.xp || 0}</p>
               <p className={`text-sm ${parseFloat(comparison.comparison?.xpVsAvg) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                {parseFloat(comparison.comparison?.xpVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.xpVsAvg} vs avg
+                {parseFloat(comparison.comparison?.xpVsAvg) >= 0 ? '+' : ''}{comparison.comparison?.xpVsAvg} {leaderboardText.vsAvg || 'vs avg'}
               </p>
             </div>
           </div>
@@ -234,11 +236,11 @@ export default function LeaderboardPage() {
               {data.yourStats && !data.leaderboard.some(u => u.isCurrentUser) && (
                 <div className="bg-purple-900/30 rounded-xl p-4 border border-purple-500/50 mb-4">
                   <div className="flex items-center gap-4">
-                    <div className="text-gray-400">Your Rank: #{data.yourStats.rank || data.yourRank}</div>
+                    <div className="text-gray-400">{leaderboardText.yourRank || 'Your Rank'}: #{data.yourStats.rank || data.yourRank}</div>
                     <div className="flex-1" />
                     <div className="text-orange-400 flex items-center gap-2">
                       <Flame className="w-4 h-4" />
-                      {data.yourStats.currentStreak} days
+                      {data.yourStats.currentStreak} {leaderboardText.days || 'days'}
                     </div>
                   </div>
                 </div>
@@ -247,7 +249,7 @@ export default function LeaderboardPage() {
               {data.communityAverage !== undefined && (
                 <div className="bg-slate-800/50 rounded-xl p-4 mb-4 border border-slate-700">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-400">Community Average</span>
+                    <span className="text-gray-400">{leaderboardText.communityAverage || 'Community Average'}</span>
                     <span className="text-white font-bold">{data.communityAverage}</span>
                   </div>
                 </div>
@@ -258,7 +260,7 @@ export default function LeaderboardPage() {
           ) : (
             <div className="text-center py-12 text-gray-500">
               <Trophy className="w-16 h-16 mx-auto mb-4 opacity-30" />
-              <p>No data available yet</p>
+              <p>{leaderboardText.noDataYet || 'No data available yet'}</p>
             </div>
           )}
         </div>

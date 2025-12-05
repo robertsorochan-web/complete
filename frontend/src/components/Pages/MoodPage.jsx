@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Zap, TrendingUp, BarChart2, Calendar, Clock, Tag } from 'lucide-react';
 import MoodTracker from '../ui/MoodTracker';
 import LevelDisplay from '../ui/LevelDisplay';
+import { useLanguage } from '../../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function MoodPage() {
+  const { t, getSection } = useLanguage();
+  const moodText = getSection('moodPage');
+  const commonText = getSection('common');
+  
   const [history, setHistory] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,9 +79,9 @@ export default function MoodPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
           <Heart className="w-8 h-8 text-pink-500" />
-          Mood & Energy Tracker
+          {moodText.title || 'Mood & Energy Tracker'}
         </h1>
-        <p className="text-gray-400">Track your emotional wellbeing and energy levels</p>
+        <p className="text-gray-400">{moodText.subtitle || 'Track your emotional wellbeing and energy levels'}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -91,7 +96,7 @@ export default function MoodPage() {
             <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-5 h-5 text-blue-400" />
-                <h3 className="font-bold text-white">Best Times</h3>
+                <h3 className="font-bold text-white">{moodText.bestTimes || 'Best Times'}</h3>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {analytics.byTimeOfDay.map(time => (
@@ -101,7 +106,7 @@ export default function MoodPage() {
                       <span className="text-xl">{moodEmojis[Math.round(time.avg_mood) - 1]}</span>
                       <span className="text-white font-bold">{time.avg_mood}/5</span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">{time.count} logs</p>
+                    <p className="text-xs text-gray-500 mt-1">{time.count} {moodText.logs || 'logs'}</p>
                   </div>
                 ))}
               </div>
@@ -112,7 +117,7 @@ export default function MoodPage() {
             <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-5 h-5 text-green-400" />
-                <h3 className="font-bold text-white">Insights</h3>
+                <h3 className="font-bold text-white">{moodText.insights || 'Insights'}</h3>
               </div>
               <div className="space-y-2">
                 {analytics.insights.map((insight, i) => (
@@ -138,7 +143,7 @@ export default function MoodPage() {
           <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 p-4 border-b border-slate-700">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-pink-400" />
-              <h3 className="font-bold text-white">Mood History (Last 30 Days)</h3>
+              <h3 className="font-bold text-white">{moodText.moodHistory || 'Mood History (Last 30 Days)'}</h3>
             </div>
           </div>
           
@@ -198,8 +203,8 @@ export default function MoodPage() {
       {history.length === 0 && !loading && (
         <div className="text-center py-12">
           <Heart className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-          <p className="text-gray-500 mb-2">No mood logs yet</p>
-          <p className="text-sm text-gray-600">Start tracking your mood using the form above!</p>
+          <p className="text-gray-500 mb-2">{moodText.noMoodLogs || 'No mood logs yet'}</p>
+          <p className="text-sm text-gray-600">{moodText.startTracking || 'Start tracking your mood using the form above!'}</p>
         </div>
       )}
     </div>

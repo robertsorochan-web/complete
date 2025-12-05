@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, Flame, Calendar, TrendingUp, Brain, Users, Code, Heart, Eye, MessageSquare, Sparkles, Share2, Download, Trophy, Star, ChevronLeft, ChevronRight, Award, Target, Zap } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import html2canvas from 'html2canvas';
+import useXP from '../../hooks/useXP';
+import LevelUpCelebration from '../ui/LevelUpCelebration';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -28,6 +30,7 @@ export default function DailyCheckin({ onComplete }) {
   const commonText = getSection('common');
   const layersText = getSection('layers');
   const shareCardRef = useRef(null);
+  const { awardXP, levelUpData, dismissLevelUp } = useXP();
   
   const layerConfig = {
     bioHardware: { ...layerBaseConfig.bioHardware, label: layersText.bioHardware || 'Health & Energy', description: streakText.layerBioDesc || 'Physical health & energy' },
@@ -133,6 +136,16 @@ export default function DailyCheckin({ onComplete }) {
       if (response.ok) {
         setHasCheckedIn(true);
         fetchStreak();
+        
+        const isFullCheckin = formData.bioHardware && formData.internalOS && 
+          formData.culturalSoftware && formData.socialInstance && formData.consciousUser;
+        
+        await awardXP(isFullCheckin ? 'full_checkin' : 'checkin');
+        
+        if (formData.reflectionResponse) {
+          await awardXP('reflection');
+        }
+        
         if (onComplete) onComplete();
       }
     } catch (err) {
@@ -742,6 +755,14 @@ export default function DailyCheckin({ onComplete }) {
             )}
           </div>
         </div>
+      )}
+      
+      {levelUpData && (
+        <LevelUpCelebration
+          newLevel={levelUpData.newLevel}
+          unlockedFeatures={levelUpData.unlockedFeatures}
+          onClose={dismissLevelUp}
+        />
       )}
     </div>
   );

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Target, Trophy, Clock, Star, ChevronRight, CheckCircle, Play, Users, Flame, Zap, Heart, Brain, Code, Eye, Filter, TrendingUp, Award, Gift, Calendar, Share2, Lock, Unlock } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import useXP from '../../hooks/useXP';
+import LevelUpCelebration from '../ui/LevelUpCelebration';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -55,6 +57,7 @@ export default function ChallengesPage() {
   const challengeText = getSection('challenges');
   const commonText = getSection('common');
   const layersText = getSection('layers');
+  const { awardXP, levelUpData, dismissLevelUp } = useXP();
   
   const translatedLayerNames = {
     bioHardware: layersText.bioHardware || 'Health & Energy',
@@ -182,6 +185,7 @@ export default function ChallengesPage() {
       if (data.success) {
         fetchChallenges();
         if (data.isCompleted) {
+          await awardXP('challenge_complete');
           alert(`Challenge completed! You earned ${data.pointsEarned} points!`);
         }
       }
@@ -790,6 +794,14 @@ export default function ChallengesPage() {
             </div>
           )}
         </div>
+      )}
+      
+      {levelUpData && (
+        <LevelUpCelebration
+          newLevel={levelUpData.newLevel}
+          unlockedFeatures={levelUpData.unlockedFeatures}
+          onClose={dismissLevelUp}
+        />
       )}
     </div>
   );
