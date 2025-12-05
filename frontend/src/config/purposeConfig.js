@@ -1,310 +1,185 @@
-export const purposeConfig = {
+import { translations, getCurrentLanguage } from './i18n';
+
+const purposeIcons = {
   personal: {
-    name: 'My Life',
-    description: 'Make my life better small small',
     layers: {
-      bioHardware: {
-        name: 'Body & Health',
-        description: 'Your body, sleep, chop, energy - how your body dey',
-        icon: '💪'
-      },
-      internalOS: {
-        name: 'Inner Beliefs',
-        description: 'What you dey tell yourself, your confidence, your inner peace',
-        icon: '🧠'
-      },
-      culturalSoftware: {
-        name: 'Values & Worldview',
-        description: 'The things wey matter to you, your beliefs, your way of life',
-        icon: '❤️'
-      },
-      socialInstance: {
-        name: 'Daily Life',
-        description: 'Your family, friends, community - the people around you',
-        icon: '👨‍👩‍👧‍👦'
-      },
-      consciousUser: {
-        name: 'Self-Awareness',
-        description: 'How well you know yourself, making wise choices',
-        icon: '👁️'
-      }
+      bioHardware: '💪',
+      internalOS: '🧠',
+      culturalSoftware: '❤️',
+      socialInstance: '👨‍👩‍👧‍👦',
+      consciousUser: '👁️'
     },
-    navItems: [
-      { id: 'dashboard', label: 'My Summary', icon: '🏠' },
-      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
-      { id: 'quests', label: 'Quests', icon: '🎯' },
-      { id: 'stackscore', label: 'StackScore', icon: '📈' },
-      { id: 'assessment', label: 'Check Myself', icon: '📊' },
-      { id: 'challenges', label: 'Challenges', icon: '🏆' },
-      { id: 'leaderboard', label: 'Leaderboard', icon: '🏅' },
-      { id: 'achievements', label: 'Achievements', icon: '🎖️' },
-      { id: 'community', label: 'Community', icon: '👥' },
-      { id: 'mood', label: 'Mood Tracker', icon: '💜' },
-      { id: 'tools', label: 'Stack Tools', icon: '🧰' },
-      { id: 'layerguide', label: 'Layer Guide', icon: '📚' },
-      { id: 'timeline', label: 'Progress', icon: '📅' },
-      { id: 'analysis', label: 'See Clearly', icon: '🔍' },
-      { id: 'diagnosis', label: 'Solve Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' },
-      { id: 'help', label: 'Help / FAQ', icon: '❓' }
-    ],
-    headerTitles: {
-      dashboard: 'My Summary',
-      checkin: 'Daily Check-in',
-      quests: 'Daily Quests',
-      stackscore: 'StackScore',
-      assessment: 'Check Myself',
-      challenges: 'Challenges',
-      leaderboard: 'Leaderboard',
-      achievements: 'Achievements',
-      community: 'Community',
-      mood: 'Mood Tracker',
-      tools: 'Stack Tools',
-      layerguide: 'Layer Guide',
-      timeline: 'Progress Timeline',
-      analysis: 'See Clearly',
-      chat: 'Talk to Akↄfa',
-      diagnosis: 'Solve Problem',
-      profile: 'My Profile',
-      help: 'Help / FAQ'
+    navIcons: {
+      dashboard: '🏠',
+      checkin: '✅',
+      quests: '🎯',
+      stackscore: '📈',
+      assessment: '📊',
+      challenges: '🏆',
+      leaderboard: '🏅',
+      achievements: '🎖️',
+      community: '👥',
+      mood: '💜',
+      tools: '🧰',
+      layerguide: '📚',
+      timeline: '📅',
+      analysis: '🔍',
+      diagnosis: '🔧',
+      chat: '💬',
+      profile: '👤',
+      help: '❓'
     }
   },
   team: {
-    name: 'My Team',
-    description: 'Make my team work better together',
     layers: {
-      bioHardware: {
-        name: 'Team Strength',
-        description: 'The energy and capacity your team get - are people tired or fresh?',
-        icon: '⚡'
-      },
-      internalOS: {
-        name: 'Team Spirit',
-        description: 'Trust, respect, how people feel safe to talk true',
-        icon: '🤝'
-      },
-      culturalSoftware: {
-        name: 'How We Work',
-        description: 'The way una dey do things, your processes and habits',
-        icon: '📋'
-      },
-      socialInstance: {
-        name: 'Team Vibes',
-        description: 'How people relate, settle wahala, work together',
-        icon: '👥'
-      },
-      consciousUser: {
-        name: 'Clear Direction',
-        description: 'Everyone know where we dey go and why',
-        icon: '🧭'
-      }
+      bioHardware: '⚡',
+      internalOS: '🤝',
+      culturalSoftware: '📋',
+      socialInstance: '👥',
+      consciousUser: '🧭'
     },
-    navItems: [
-      { id: 'dashboard', label: 'Team Summary', icon: '🏠' },
-      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
-      { id: 'quests', label: 'Quests', icon: '🎯' },
-      { id: 'stackscore', label: 'StackScore', icon: '📈' },
-      { id: 'assessment', label: 'Check Team', icon: '📊' },
-      { id: 'challenges', label: 'Challenges', icon: '🏆' },
-      { id: 'leaderboard', label: 'Leaderboard', icon: '🏅' },
-      { id: 'achievements', label: 'Achievements', icon: '🎖️' },
-      { id: 'community', label: 'Community', icon: '👥' },
-      { id: 'mood', label: 'Mood Tracker', icon: '💜' },
-      { id: 'tools', label: 'Stack Tools', icon: '🧰' },
-      { id: 'layerguide', label: 'Layer Guide', icon: '📚' },
-      { id: 'timeline', label: 'Progress', icon: '📅' },
-      { id: 'analysis', label: 'Team Insight', icon: '🔍' },
-      { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' },
-      { id: 'help', label: 'Help / FAQ', icon: '❓' }
-    ],
-    headerTitles: {
-      dashboard: 'Team Summary',
-      checkin: 'Daily Check-in',
-      quests: 'Daily Quests',
-      stackscore: 'StackScore',
-      assessment: 'Check Team',
-      challenges: 'Challenges',
-      leaderboard: 'Leaderboard',
-      achievements: 'Achievements',
-      community: 'Community',
-      mood: 'Mood Tracker',
-      tools: 'Stack Tools',
-      layerguide: 'Layer Guide',
-      timeline: 'Progress Timeline',
-      analysis: 'Team Insight',
-      chat: 'Talk to Akↄfa',
-      diagnosis: 'Fix Problem',
-      profile: 'My Profile',
-      help: 'Help / FAQ'
+    navIcons: {
+      dashboard: '🏠',
+      checkin: '✅',
+      quests: '🎯',
+      stackscore: '📈',
+      assessment: '📊',
+      challenges: '🏆',
+      leaderboard: '🏅',
+      achievements: '🎖️',
+      community: '👥',
+      mood: '💜',
+      tools: '🧰',
+      layerguide: '📚',
+      timeline: '📅',
+      analysis: '🔍',
+      diagnosis: '🔧',
+      chat: '💬',
+      profile: '👤',
+      help: '❓'
     }
   },
   business: {
-    name: 'My Business',
-    description: 'Grow my business proper',
     layers: {
-      bioHardware: {
-        name: 'Money & Resources',
-        shortName: 'Money',
-        description: 'Money, equipment, stock, resources wey you get for business',
-        icon: '💰'
-      },
-      internalOS: {
-        name: 'Team & Community',
-        shortName: 'Team',
-        description: 'Your workers, family support, community backing',
-        icon: '👥'
-      },
-      culturalSoftware: {
-        name: 'Systems & Organization',
-        shortName: 'Systems',
-        description: 'How you organize things, your processes, record keeping',
-        icon: '⚙️'
-      },
-      socialInstance: {
-        name: 'Communication & Coordination',
-        shortName: 'Communication',
-        description: 'How you talk to customers, partners, suppliers',
-        icon: '📢'
-      },
-      consciousUser: {
-        name: 'Vision & Planning',
-        shortName: 'Vision',
-        description: 'Where you wan reach, your goals and plans',
-        icon: '🎯'
-      }
+      bioHardware: '💰',
+      internalOS: '👥',
+      culturalSoftware: '⚙️',
+      socialInstance: '📢',
+      consciousUser: '🎯'
     },
-    navItems: [
-      { id: 'dashboard', label: 'Business Summary', icon: '🏠' },
-      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
-      { id: 'quests', label: 'Quests', icon: '🎯' },
-      { id: 'stackscore', label: 'StackScore', icon: '📈' },
-      { id: 'assessment', label: 'Check Business', icon: '📊' },
-      { id: 'tools', label: 'Stack Tools', icon: '🧰' },
-      { id: 'layerguide', label: 'Layer Guide', icon: '📚' },
-      { id: 'challenges', label: 'Challenges', icon: '🏆' },
-      { id: 'leaderboard', label: 'Leaderboard', icon: '🏅' },
-      { id: 'achievements', label: 'Achievements', icon: '🎖️' },
-      { id: 'community', label: 'Community', icon: '👥' },
-      { id: 'mood', label: 'Mood Tracker', icon: '💜' },
-      { id: 'timeline', label: 'Progress', icon: '📅' },
-      { id: 'analysis', label: 'Business Insight', icon: '🔍' },
-      { id: 'diagnosis', label: 'Fix Problem', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' },
-      { id: 'help', label: 'Help / FAQ', icon: '❓' }
-    ],
-    headerTitles: {
-      dashboard: 'Business Summary',
-      checkin: 'Daily Check-in',
-      quests: 'Daily Quests',
-      stackscore: 'StackScore',
-      assessment: 'Check Business',
-      tools: 'Stack Tools',
-      layerguide: 'Layer Guide',
-      challenges: 'Challenges',
-      leaderboard: 'Leaderboard',
-      achievements: 'Achievements',
-      community: 'Community',
-      mood: 'Mood Tracker',
-      timeline: 'Progress Timeline',
-      analysis: 'Business Insight',
-      chat: 'Talk to Akↄfa',
-      diagnosis: 'Fix Problem',
-      profile: 'My Profile',
-      help: 'Help / FAQ'
+    navIcons: {
+      dashboard: '🏠',
+      checkin: '✅',
+      quests: '🎯',
+      stackscore: '📈',
+      assessment: '📊',
+      tools: '🧰',
+      layerguide: '📚',
+      challenges: '🏆',
+      leaderboard: '🏅',
+      achievements: '🎖️',
+      community: '👥',
+      mood: '💜',
+      timeline: '📅',
+      analysis: '🔍',
+      diagnosis: '🔧',
+      chat: '💬',
+      profile: '👤',
+      help: '❓'
     }
   },
   policy: {
-    name: 'Community & Policy',
-    description: 'Understand systems and help communities',
     layers: {
-      bioHardware: {
-        name: 'People Wellbeing',
-        description: 'Health, welfare, how people dey generally',
-        icon: '🏥'
-      },
-      internalOS: {
-        name: 'Community Beliefs',
-        description: 'What the community believe, their customs and ways',
-        icon: '🏛️'
-      },
-      culturalSoftware: {
-        name: 'Rules & Laws',
-        description: 'The policies, regulations, how things suppose work',
-        icon: '📜'
-      },
-      socialInstance: {
-        name: 'Who Runs Things',
-        description: 'Government, chiefs, leaders - who make decisions',
-        icon: '⚖️'
-      },
-      consciousUser: {
-        name: 'What Data Shows',
-        description: 'Research, evidence, what the facts dey tell us',
-        icon: '🔬'
-      }
+      bioHardware: '🏥',
+      internalOS: '🏛️',
+      culturalSoftware: '📜',
+      socialInstance: '⚖️',
+      consciousUser: '🔬'
     },
-    navItems: [
-      { id: 'dashboard', label: 'System Summary', icon: '🏠' },
-      { id: 'checkin', label: 'Daily Check-in', icon: '✅' },
-      { id: 'quests', label: 'Quests', icon: '🎯' },
-      { id: 'stackscore', label: 'StackScore', icon: '📈' },
-      { id: 'assessment', label: 'Check System', icon: '📊' },
-      { id: 'challenges', label: 'Challenges', icon: '🏆' },
-      { id: 'leaderboard', label: 'Leaderboard', icon: '🏅' },
-      { id: 'achievements', label: 'Achievements', icon: '🎖️' },
-      { id: 'community', label: 'Community', icon: '👥' },
-      { id: 'mood', label: 'Mood Tracker', icon: '💜' },
-      { id: 'tools', label: 'Stack Tools', icon: '🧰' },
-      { id: 'layerguide', label: 'Layer Guide', icon: '📚' },
-      { id: 'timeline', label: 'Progress', icon: '📅' },
-      { id: 'analysis', label: 'System Insight', icon: '🔍' },
-      { id: 'diagnosis', label: 'Find Solutions', icon: '🔧' },
-      { id: 'chat', label: 'Talk to Akↄfa', icon: '💬' },
-      { id: 'profile', label: 'My Profile', icon: '👤' },
-      { id: 'help', label: 'Help / FAQ', icon: '❓' }
-    ],
-    headerTitles: {
-      dashboard: 'System Summary',
-      checkin: 'Daily Check-in',
-      quests: 'Daily Quests',
-      stackscore: 'StackScore',
-      assessment: 'Check System',
-      challenges: 'Challenges',
-      leaderboard: 'Leaderboard',
-      achievements: 'Achievements',
-      community: 'Community',
-      mood: 'Mood Tracker',
-      tools: 'Stack Tools',
-      layerguide: 'Layer Guide',
-      timeline: 'Progress Timeline',
-      analysis: 'System Insight',
-      chat: 'Talk to Akↄfa',
-      diagnosis: 'Find Solutions',
-      profile: 'My Profile',
-      help: 'Help / FAQ'
+    navIcons: {
+      dashboard: '🏠',
+      checkin: '✅',
+      quests: '🎯',
+      stackscore: '📈',
+      assessment: '📊',
+      challenges: '🏆',
+      leaderboard: '🏅',
+      achievements: '🎖️',
+      community: '👥',
+      mood: '💜',
+      tools: '🧰',
+      layerguide: '📚',
+      timeline: '📅',
+      analysis: '🔍',
+      diagnosis: '🔧',
+      chat: '💬',
+      profile: '👤',
+      help: '❓'
     }
   }
 };
 
-export const getPurposeConfig = (purpose) => {
-  return purposeConfig[purpose] || purposeConfig.personal;
+const navItemOrder = {
+  personal: ['dashboard', 'checkin', 'quests', 'stackscore', 'assessment', 'challenges', 'leaderboard', 'achievements', 'community', 'mood', 'tools', 'layerguide', 'timeline', 'analysis', 'diagnosis', 'chat', 'profile', 'help'],
+  team: ['dashboard', 'checkin', 'quests', 'stackscore', 'assessment', 'challenges', 'leaderboard', 'achievements', 'community', 'mood', 'tools', 'layerguide', 'timeline', 'analysis', 'diagnosis', 'chat', 'profile', 'help'],
+  business: ['dashboard', 'checkin', 'quests', 'stackscore', 'assessment', 'tools', 'layerguide', 'challenges', 'leaderboard', 'achievements', 'community', 'mood', 'timeline', 'analysis', 'diagnosis', 'chat', 'profile', 'help'],
+  policy: ['dashboard', 'checkin', 'quests', 'stackscore', 'assessment', 'challenges', 'leaderboard', 'achievements', 'community', 'mood', 'tools', 'layerguide', 'timeline', 'analysis', 'diagnosis', 'chat', 'profile', 'help']
 };
 
-export const getLayerConfig = (purpose) => {
-  const config = getPurposeConfig(purpose);
+export const getPurposeConfig = (purpose, lang = null) => {
+  const currentLang = lang || getCurrentLanguage();
+  const t = translations[currentLang] || translations.en;
+  const purposeTranslations = t.purposeConfig?.[purpose] || translations.en.purposeConfig?.[purpose] || translations.en.purposeConfig.personal;
+  const icons = purposeIcons[purpose] || purposeIcons.personal;
+  const order = navItemOrder[purpose] || navItemOrder.personal;
+  
+  const layers = {};
+  Object.keys(icons.layers).forEach(layerKey => {
+    layers[layerKey] = {
+      name: purposeTranslations.layers?.[layerKey]?.name || layerKey,
+      description: purposeTranslations.layers?.[layerKey]?.description || '',
+      icon: icons.layers[layerKey]
+    };
+  });
+  
+  const navItems = order.map(id => ({
+    id,
+    label: purposeTranslations.navItems?.[id] || id,
+    icon: icons.navIcons[id] || '📋'
+  }));
+  
+  const headerTitles = {};
+  order.forEach(id => {
+    headerTitles[id] = purposeTranslations.navItems?.[id] || id;
+  });
+  
+  return {
+    name: purposeTranslations.name || purpose,
+    description: purposeTranslations.description || '',
+    layers,
+    navItems,
+    headerTitles
+  };
+};
+
+export const purposeConfig = {
+  get personal() { return getPurposeConfig('personal'); },
+  get team() { return getPurposeConfig('team'); },
+  get business() { return getPurposeConfig('business'); },
+  get policy() { return getPurposeConfig('policy'); }
+};
+
+export const getLayerConfig = (purpose, lang = null) => {
+  const config = getPurposeConfig(purpose, lang);
   return config.layers;
 };
 
-export const getNavItems = (purpose) => {
-  const config = getPurposeConfig(purpose);
+export const getNavItems = (purpose, lang = null) => {
+  const config = getPurposeConfig(purpose, lang);
   return config.navItems;
 };
 
-export const getHeaderTitle = (purpose, page) => {
-  const config = getPurposeConfig(purpose);
+export const getHeaderTitle = (purpose, page, lang = null) => {
+  const config = getPurposeConfig(purpose, lang);
   return config.headerTitles[page] || 'Summary';
 };
