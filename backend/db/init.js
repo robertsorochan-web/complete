@@ -28,7 +28,6 @@ export const initDb = async () => {
     
     await client.query('SELECT NOW()');
     
-    // Users table with tier support
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -48,7 +47,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Add new columns if they don't exist
     await client.query(`
       DO $$ 
       BEGIN 
@@ -76,32 +74,46 @@ export const initDb = async () => {
       END $$;
     `);
 
-    // Original assessments table
     await client.query(`
       CREATE TABLE IF NOT EXISTS assessments (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        environmental_matrix INTEGER DEFAULT 5,
         bio_hardware INTEGER DEFAULT 5,
         internal_os INTEGER DEFAULT 5,
         cultural_software INTEGER DEFAULT 5,
         social_instance INTEGER DEFAULT 5,
         conscious_user INTEGER DEFAULT 5,
+        existential_context INTEGER DEFAULT 5,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       )
     `);
 
-    // Daily Check-ins table
+    await client.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='assessments' AND column_name='environmental_matrix') THEN
+          ALTER TABLE assessments ADD COLUMN environmental_matrix INTEGER DEFAULT 5;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='assessments' AND column_name='existential_context') THEN
+          ALTER TABLE assessments ADD COLUMN existential_context INTEGER DEFAULT 5;
+        END IF;
+      END $$;
+    `);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS daily_checkins (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         checkin_date DATE DEFAULT CURRENT_DATE,
+        environmental_matrix INTEGER DEFAULT 5,
         bio_hardware INTEGER DEFAULT 5,
         internal_os INTEGER DEFAULT 5,
         cultural_software INTEGER DEFAULT 5,
         social_instance INTEGER DEFAULT 5,
         conscious_user INTEGER DEFAULT 5,
+        existential_context INTEGER DEFAULT 5,
         cultural_bug TEXT,
         mood INTEGER DEFAULT 5,
         energy_level INTEGER DEFAULT 5,
@@ -109,12 +121,31 @@ export const initDb = async () => {
         symptom_log TEXT,
         reflection_prompt TEXT,
         reflection_response TEXT,
+        carry_test_response VARCHAR(50),
+        geographic_warning_shown BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT NOW(),
         UNIQUE(user_id, checkin_date)
       )
     `);
 
-    // User badges table
+    await client.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='daily_checkins' AND column_name='environmental_matrix') THEN
+          ALTER TABLE daily_checkins ADD COLUMN environmental_matrix INTEGER DEFAULT 5;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='daily_checkins' AND column_name='existential_context') THEN
+          ALTER TABLE daily_checkins ADD COLUMN existential_context INTEGER DEFAULT 5;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='daily_checkins' AND column_name='carry_test_response') THEN
+          ALTER TABLE daily_checkins ADD COLUMN carry_test_response VARCHAR(50);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='daily_checkins' AND column_name='geographic_warning_shown') THEN
+          ALTER TABLE daily_checkins ADD COLUMN geographic_warning_shown BOOLEAN DEFAULT false;
+        END IF;
+      END $$;
+    `);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_badges (
         id SERIAL PRIMARY KEY,
@@ -127,7 +158,6 @@ export const initDb = async () => {
       )
     `);
 
-    // StackScore history table
     await client.query(`
       CREATE TABLE IF NOT EXISTS stack_score_history (
         id SERIAL PRIMARY KEY,
@@ -141,7 +171,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Community groups table
     await client.query(`
       CREATE TABLE IF NOT EXISTS community_groups (
         id SERIAL PRIMARY KEY,
@@ -156,7 +185,6 @@ export const initDb = async () => {
       )
     `);
 
-    // User group memberships
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_groups (
         id SERIAL PRIMARY KEY,
@@ -167,7 +195,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Challenges table
     await client.query(`
       CREATE TABLE IF NOT EXISTS challenges (
         id SERIAL PRIMARY KEY,
@@ -183,7 +210,6 @@ export const initDb = async () => {
       )
     `);
 
-    // User challenge participation
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_challenges (
         id SERIAL PRIMARY KEY,
@@ -197,7 +223,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Accountability partners
     await client.query(`
       CREATE TABLE IF NOT EXISTS accountability_partners (
         id SERIAL PRIMARY KEY,
@@ -209,7 +234,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Success stories
     await client.query(`
       CREATE TABLE IF NOT EXISTS success_stories (
         id SERIAL PRIMARY KEY,
@@ -224,7 +248,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Anonymous insights sharing
     await client.query(`
       CREATE TABLE IF NOT EXISTS shared_insights (
         id SERIAL PRIMARY KEY,
@@ -237,7 +260,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Progress milestones
     await client.query(`
       CREATE TABLE IF NOT EXISTS progress_milestones (
         id SERIAL PRIMARY KEY,
@@ -249,7 +271,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Chat history
     await client.query(`
       CREATE TABLE IF NOT EXISTS chat_history (
         id SERIAL PRIMARY KEY,
@@ -260,7 +281,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Diagnosis history
     await client.query(`
       CREATE TABLE IF NOT EXISTS diagnosis_history (
         id SERIAL PRIMARY KEY,
@@ -271,7 +291,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Notification preferences
     await client.query(`
       CREATE TABLE IF NOT EXISTS notification_preferences (
         id SERIAL PRIMARY KEY,
@@ -285,7 +304,6 @@ export const initDb = async () => {
       )
     `);
 
-    // XP and Level tracking
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_xp (
         id SERIAL PRIMARY KEY,
@@ -300,7 +318,6 @@ export const initDb = async () => {
       )
     `);
 
-    // XP transactions log
     await client.query(`
       CREATE TABLE IF NOT EXISTS xp_transactions (
         id SERIAL PRIMARY KEY,
@@ -312,7 +329,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Quests table
     await client.query(`
       CREATE TABLE IF NOT EXISTS quests (
         id SERIAL PRIMARY KEY,
@@ -328,7 +344,6 @@ export const initDb = async () => {
       )
     `);
 
-    // User quest progress
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_quests (
         id SERIAL PRIMARY KEY,
@@ -343,7 +358,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Mood tracking enhanced
     await client.query(`
       CREATE TABLE IF NOT EXISTS mood_logs (
         id SERIAL PRIMARY KEY,
@@ -358,7 +372,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Leaderboard snapshots (weekly/monthly)
     await client.query(`
       CREATE TABLE IF NOT EXISTS leaderboard_snapshots (
         id SERIAL PRIMARY KEY,
@@ -370,7 +383,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Friend challenges
     await client.query(`
       CREATE TABLE IF NOT EXISTS friend_challenges (
         id SERIAL PRIMARY KEY,
@@ -386,7 +398,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Friend challenge participants
     await client.query(`
       CREATE TABLE IF NOT EXISTS friend_challenge_participants (
         id SERIAL PRIMARY KEY,
@@ -398,7 +409,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Streak recovery tracking
     await client.query(`
       CREATE TABLE IF NOT EXISTS streak_recovery (
         id SERIAL PRIMARY KEY,
@@ -411,7 +421,6 @@ export const initDb = async () => {
       )
     `);
 
-    // User favorites/saved items
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_favorites (
         id SERIAL PRIMARY KEY,
@@ -423,7 +432,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Testimonials table
     await client.query(`
       CREATE TABLE IF NOT EXISTS testimonials (
         id SERIAL PRIMARY KEY,
@@ -439,7 +447,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Feature waitlist
     await client.query(`
       CREATE TABLE IF NOT EXISTS feature_waitlist (
         id SERIAL PRIMARY KEY,
@@ -452,7 +459,6 @@ export const initDb = async () => {
       )
     `);
 
-    // Insert default quests
     await client.query(`
       INSERT INTO quests (title, description, quest_type, action_type, target_count, xp_reward, difficulty) 
       VALUES 
@@ -462,33 +468,35 @@ export const initDb = async () => {
         ('Community Contributor', 'Share an insight with the community', 'daily', 'share_insight', 1, 20, 'easy'),
         ('Week Warrior', 'Maintain a 7-day streak', 'weekly', 'streak', 7, 100, 'medium'),
         ('Challenge Starter', 'Start a new challenge', 'weekly', 'start_challenge', 1, 50, 'easy'),
-        ('Layer Explorer', 'Rate all 5 layers in one check-in', 'daily', 'full_checkin', 1, 35, 'easy'),
+        ('Layer Explorer', 'Rate all 7 layers in one check-in', 'daily', 'full_checkin', 1, 50, 'easy'),
         ('Consistency King', 'Complete check-ins for 30 days', 'monthly', 'streak', 30, 500, 'hard')
       ON CONFLICT DO NOTHING
     `);
 
-    // Insert default community groups
     await client.query(`
       INSERT INTO community_groups (name, slug, description, theme, icon) 
       VALUES 
+        ('Environment Shapers', 'environment-shapers', 'Optimizing physical and digital environments for growth', 'environmentalMatrix', 'globe'),
         ('Bio-Hackers', 'bio-hackers', 'Physical optimization and health enhancement', 'bioHardware', 'heart-pulse'),
-        ('Mindfulness Masters', 'mindfulness-masters', 'Awareness training and mental clarity', 'consciousUser', 'brain'),
+        ('OS Optimizers', 'os-optimizers', 'Mental model debugging and belief system updates', 'internalOS', 'cpu'),
         ('Culture Coders', 'culture-coders', 'Examining and reprogramming cultural influences', 'culturalSoftware', 'code'),
         ('Relationship Architects', 'relationship-architects', 'Social optimization and connection building', 'socialInstance', 'users'),
-        ('OS Optimizers', 'os-optimizers', 'Mental model debugging and belief system updates', 'internalOS', 'cpu')
+        ('Mindfulness Masters', 'mindfulness-masters', 'Awareness training and mental clarity', 'consciousUser', 'brain'),
+        ('Purpose Seekers', 'purpose-seekers', 'Finding meaning and existential alignment', 'existentialContext', 'star')
       ON CONFLICT (slug) DO NOTHING
     `);
 
-    // Insert default challenges
     await client.query(`
       INSERT INTO challenges (title, description, challenge_type, layer_focus, duration_days, difficulty, points) 
       VALUES 
+        ('Environment Audit', 'Assess how your physical space affects your wellbeing', 'weekly', 'environmentalMatrix', 7, 'easy', 100),
         ('7-Day Sleep Optimization', 'Track and improve your sleep quality for 7 days', 'daily', 'bioHardware', 7, 'easy', 100),
         ('Mindful Morning', 'Start each day with 10 minutes of mindfulness', 'daily', 'consciousUser', 14, 'medium', 200),
         ('Belief Audit', 'Identify and examine 5 limiting beliefs', 'weekly', 'internalOS', 7, 'hard', 150),
         ('Connection Week', 'Have meaningful conversations with 3 people daily', 'daily', 'socialInstance', 7, 'medium', 150),
         ('Cultural Detective', 'Notice 3 cultural influences affecting your decisions daily', 'daily', 'culturalSoftware', 7, 'medium', 150),
         ('Energy Tracker', 'Log your energy levels 4 times daily', 'daily', 'bioHardware', 14, 'easy', 100),
+        ('Purpose Journal', 'Write about your life purpose and meaning daily', 'daily', 'existentialContext', 14, 'medium', 200),
         ('Gratitude Practice', 'Write 3 things you are grateful for each day', 'daily', 'consciousUser', 21, 'easy', 250),
         ('Social Media Audit', 'Examine how social media affects your worldview', 'weekly', 'culturalSoftware', 7, 'hard', 200)
       ON CONFLICT DO NOTHING

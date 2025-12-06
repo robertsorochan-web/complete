@@ -9,24 +9,24 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
   const [insight, setInsight] = useState(null);
 
   const layers = getLayerConfig(purpose);
-  const layerKeys = ['bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser'];
+  const layerKeys = ['environmentalMatrix', 'bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser', 'existentialContext'];
 
   const contextConfig = {
     personal: {
       title: "Let's understand your life",
-      subtitle: "Rate these 5 areas - be honest, no judgment"
+      subtitle: "Rate these 7 areas - be honest, no judgment"
     },
     team: {
       title: "Let's check your team",
-      subtitle: "Rate these 5 areas to see where your team needs help"
+      subtitle: "Rate these 7 areas to see where your team needs help"
     },
     business: {
       title: "Let's check your business",
-      subtitle: "Rate these 5 areas to find growth opportunities"
+      subtitle: "Rate these 7 areas to find growth opportunities"
     },
     policy: {
       title: "Let's check the system",
-      subtitle: "Rate these 5 areas to find where to intervene"
+      subtitle: "Rate these 7 areas to find where to intervene"
     }
   };
 
@@ -88,11 +88,13 @@ const Onboarding = ({ user, onComplete, purpose = 'personal' }) => {
       lowestScore,
       highestScore,
       assessmentData: {
+        environmentalMatrix: finalAnswers.environmentalMatrix || 5,
         bioHardware: finalAnswers.bioHardware || 5,
         internalOS: finalAnswers.internalOS || 5,
         culturalSoftware: finalAnswers.culturalSoftware || 5,
         socialInstance: finalAnswers.socialInstance || 5,
-        consciousUser: finalAnswers.consciousUser || 5
+        consciousUser: finalAnswers.consciousUser || 5,
+        existentialContext: finalAnswers.existentialContext || 5
       }
     });
     setShowResult(true);

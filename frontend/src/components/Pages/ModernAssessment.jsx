@@ -7,35 +7,43 @@ import { UserAgreementCheckbox, LimitationsDisclosure } from '../ui/FrameworkWar
 const getLayerTips = (purpose, layerKey) => {
   const tipsByPurpose = {
     personal: {
+      environmentalMatrix: ['Organize your physical space', 'Reduce digital distractions', 'Add plants or natural light', 'Create dedicated work zones'],
       bioHardware: ['Get 7-9 hours of sleep', 'Exercise 3-4 times per week', 'Eat mostly whole foods', 'Stay hydrated'],
       internalOS: ['Notice negative self-talk', 'Practice self-compassion', 'Consider therapy if needed', 'Journal regularly'],
       culturalSoftware: ['Write down your core values', 'Notice where you compromise them', 'Read diverse perspectives', 'Reflect on your principles'],
       socialInstance: ['Audit your environment', 'Evaluate your relationships', 'Review your job satisfaction', 'Check your financial health'],
-      consciousUser: ['Practice meditation', 'Notice your reactions before responding', 'Make intentional choices', 'Reflect on your patterns']
+      consciousUser: ['Practice meditation', 'Notice your reactions before responding', 'Make intentional choices', 'Reflect on your patterns'],
+      existentialContext: ['Clarify your life purpose', 'Connect daily tasks to meaning', 'Define what success means to you', 'Reflect on your legacy']
     },
     team: {
+      environmentalMatrix: ['Optimize workspace layout', 'Improve collaboration tools', 'Create focus zones', 'Enhance remote work setup'],
       bioHardware: ['Monitor team workload', 'Encourage breaks and time off', 'Address burnout early', 'Ensure adequate resources'],
       internalOS: ['Build psychological safety', 'Encourage open feedback', 'Address toxic behaviors', 'Celebrate team wins'],
       culturalSoftware: ['Document team rituals', 'Review meeting effectiveness', 'Standardize communication', 'Share knowledge openly'],
       socialInstance: ['Facilitate team bonding', 'Resolve conflicts early', 'Balance collaboration styles', 'Build trust through transparency'],
-      consciousUser: ['Align on team vision', 'Make decisions transparently', 'Review progress regularly', 'Adapt strategy as needed']
+      consciousUser: ['Align on team vision', 'Make decisions transparently', 'Review progress regularly', 'Adapt strategy as needed'],
+      existentialContext: ['Define team mission', 'Connect work to larger impact', 'Celebrate meaningful achievements', 'Build shared purpose']
     },
     business: {
+      environmentalMatrix: ['Assess market conditions', 'Monitor industry trends', 'Evaluate location strategy', 'Optimize digital presence'],
       bioHardware: ['Audit infrastructure capacity', 'Review technology stack', 'Assess financial runway', 'Evaluate operational efficiency'],
       internalOS: ['Define core values clearly', 'Align leadership messaging', 'Address cultural debt', 'Build inclusive practices'],
       culturalSoftware: ['Strengthen brand positioning', 'Monitor competitive landscape', 'Gather customer feedback', 'Invest in differentiation'],
       socialInstance: ['Nurture customer relationships', 'Build strategic partnerships', 'Engage industry networks', 'Manage supplier relationships'],
-      consciousUser: ['Clarify long-term vision', 'Review strategic priorities', 'Build adaptive capacity', 'Monitor market signals']
+      consciousUser: ['Clarify long-term vision', 'Review strategic priorities', 'Build adaptive capacity', 'Monitor market signals'],
+      existentialContext: ['Define company mission', 'Articulate social impact', 'Build legacy thinking', 'Connect profit to purpose']
     },
     policy: {
+      environmentalMatrix: ['Assess geographic factors', 'Study infrastructure gaps', 'Analyze climate impacts', 'Review resource distribution'],
       bioHardware: ['Analyze health data trends', 'Assess infrastructure needs', 'Review resource allocation', 'Study demographic changes'],
       internalOS: ['Research cultural attitudes', 'Study social narratives', 'Identify belief barriers', 'Map opinion dynamics'],
       culturalSoftware: ['Review existing policies', 'Analyze regulatory gaps', 'Study incentive structures', 'Benchmark best practices'],
       socialInstance: ['Map stakeholder interests', 'Analyze power structures', 'Study institutional dynamics', 'Review governance models'],
-      consciousUser: ['Synthesize research findings', 'Build evidence base', 'Develop metrics frameworks', 'Create feedback loops']
+      consciousUser: ['Synthesize research findings', 'Build evidence base', 'Develop metrics frameworks', 'Create feedback loops'],
+      existentialContext: ['Define societal vision', 'Connect policies to values', 'Consider long-term impact', 'Build intergenerational thinking']
     }
   };
-  return tipsByPurpose[purpose]?.[layerKey] || tipsByPurpose.personal[layerKey];
+  return tipsByPurpose[purpose]?.[layerKey] || tipsByPurpose.personal[layerKey] || [];
 };
 
 const LayerPopup = ({ layer, purpose, layers, onClose }) => {
@@ -80,7 +88,7 @@ const ModernAssessment = ({ assessmentData, setAssessmentData, purpose = 'person
   const [hasAgreed, setHasAgreed] = useState(() => {
     return localStorage.getItem('akofa_user_agreement') === 'true';
   });
-  const { bioHardware = 5, internalOS = 5, culturalSoftware = 5, socialInstance = 5, consciousUser = 5 } = assessmentData || {};
+  const { environmentalMatrix = 5, bioHardware = 5, internalOS = 5, culturalSoftware = 5, socialInstance = 5, consciousUser = 5, existentialContext = 5 } = assessmentData || {};
   
   const handleAgreementChange = (e) => {
     const agreed = e.target.checked;
@@ -99,28 +107,32 @@ const ModernAssessment = ({ assessmentData, setAssessmentData, purpose = 'person
   };
 
   const chartData = [
-    { name: layers.bioHardware.name, value: bioHardware },
-    { name: layers.internalOS.name, value: internalOS },
-    { name: layers.culturalSoftware.name, value: culturalSoftware },
-    { name: layers.socialInstance.name, value: socialInstance },
-    { name: layers.consciousUser.name, value: consciousUser }
+    { name: layers.environmentalMatrix?.name || 'Environment', value: environmentalMatrix },
+    { name: layers.bioHardware?.name || 'Bio-Hardware', value: bioHardware },
+    { name: layers.internalOS?.name || 'Internal OS', value: internalOS },
+    { name: layers.culturalSoftware?.name || 'Cultural Software', value: culturalSoftware },
+    { name: layers.socialInstance?.name || 'Social Instance', value: socialInstance },
+    { name: layers.consciousUser?.name || 'Conscious User', value: consciousUser },
+    { name: layers.existentialContext?.name || 'Life Purpose', value: existentialContext }
   ];
 
-  const COLORS = ['#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+  const COLORS = ['#10b981', '#a855f7', '#3b82f6', '#8b5cf6', '#22c55e', '#f59e0b', '#6366f1'];
 
   const layerItems = [
+    { key: 'environmentalMatrix', ...layers.environmentalMatrix },
     { key: 'bioHardware', ...layers.bioHardware },
     { key: 'internalOS', ...layers.internalOS },
     { key: 'culturalSoftware', ...layers.culturalSoftware },
     { key: 'socialInstance', ...layers.socialInstance },
-    { key: 'consciousUser', ...layers.consciousUser }
+    { key: 'consciousUser', ...layers.consciousUser },
+    { key: 'existentialContext', ...layers.existentialContext }
   ];
 
   const contextLabels = {
-    personal: { title: 'Rate Your 5 Life Areas', description: 'Drag the sliders or click the circles to rate each area. Click on any area to learn more.' },
-    team: { title: 'Rate Your Team\'s 5 Dimensions', description: 'Assess your team across each dimension. Click on any area to learn more.' },
-    business: { title: 'Rate Your Organization\'s 5 Dimensions', description: 'Assess your organization across each dimension. Click on any area to learn more.' },
-    policy: { title: 'Rate The System\'s 5 Dimensions', description: 'Assess the system across each dimension. Click on any area to learn more.' }
+    personal: { title: 'Rate Your 7 Life Areas', description: 'Drag the sliders or click the circles to rate each area. Click on any area to learn more.' },
+    team: { title: 'Rate Your Team\'s 7 Dimensions', description: 'Assess your team across each dimension. Click on any area to learn more.' },
+    business: { title: 'Rate Your Organization\'s 7 Dimensions', description: 'Assess your organization across each dimension. Click on any area to learn more.' },
+    policy: { title: 'Rate The System\'s 7 Dimensions', description: 'Assess the system across each dimension. Click on any area to learn more.' }
   };
 
   const labels = contextLabels[purpose] || contextLabels.personal;

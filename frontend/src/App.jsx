@@ -67,11 +67,13 @@ function AppContent() {
   const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(false);
   const [selectedUseCase, setSelectedUseCase] = useState(null);
   const [assessmentData, setAssessmentData] = useState({
+    environmentalMatrix: 5,
     bioHardware: 5,
     internalOS: 5,
     culturalSoftware: 5,
     socialInstance: 5,
-    consciousUser: 5
+    consciousUser: 5,
+    existentialContext: 5
   });
   const [loading, setLoading] = useState(true);
 

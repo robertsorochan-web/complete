@@ -13,12 +13,35 @@ const reflectionPrompts = [
   "What mental model helped you navigate a situation?",
   "How did your physical state affect your mood?",
   "What social influence shaped your behavior today?",
-  "What belief system did you operate from unconsciously?"
+  "What belief system did you operate from unconsciously?",
+  "How did your environment support or hinder your goals today?",
+  "What meaning did you find in today's challenges?",
+  "How did your surroundings affect your mental state?",
+  "What purpose drove your decisions today?"
 ];
 
 const getRandomPrompt = () => reflectionPrompts[Math.floor(Math.random() * reflectionPrompts.length)];
 
-// Get today's check-in (alias for /today)
+const mapCheckinToResponse = (checkin) => ({
+  id: checkin.id,
+  environmentalMatrix: checkin.environmental_matrix || 5,
+  bioHardware: checkin.bio_hardware,
+  internalOS: checkin.internal_os,
+  culturalSoftware: checkin.cultural_software,
+  socialInstance: checkin.social_instance,
+  consciousUser: checkin.conscious_user,
+  existentialContext: checkin.existential_context || 5,
+  culturalBug: checkin.cultural_bug,
+  mood: checkin.mood,
+  energyLevel: checkin.energy_level,
+  dailyWin: checkin.daily_win,
+  symptomLog: checkin.symptom_log,
+  reflectionPrompt: checkin.reflection_prompt,
+  reflectionResponse: checkin.reflection_response,
+  carryTestResponse: checkin.carry_test_response,
+  geographicWarningShown: checkin.geographic_warning_shown
+});
+
 router.get('/', async (req, res) => {
   try {
     const result = await query(
@@ -34,24 +57,9 @@ router.get('/', async (req, res) => {
       });
     }
 
-    const checkin = result.rows[0];
     res.json({
       hasCheckedIn: true,
-      checkin: {
-        id: checkin.id,
-        bioHardware: checkin.bio_hardware,
-        internalOS: checkin.internal_os,
-        culturalSoftware: checkin.cultural_software,
-        socialInstance: checkin.social_instance,
-        consciousUser: checkin.conscious_user,
-        culturalBug: checkin.cultural_bug,
-        mood: checkin.mood,
-        energyLevel: checkin.energy_level,
-        dailyWin: checkin.daily_win,
-        symptomLog: checkin.symptom_log,
-        reflectionPrompt: checkin.reflection_prompt,
-        reflectionResponse: checkin.reflection_response
-      }
+      checkin: mapCheckinToResponse(result.rows[0])
     });
   } catch (err) {
     console.error('Get checkin error:', err);
@@ -59,7 +67,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get today's check-in
 router.get('/today', async (req, res) => {
   try {
     const result = await query(
@@ -75,24 +82,9 @@ router.get('/today', async (req, res) => {
       });
     }
 
-    const checkin = result.rows[0];
     res.json({
       hasCheckedIn: true,
-      checkin: {
-        id: checkin.id,
-        bioHardware: checkin.bio_hardware,
-        internalOS: checkin.internal_os,
-        culturalSoftware: checkin.cultural_software,
-        socialInstance: checkin.social_instance,
-        consciousUser: checkin.conscious_user,
-        culturalBug: checkin.cultural_bug,
-        mood: checkin.mood,
-        energyLevel: checkin.energy_level,
-        dailyWin: checkin.daily_win,
-        symptomLog: checkin.symptom_log,
-        reflectionPrompt: checkin.reflection_prompt,
-        reflectionResponse: checkin.reflection_response
-      }
+      checkin: mapCheckinToResponse(result.rows[0])
     });
   } catch (err) {
     console.error('Get today checkin error:', err);
@@ -100,15 +92,14 @@ router.get('/today', async (req, res) => {
   }
 });
 
-// Submit daily check-in
 router.post('/', async (req, res) => {
   try {
     const {
-      bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser,
-      culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse
+      environmentalMatrix, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext,
+      culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse,
+      carryTestResponse, geographicWarningShown
     } = req.body;
 
-    // Check if already checked in today
     const existing = await query(
       `SELECT id FROM daily_checkins WHERE user_id = $1 AND checkin_date = CURRENT_DATE`,
       [req.userId]
@@ -116,31 +107,28 @@ router.post('/', async (req, res) => {
 
     let result;
     if (existing.rows.length > 0) {
-      // Update existing
       result = await query(
         `UPDATE daily_checkins SET
-          bio_hardware = $2, internal_os = $3, cultural_software = $4,
-          social_instance = $5, conscious_user = $6, cultural_bug = $7,
-          mood = $8, energy_level = $9, daily_win = $10, symptom_log = $11,
-          reflection_prompt = $12, reflection_response = $13
+          environmental_matrix = $2, bio_hardware = $3, internal_os = $4, cultural_software = $5,
+          social_instance = $6, conscious_user = $7, existential_context = $8, cultural_bug = $9,
+          mood = $10, energy_level = $11, daily_win = $12, symptom_log = $13,
+          reflection_prompt = $14, reflection_response = $15, carry_test_response = $16, geographic_warning_shown = $17
         WHERE user_id = $1 AND checkin_date = CURRENT_DATE
         RETURNING *`,
-        [req.userId, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser,
-         culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse]
+        [req.userId, environmentalMatrix || 5, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext || 5,
+         culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse, carryTestResponse, geographicWarningShown || false]
       );
     } else {
-      // Insert new
       result = await query(
         `INSERT INTO daily_checkins 
-          (user_id, bio_hardware, internal_os, cultural_software, social_instance, conscious_user,
-           cultural_bug, mood, energy_level, daily_win, symptom_log, reflection_prompt, reflection_response)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+          (user_id, environmental_matrix, bio_hardware, internal_os, cultural_software, social_instance, conscious_user, existential_context,
+           cultural_bug, mood, energy_level, daily_win, symptom_log, reflection_prompt, reflection_response, carry_test_response, geographic_warning_shown)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
         RETURNING *`,
-        [req.userId, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser,
-         culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse]
+        [req.userId, environmentalMatrix || 5, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext || 5,
+         culturalBug, mood, energyLevel, dailyWin, symptomLog, reflectionPrompt, reflectionResponse, carryTestResponse, geographicWarningShown || false]
       );
 
-      // Update user streak
       await updateStreak(req.userId);
     }
 
@@ -151,7 +139,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get check-in history
 router.get('/history', async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 30;
@@ -166,11 +153,13 @@ router.get('/history', async (req, res) => {
     const checkins = result.rows.map(c => ({
       id: c.id,
       date: c.checkin_date,
+      environmentalMatrix: c.environmental_matrix || 5,
       bioHardware: c.bio_hardware,
       internalOS: c.internal_os,
       culturalSoftware: c.cultural_software,
       socialInstance: c.social_instance,
       consciousUser: c.conscious_user,
+      existentialContext: c.existential_context || 5,
       mood: c.mood,
       energyLevel: c.energy_level
     }));
@@ -182,7 +171,6 @@ router.get('/history', async (req, res) => {
   }
 });
 
-// Get streak info
 router.get('/streak', async (req, res) => {
   try {
     const result = await query(
@@ -196,7 +184,6 @@ router.get('/streak', async (req, res) => {
 
     const user = result.rows[0];
     
-    // Get streak calendar (last 30 days)
     const calendarResult = await query(
       `SELECT checkin_date FROM daily_checkins 
        WHERE user_id = $1 AND checkin_date >= CURRENT_DATE - INTERVAL '30 days'
@@ -216,10 +203,8 @@ router.get('/streak', async (req, res) => {
   }
 });
 
-// Helper function to update streak
 async function updateStreak(userId) {
   try {
-    // Get last check-in before today
     const lastCheckin = await query(
       `SELECT checkin_date FROM daily_checkins 
        WHERE user_id = $1 AND checkin_date < CURRENT_DATE 
@@ -261,14 +246,12 @@ async function updateStreak(userId) {
       [userId, currentStreak, longestStreak, totalCheckins]
     );
 
-    // Check for streak badges
     await checkStreakBadges(userId, currentStreak, totalCheckins);
   } catch (err) {
     console.error('Update streak error:', err);
   }
 }
 
-// Check and award streak badges
 async function checkStreakBadges(userId, streak, totalCheckins) {
   const badges = [];
   
@@ -288,7 +271,6 @@ async function checkStreakBadges(userId, streak, totalCheckins) {
         [userId, badge.type, badge.name, badge.desc]
       );
     } catch (err) {
-      // Badge already exists, ignore
     }
   }
 }

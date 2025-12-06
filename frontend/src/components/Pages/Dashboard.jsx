@@ -22,6 +22,7 @@ import GoalTracker from '../ui/GoalTracker';
 import ProfitLossCalculator from '../ui/ProfitLossCalculator';
 import BusinessChecklists from '../ui/BusinessChecklists';
 import TipOfTheDay from '../ui/TipOfTheDay';
+import GeographicCureWarning from '../ui/GeographicCureWarning';
 import { useLanguage } from '../../context/LanguageContext';
 
 const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
@@ -32,7 +33,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
   const [hasAgreed, setHasAgreed] = useState(() => {
     return localStorage.getItem('akofa_user_agreement') === 'true';
   });
-  const { bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0 } = assessmentData || {};
+  const { environmentalMatrix = 0, bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0, existentialContext = 0 } = assessmentData || {};
   
   if (!hasAgreed) {
     return (
@@ -62,14 +63,14 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
     );
   }
   
-  const allLayers = [bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser];
+  const allLayers = [environmentalMatrix, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext];
   const avgScore = (allLayers.reduce((a, b) => a + b, 0) / allLayers.length).toFixed(1);
   const lowestLayer = Math.min(...allLayers);
   const highestLayer = Math.max(...allLayers);
   const stabilityMetrics = calculateStabilityWithRange(allLayers);
   
   const layers = getLayerConfig(purpose);
-  const layerKeys = ['bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser'];
+  const layerKeys = ['environmentalMatrix', 'bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser', 'existentialContext'];
   const layerNames = layerKeys.map(key => layers[key].name);
   
   const bottleneckIndex = allLayers.indexOf(lowestLayer);
@@ -88,7 +89,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       description: dashText.personalDescription || 'See how each part of your life is doing. The weak area pulls everything down.',
       hint: dashText.personalHint || 'Focus on the area with lowest score first - when it improves, other areas will follow.',
       overallTitle: dashText.overallScore || 'Overall',
-      areasTitle: dashText.personalAreasTitle || 'Your 5 Life Areas',
+      areasTitle: dashText.personalAreasTitle || 'Your 7 Life Areas',
       actionPrompt: dashText.doFirst || 'What you can do today:'
     },
     team: {
@@ -96,7 +97,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       description: dashText.teamDescription || 'See how each part of your team is performing. Weak areas affect the whole team.',
       hint: dashText.teamHint || 'Fix the weakest area first - it will make the whole team better.',
       overallTitle: dashText.teamScore || 'Team Score',
-      areasTitle: dashText.teamAreasTitle || 'Your 5 Team Areas',
+      areasTitle: dashText.teamAreasTitle || 'Your 7 Team Areas',
       actionPrompt: dashText.teamActionPrompt || 'What the team can do:'
     },
     business: {
@@ -104,7 +105,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       description: dashText.businessDescription || 'See how each part of your business is performing. One weak area can hold everything back.',
       hint: dashText.businessHint || 'Strengthen the weakest area first - it will unlock growth for the whole business.',
       overallTitle: dashText.businessScore || 'Business Score',
-      areasTitle: dashText.businessAreasTitle || 'Your 5 Business Areas',
+      areasTitle: dashText.businessAreasTitle || 'Your 7 Business Areas',
       actionPrompt: dashText.doFirst || 'What you can do today:'
     },
     policy: {
@@ -112,7 +113,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       description: dashText.policyDescription || 'See how each part of the system is performing. Weak areas cause problems.',
       hint: dashText.policyHint || 'Address the weakest area first - it will improve the whole system.',
       overallTitle: dashText.systemScore || 'System Score',
-      areasTitle: dashText.policyAreasTitle || 'Your 5 System Areas',
+      areasTitle: dashText.policyAreasTitle || 'Your 7 System Areas',
       actionPrompt: dashText.policyActionPrompt || 'What to address:'
     }
   };
@@ -144,6 +145,9 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
 
       {/* Emergency Alerts */}
       <EmergencyAlerts region="Greater Accra" sector={purpose} />
+
+      {/* Geographic Cure Warning - shows when environmental score is low */}
+      <GeographicCureWarning environmentalScore={environmentalMatrix} />
 
       {/* Main Stats with Emojis - Health Score Format */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -249,7 +253,12 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
       {/* All Areas */}
       <div>
         <h3 className="text-lg font-semibold mb-4">{labels.areasTitle}</h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className={`rounded-xl p-4 text-center border ${getScoreBg(environmentalMatrix)} hover:scale-105 transition`}>
+            <div className="text-2xl mb-2">{layers.environmentalMatrix.icon}</div>
+            <div className="text-sm text-gray-300 font-medium">{layers.environmentalMatrix.name}</div>
+            <div className={`text-2xl font-bold mt-2 ${getScoreColor(environmentalMatrix)}`}>{environmentalMatrix}</div>
+          </div>
           <div className={`rounded-xl p-4 text-center border ${getScoreBg(bioHardware)} hover:scale-105 transition`}>
             <div className="text-2xl mb-2">{layers.bioHardware.icon}</div>
             <div className="text-sm text-gray-300 font-medium">{layers.bioHardware.name}</div>
@@ -267,7 +276,7 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-3 gap-4 mt-4">
           <div className={`rounded-xl p-4 text-center border ${getScoreBg(socialInstance)} hover:scale-105 transition`}>
             <div className="text-2xl mb-2">{layers.socialInstance.icon}</div>
             <div className="text-sm text-gray-300 font-medium">{layers.socialInstance.name}</div>
@@ -277,6 +286,11 @@ const Dashboard = ({ assessmentData, purpose = 'personal' }) => {
             <div className="text-2xl mb-2">{layers.consciousUser.icon}</div>
             <div className="text-sm text-gray-300 font-medium">{layers.consciousUser.name}</div>
             <div className={`text-2xl font-bold mt-2 ${getScoreColor(consciousUser)}`}>{consciousUser}</div>
+          </div>
+          <div className={`rounded-xl p-4 text-center border ${getScoreBg(existentialContext)} hover:scale-105 transition`}>
+            <div className="text-2xl mb-2">{layers.existentialContext.icon}</div>
+            <div className="text-sm text-gray-300 font-medium">{layers.existentialContext.name}</div>
+            <div className={`text-2xl font-bold mt-2 ${getScoreColor(existentialContext)}`}>{existentialContext}</div>
           </div>
         </div>
       </div>

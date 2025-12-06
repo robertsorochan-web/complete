@@ -58,15 +58,15 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
     );
   }
 
-  const { bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0 } = assessmentData;
+  const { environmentalMatrix = 0, bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0, existentialContext = 0 } = assessmentData;
   
-  const allLayers = [bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser];
+  const allLayers = [environmentalMatrix, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext];
   const avgScore = (allLayers.reduce((a, b) => a + b, 0) / allLayers.length).toFixed(2);
   const stabilityMetrics = calculateStabilityWithRange(allLayers);
   const harmonyScore = stabilityMetrics.score;
 
   const layers = getLayerConfig(purpose);
-  const layerKeys = ['bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser'];
+  const layerKeys = ['environmentalMatrix', 'bioHardware', 'internalOS', 'culturalSoftware', 'socialInstance', 'consciousUser', 'existentialContext'];
   const layerNames = layerKeys.map(key => layers[key].name);
   
   const bottleneckIndex = allLayers.indexOf(Math.min(...allLayers));
@@ -86,10 +86,10 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       overallLabel: 'Overall Life Health',
       overallDesc: 'How well different areas of your life are balanced',
       balanceLabel: 'Life Balance Score',
-      balanceDesc: 'How evenly balanced your 5 areas are (higher = more balanced)',
+      balanceDesc: 'How evenly balanced your 7 areas are (higher = more balanced)',
       focusLabel: 'Where to Focus First',
       focusDesc: 'Your weakest area right now',
-      detailedTitle: 'Your 5 Life Areas (Detailed)',
+      detailedTitle: 'Your 7 Life Areas (Detailed)',
       tip: 'The different areas of your life are connected. Improving one often helps the others. Start with your lowest area.'
     },
     team: {
@@ -99,10 +99,10 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       overallLabel: 'Overall Team Health',
       overallDesc: 'How well different team dimensions are performing',
       balanceLabel: 'Team Balance Score',
-      balanceDesc: 'How evenly balanced your team\'s 5 dimensions are',
+      balanceDesc: 'How evenly balanced your team\'s 7 dimensions are',
       focusLabel: 'Where to Focus First',
       focusDesc: 'The team\'s weakest dimension right now',
-      detailedTitle: 'Team\'s 5 Dimensions (Detailed)',
+      detailedTitle: 'Team\'s 7 Dimensions (Detailed)',
       tip: 'Team dimensions are interconnected. Improving one often strengthens others. Address the weakest dimension first.'
     },
     business: {
@@ -112,10 +112,10 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       overallLabel: 'Overall Org Health',
       overallDesc: 'How well different business dimensions are performing',
       balanceLabel: 'Business Balance Score',
-      balanceDesc: 'How evenly balanced your organization\'s 5 dimensions are',
+      balanceDesc: 'How evenly balanced your organization\'s 7 dimensions are',
       focusLabel: 'Where to Focus First',
       focusDesc: 'The organization\'s weakest dimension right now',
-      detailedTitle: 'Organization\'s 5 Dimensions (Detailed)',
+      detailedTitle: 'Organization\'s 7 Dimensions (Detailed)',
       tip: 'Business dimensions are interconnected. Strategic improvements in one area often create positive ripple effects.'
     },
     policy: {
@@ -125,10 +125,10 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
       overallLabel: 'Overall System Health',
       overallDesc: 'How well different system dimensions are functioning',
       balanceLabel: 'System Balance Score',
-      balanceDesc: 'How evenly balanced the system\'s 5 dimensions are',
+      balanceDesc: 'How evenly balanced the system\'s 7 dimensions are',
       focusLabel: 'Priority Intervention Area',
       focusDesc: 'The system\'s weakest dimension right now',
-      detailedTitle: 'System\'s 5 Dimensions (Detailed)',
+      detailedTitle: 'System\'s 7 Dimensions (Detailed)',
       tip: 'System areas connect in many ways. When you fix one area, it can affect others - so think about the whole picture.'
     }
   };
@@ -240,6 +240,10 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
         <h3 className="text-lg font-semibold mb-4">{labels.detailedTitle}</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-slate-700 rounded p-3">
+            <div className="text-sm text-gray-300">{layers.environmentalMatrix.icon} {layers.environmentalMatrix.name}</div>
+            <div className="text-2xl font-bold text-purple-400 mt-1">{environmentalMatrix}</div>
+          </div>
+          <div className="bg-slate-700 rounded p-3">
             <div className="text-sm text-gray-300">{layers.bioHardware.icon} {layers.bioHardware.name}</div>
             <div className="text-2xl font-bold text-purple-400 mt-1">{bioHardware}</div>
           </div>
@@ -255,9 +259,13 @@ const Analysis = ({ assessmentData, purpose = 'personal' }) => {
             <div className="text-sm text-gray-300">{layers.socialInstance.icon} {layers.socialInstance.name}</div>
             <div className="text-2xl font-bold text-purple-400 mt-1">{socialInstance}</div>
           </div>
-          <div className="bg-slate-700 rounded p-3 col-span-2">
+          <div className="bg-slate-700 rounded p-3">
             <div className="text-sm text-gray-300">{layers.consciousUser.icon} {layers.consciousUser.name}</div>
             <div className="text-2xl font-bold text-purple-400 mt-1">{consciousUser}</div>
+          </div>
+          <div className="bg-slate-700 rounded p-3 col-span-2">
+            <div className="text-sm text-gray-300">{layers.existentialContext.icon} {layers.existentialContext.name}</div>
+            <div className="text-2xl font-bold text-purple-400 mt-1">{existentialContext}</div>
           </div>
         </div>
       </div>

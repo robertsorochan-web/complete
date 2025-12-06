@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, Flame, Calendar, TrendingUp, Brain, Users, Code, Heart, Eye, MessageSquare, Sparkles, Share2, Download, Trophy, Star, ChevronLeft, ChevronRight, Award, Target, Zap } from 'lucide-react';
+import { CheckCircle, Flame, Calendar, TrendingUp, Brain, Users, Code, Heart, Eye, MessageSquare, Sparkles, Share2, Download, Trophy, Star, ChevronLeft, ChevronRight, Award, Target, Zap, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import html2canvas from 'html2canvas';
 import useXP from '../../hooks/useXP';
@@ -8,11 +8,13 @@ import LevelUpCelebration from '../ui/LevelUpCelebration';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const layerBaseConfig = {
+  environmentalMatrix: { icon: Globe, color: 'from-emerald-500 to-teal-500' },
   bioHardware: { icon: Heart, color: 'from-red-500 to-pink-500' },
   internalOS: { icon: Brain, color: 'from-blue-500 to-cyan-500' },
   culturalSoftware: { icon: Code, color: 'from-purple-500 to-violet-500' },
   socialInstance: { icon: Users, color: 'from-green-500 to-emerald-500' },
-  consciousUser: { icon: Eye, color: 'from-yellow-500 to-orange-500' }
+  consciousUser: { icon: Eye, color: 'from-yellow-500 to-orange-500' },
+  existentialContext: { icon: Sparkles, color: 'from-indigo-500 to-purple-500' }
 };
 
 const getMilestones = (streakText) => [
@@ -33,11 +35,13 @@ export default function DailyCheckin({ onComplete }) {
   const { awardXP, levelUpData, dismissLevelUp } = useXP();
   
   const layerConfig = {
+    environmentalMatrix: { ...layerBaseConfig.environmentalMatrix, label: layersText.environmentalMatrix || 'Environment', description: streakText.layerEnvDesc || 'Physical & digital surroundings' },
     bioHardware: { ...layerBaseConfig.bioHardware, label: layersText.bioHardware || 'Health & Energy', description: streakText.layerBioDesc || 'Physical health & energy' },
     internalOS: { ...layerBaseConfig.internalOS, label: layersText.internalOS || 'Mindset & Beliefs', description: streakText.layerOSDesc || 'Beliefs & mental models' },
     culturalSoftware: { ...layerBaseConfig.culturalSoftware, label: layersText.culturalSoftware || 'Cultural Influences', description: streakText.layerCultureDesc || 'Cultural influences' },
     socialInstance: { ...layerBaseConfig.socialInstance, label: layersText.socialInstance || 'Relationships', description: streakText.layerSocialDesc || 'Relationships & connections' },
-    consciousUser: { ...layerBaseConfig.consciousUser, label: layersText.consciousUser || 'Awareness & Focus', description: streakText.layerAwareDesc || 'Awareness & presence' }
+    consciousUser: { ...layerBaseConfig.consciousUser, label: layersText.consciousUser || 'Awareness & Focus', description: streakText.layerAwareDesc || 'Awareness & presence' },
+    existentialContext: { ...layerBaseConfig.existentialContext, label: layersText.existentialContext || 'Life Purpose', description: streakText.layerPurposeDesc || 'Meaning & purpose' }
   };
   
   const milestones = getMilestones(streakText);
@@ -54,11 +58,13 @@ export default function DailyCheckin({ onComplete }) {
   const [showShareCard, setShowShareCard] = useState(false);
   
   const [formData, setFormData] = useState({
+    environmentalMatrix: 5,
     bioHardware: 5,
     internalOS: 5,
     culturalSoftware: 5,
     socialInstance: 5,
     consciousUser: 5,
+    existentialContext: 5,
     mood: 5,
     energyLevel: 5,
     culturalBug: '',
@@ -137,8 +143,8 @@ export default function DailyCheckin({ onComplete }) {
         setHasCheckedIn(true);
         fetchStreak();
         
-        const isFullCheckin = formData.bioHardware && formData.internalOS && 
-          formData.culturalSoftware && formData.socialInstance && formData.consciousUser;
+        const isFullCheckin = formData.environmentalMatrix && formData.bioHardware && formData.internalOS && 
+          formData.culturalSoftware && formData.socialInstance && formData.consciousUser && formData.existentialContext;
         
         await awardXP(isFullCheckin ? 'full_checkin' : 'checkin');
         

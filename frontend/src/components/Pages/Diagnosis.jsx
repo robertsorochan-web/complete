@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { Send, Lightbulb, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
+import { Send, Lightbulb, AlertCircle, CheckCircle, Sparkles, MapPin } from 'lucide-react';
 import { getDiagnosis } from '../../services/auth';
+import { getLayerConfig } from '../../config/purposeConfig';
+import GeographicCureWarning from '../ui/GeographicCureWarning';
 
 const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
+  const { environmentalMatrix = 0, bioHardware = 0, internalOS = 0, culturalSoftware = 0, socialInstance = 0, consciousUser = 0, existentialContext = 0 } = assessmentData || {};
+  const layers = getLayerConfig(purpose);
+  const allScores = { environmentalMatrix, bioHardware, internalOS, culturalSoftware, socialInstance, consciousUser, existentialContext };
   const [scenario, setScenario] = useState('');
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -88,6 +93,25 @@ const Diagnosis = ({ assessmentData, purpose = 'personal' }) => {
         </div>
         <p className="text-gray-300">{labels.description}</p>
       </div>
+
+      {/* Current Layer Status */}
+      <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
+        <h3 className="font-semibold text-purple-400 mb-3">Your Current 7-Layer Status</h3>
+        <div className="grid grid-cols-4 md:grid-cols-7 gap-2">
+          {Object.entries(allScores).map(([key, value]) => (
+            <div key={key} className="text-center">
+              <div className="text-lg mb-1">{layers[key]?.icon || '📊'}</div>
+              <div className={`text-lg font-bold ${value <= 3 ? 'text-red-400' : value <= 5 ? 'text-yellow-400' : value <= 7 ? 'text-blue-400' : 'text-green-400'}`}>
+                {value}
+              </div>
+              <div className="text-xs text-gray-500 truncate">{layers[key]?.name || key}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Geographic Cure Warning when environment is low */}
+      <GeographicCureWarning environmentalScore={environmentalMatrix} />
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="space-y-4">
